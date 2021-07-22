@@ -37,7 +37,7 @@ export default {
       denizens: [
         {
           name: 'Robot Builder',
-          suit: 'hearth',
+          suit: 'clockwork',
           restriction: null,
           type: 'persistent',
           text: 'Instead of spending or burning {f} and {s} to do a relic´s minor action, you may sacrifice one warband from your board each.',

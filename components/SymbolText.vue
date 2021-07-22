@@ -10,7 +10,7 @@ export default {
       return finalHtml;
     },
     parseForShortcodes(html) {
-      return html.replace(/{([\w@$])}/mg, `<oath-symbol symbol="$1"></oath-symbol>`);
+      return html.replace(/{([\w@$])}/mg, `<oath-symbol style="position: relative; top: 0.5mm;" symbol="$1"></oath-symbol>`);
     },
   },
   render(h) {
