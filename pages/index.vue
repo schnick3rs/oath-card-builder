@@ -36,11 +36,19 @@ export default {
     return {
       denizens: [
         {
+          name: 'Robot Builder',
+          suit: 'hearth',
+          restriction: null,
+          type: 'persistent',
+          text: 'Instead of spending or burning {f} and {s} to do a relic´s minor action, you may sacrifice one warband from your board each.',
+          image: '',
+        },
+        {
           name: 'Wrestlers',
           suit: 'order',
           restriction: null,
           type: 'battleplan-defender',
-          text: 'if xou sacrifice one warband in your force.',
+          text: 'if you sacrifice one warband in your force on a {o} site.',
           image: 'https://images.unsplash.com/photo-1524633412778-878453ef0cd7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
         },
         {
@@ -49,7 +57,7 @@ export default {
           restriction: null,
           type: 'power',
           cost: '2@',
-          text: '**Action:** Gain FFF from any favour bank or banks.',
+          text: '**Action:** Gain {f}{f}{f} and {S} from any favour bank or banks.',
           image: 'https://images.unsplash.com/photo-1527844817887-9b937993518b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1389&q=80',
         },
         {
@@ -93,7 +101,7 @@ export default {
           name: 'Sticky Fire',
           defense: 2,
           type: 'battleplan-both',
-          text: 'If you\'re victorious, you may kill all the warbands in your enemy\'s force. If you do, you must give them F if able.',
+          text: 'If you\'re victorious, you may kill all the warbands in your enemy\'s force. If you do, you must give them {f} if able.',
         },
         {
           name: 'Cursed Cauldron',

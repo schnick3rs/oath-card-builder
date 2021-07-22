@@ -11,14 +11,16 @@
       <div class="layer effect" :class="`effect--${type}`">
         <img v-if="modifer" class="layer" :src="modiferImage">
         <div class="content" :class="`content--${type}`">
-          <div class="text" v-html="formatedText"></div>
+          <symbol-text class="text" :html="formatedText"></symbol-text>
         </div>
       </div>
 
-      <span v-if="cost" class="cost symbol">{{cost}}</span>
+      <div v-if="cost" class="cost symbol">
+        <oath-symbol :symbol="c" v-for="c in costs" :size="18"></oath-symbol>
+      </div>
 
     </div>
-    <div class="denizen cutter">
+    <div class="denizen cutter" v-if="false">
       <div class="layer back"></div>
     </div>
   </div>
@@ -47,6 +49,9 @@ export default {
     },
     formatedText() {
       return marked(this.text);
+    },
+    costs() {
+      return this.cost?.split('') || [];
     },
     suitBand() {
       return `/img/denizen ${this.suit}.png`;
@@ -171,7 +176,7 @@ export default {
 
 .cost {
   position: absolute;
-  bottom: 19.5mm;
+  bottom: 19mm;
   width: 100%;
   text-align: center;
   font-size: 5mm;

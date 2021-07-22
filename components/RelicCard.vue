@@ -20,7 +20,7 @@
       <span v-if="cost" class="cost symbol">{{cost}}</span>
 
     </div>
-    <div class="relic cutter">
+    <div class="relic cutter" v-if="false">
       <div class="layer back"></div>
     </div>
   </div>
