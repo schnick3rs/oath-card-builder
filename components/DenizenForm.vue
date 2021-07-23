@@ -38,6 +38,7 @@
         label="Image"
         v-model="denizen.image"
         dense outlined
+        clearable
       ></v-text-field>
 
       <v-text-field
@@ -59,6 +60,7 @@
         label="Affected Action"
         v-model="denizen.modifer"
         :items="builder.denizen.modifier"
+        :disabled="!denizen.type.includes('modifer')"
         dense outlined
       ></v-select>
 

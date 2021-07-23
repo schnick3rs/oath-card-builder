@@ -1,13 +1,13 @@
 <template>
   <denizen-card
-    :name="denizen.name"
-    :image="denizen.image"
-    :suit="denizen.suit"
-    :type="denizen.type"
-    :modifer="denizen.modifer"
-    :restriction="denizen.restriction"
-    :cost="denizen.cost"
-    :text="denizen.text"
+    :name="card.name"
+    :image="card.image"
+    :suit="card.suit"
+    :type="card.type"
+    :modifer="card.modifer"
+    :restriction="card.restriction"
+    :cost="card.cost"
+    :text="card.text"
     back
   ></denizen-card>
 </template>
@@ -16,7 +16,7 @@
 export default {
   name: "DenizenCardWrapper",
   props: {
-    denizen: Object,
+    card: Object,
   }
 }
 </script>

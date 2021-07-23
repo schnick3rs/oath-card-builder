@@ -35,7 +35,7 @@
     </v-col>
 
     <v-col>
-      <denizen-card-wrapper :denizen="denizen" />
+      <denizen-card-wrapper :card="denizen" />
     </v-col>
 
   </v-row>
