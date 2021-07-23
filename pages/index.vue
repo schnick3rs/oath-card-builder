@@ -13,12 +13,15 @@
 
         <v-card-text>
           <v-list dense>
-            <v-list-item v-for="card in library" @click="">
+            <v-list-item v-for="card in library" @click="openCardEditor(card.id, card.__type)">
               <v-list-item-avatar>
                 <img :src="`/img/icons/suit-${card.suit}.png`">
               </v-list-item-avatar>
               <v-list-item-content>
                 {{card.name}}
+                <v-list-item-subtitle>
+                  [{{card.id}}] {{card.__type}}
+                </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action>
                 <v-btn icon @click=""><v-icon>mdi-pencil</v-icon></v-btn>
@@ -30,11 +33,11 @@
       </v-card>
     </v-col>
 
-    <v-col>
-      <denizen-form :denizen="denizen" />
+    <v-col v-if="selectedDenizenId">
+      <denizen-form :id="selectedDenizenId" />
     </v-col>
 
-    <v-col>
+    <v-col v-if="denizen">
       <denizen-card-wrapper :card="denizen" />
     </v-col>
 
@@ -64,13 +67,19 @@ export default {
     },
     libraryCols() {
       return 3;
-    }
+    },
+    selectedDenizenId() {
+      return this.denizen.id;
+    },
   },
   methods: {
     addDemoDenizen() {
       const denizen = { name: 'Random Name', suit: 'arcane' };
       this.$store.commit('library/createDenizen', denizen);
-    }
+    },
+    openCardEditor(cardId, cardType) {
+      this.denizen = this.$store.getters['library/card'](cardId);
+    },
   }
 }
 </script>

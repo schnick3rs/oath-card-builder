@@ -1,6 +1,8 @@
 <template>
   <v-card>
-    <v-card-title>Define Card</v-card-title>
+    <v-card-title>Edit Denizen Card</v-card-title>
+    <v-card-subtitle>[{{denizen.id}}] {{denizen.suit}} denizen card</v-card-subtitle>
+    <v-divider></v-divider>
     <v-card-text>
 
       <v-text-field
@@ -71,6 +73,11 @@
       ></v-textarea>
 
     </v-card-text>
+    <v-divider></v-divider>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="success" @click="save">Save</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -78,7 +85,7 @@
 export default {
   name: "DenizenForm",
   props: {
-    denizen: Object,
+    id: String,
   },
   data() {
     return {
@@ -102,7 +109,7 @@ export default {
           ],
           typeItems: [
             { text: 'Power', value: 'power' },
-            { text: 'Power (modifier}', value: 'power-modifer' },
+            { text: 'Power (modifier)', value: 'power-modifer' },
             { text: 'Persistent', value: 'persistent' },
             { text: 'Persistent (modifier)', value: 'persistent-modifer' },
             { text: 'Battleplan (Attacker)', value: 'battleplan-attacker' },
@@ -122,6 +129,16 @@ export default {
           ],
         },
       },
+    }
+  },
+  computed: {
+    denizen() {
+      return {...this.$store.getters['library/card'](this.id)};
+    },
+  },
+  methods: {
+    save() {
+      this.$store.commit('library/saveDenizen', {id: this.denizen.id, denizen: this.denizen});
     }
   }
 }
