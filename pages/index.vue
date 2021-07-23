@@ -1,11 +1,10 @@
 <template>
   <v-row>
 
-    <v-col>
-      <v-btn @click="addDemoDenizen">new citizen</v-btn>
-    </v-col>
+    <v-col :cols="libraryCols">
 
-    <v-col>
+      <v-btn @click="addDemoDenizen">new Denizen</v-btn>
+
       <v-card>
 
         <v-card-title>
@@ -13,7 +12,7 @@
         </v-card-title>
 
         <v-card-text>
-          <v-list>
+          <v-list dense>
             <v-list-item v-for="card in library" @click="">
               <v-list-item-avatar>
                 <img :src="`/img/icons/suit-${card.suit}.png`">
@@ -31,16 +30,41 @@
       </v-card>
     </v-col>
 
+    <v-col>
+      <denizen-form :denizen="denizen" />
+    </v-col>
+
+    <v-col>
+      <denizen-card-wrapper :denizen="denizen" />
+    </v-col>
+
   </v-row>
 </template>
 
 <script>
 export default {
   name: "index",
+  data() {
+    return {
+      denizen: {
+        name: 'Errand Boy',
+        suit: 'beast',
+        restriction: null,
+        type: 'power-modifer',
+        modifer: 'search',
+        cost: '1',
+        text: 'You may draw from a discard pile in a different region instead of yours.',
+        image: 'https://images.unsplash.com/photo-1438283173091-5dbf5c5a3206?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
+      },
+    };
+  },
   computed: {
     library() {
       return this.$store.getters['library/cardSets'];
     },
+    libraryCols() {
+      return 3;
+    }
   },
   methods: {
     addDemoDenizen() {
