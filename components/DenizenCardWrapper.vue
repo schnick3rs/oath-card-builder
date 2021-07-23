@@ -8,7 +8,7 @@
     :restriction="card.restriction"
     :cost="card.cost"
     :text="card.text"
-    back
+    :back="back"
   ></denizen-card>
 </template>
 
@@ -17,6 +17,7 @@ export default {
   name: "DenizenCardWrapper",
   props: {
     card: Object,
+    back: Boolean,
   }
 }
 </script>

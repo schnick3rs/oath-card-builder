@@ -20,7 +20,7 @@
               <v-list-item-content>
                 {{card.name}}
                 <v-list-item-subtitle>
-                  [{{card.id}}] {{card.__type}}
+                  {{card.__type}}
                 </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action>
@@ -37,8 +37,8 @@
       <denizen-form :id="selectedDenizenId" />
     </v-col>
 
-    <v-col v-if="denizen">
-      <denizen-card-wrapper :card="denizen" />
+    <v-col v-if="previewDenizen">
+      <denizen-card-wrapper :card="previewDenizen" />
     </v-col>
 
   </v-row>
@@ -70,6 +70,9 @@ export default {
     },
     selectedDenizenId() {
       return this.denizen.id;
+    },
+    previewDenizen() {
+      return this.$store.getters['library/card'](this.selectedDenizenId);
     },
   },
   methods: {
