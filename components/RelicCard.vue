@@ -13,11 +13,13 @@
       <div class="layer effect" :class="`effect--${type}`">
         <img v-if="modifer" class="layer" :src="modiferImage">
         <div class="content">
-          <div class="text" v-html="formatedText"></div>
+          <symbol-text class="text" :html="formatedText"></symbol-text>
         </div>
       </div>
 
-      <span v-if="cost" class="cost symbol">{{cost}}</span>
+      <div v-if="cost" class="cost symbol">
+        <oath-symbol :symbol="c" v-for="c in costs" :size="18"></oath-symbol>
+      </div>
 
     </div>
     <div class="relic cutter" v-if="false">
@@ -51,6 +53,9 @@ export default {
     },
     formatedText() {
       return marked(this.text);
+    },
+    costs() {
+      return this.cost?.split('') || [];
     },
     modiferImage() {
       return `/img/relic action modifer ${this.modifer}.png`;

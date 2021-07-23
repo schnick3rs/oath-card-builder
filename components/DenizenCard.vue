@@ -9,7 +9,7 @@
       <span class="name">{{name}}</span>
 
       <div class="layer effect" :class="`effect--${type}`">
-        <img v-if="modifer" class="layer" :src="modiferImage">
+        <img v-if="showModifer" class="layer" :src="modiferImage">
         <div class="content" :class="`content--${type}`">
           <symbol-text class="text" :html="formatedText"></symbol-text>
         </div>
@@ -20,7 +20,7 @@
       </div>
 
     </div>
-    <div class="denizen cutter" v-if="false">
+    <div class="denizen cutter" v-if="back">
       <div class="layer back"></div>
     </div>
   </div>
@@ -40,8 +40,15 @@ export default {
     image: String,
     text: String,
     cost: String,
+    back: {
+      type: Boolean,
+      default: false,
+    }
   },
   computed: {
+    showModifer() {
+      return this.type.includes('modifer');
+    },
     cardImage() {
       return {
         backgroundImage: `url(${this.image})`,
