@@ -64,7 +64,7 @@ export default {
       return `/img/denizen ${this.suit}.png`;
     },
     restrictionBand() {
-      return `/img/restriction ${this.restriction}.png`;
+      return `/img/restriction ${this.restriction} ${this.suit}.png`;
     },
     modiferImage() {
       return `/img/action modifer ${this.modifer}.png`;

@@ -49,17 +49,21 @@ const createDenizen = (
   id = nanoid(7),
   name = 'some fancy name',
   suit = 'arcane',
+  restriction = undefined,
   type = 'power',
-  text = 'some fancy text for {1}'
+  cost = null,
+  modifer = null,
+  text = 'some fancy text for {1}',
+  image = ''
 ) => ({
   id,
   __type: 'denizen',
   name,
   suit,
-  restriction: null,
+  restriction,
   type,
-  modifer: null,
-  cost: null,
+  modifer,
+  cost,
   text,
-  image: '',
+  image,
 });
