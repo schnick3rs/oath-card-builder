@@ -2,21 +2,54 @@
   <div>
     <div class="screen">
       <v-container>
-        <v-row>
+        <v-row dense>
           <v-col cols="4">
             <v-file-input
               label="Csv File"
               dense outlined
               v-model="file"
+              accept=".csv"
               @change="parseCsv"
             ></v-file-input>
           </v-col>
         </v-row>
+        <v-row v-if="false">
+          <v-col>
+            <v-card>
+              <v-card-subtitle>Type</v-card-subtitle>
+              <v-card-text>
+                <ul>
+                  <li>power</li>
+                  <li>power-modifer</li>
+                  <li>persistent</li>
+                  <li>persistent-modifer</li>
+                  <li>battleplan-attacker</li>
+                  <li>battleplan-defender</li>
+                  <li>battleplan-both</li>
+                  <li>instant-small</li>
+                  <li>instant-medium</li>
+                  <li>instant-large</li>
+                </ul>
+              </v-card-text>
+              <v-card-subtitle>Type Modifer</v-card-subtitle>
+              <v-card-text>
+                <ul>
+                  <li>search</li>
+                  <li>travel</li>
+                  <li>trade</li>
+                  <li>muster</li>
+                  <li>campaign</li>
+                </ul>
+              </v-card-text>
+              <v-divider></v-divider>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-container>
     </div>
-    <page>
+    <page v-for="page in pages">
       <denizen-card-wrapper
-        v-for="card in data"
+        v-for="card in page"
         :card="card"
         :back="false"
       ></denizen-card-wrapper>
@@ -31,9 +64,24 @@ export default {
   data() {
     return {
       file: undefined,
-      data: undefined,
       cards: [],
     };
+  },
+  computed: {
+    pages() {
+      let pages = this.cards.reduce((resultArray, item, index) => {
+        const chunkIndex = Math.floor(index/9)
+
+        if(!resultArray[chunkIndex]) {
+          resultArray[chunkIndex] = [] // start a new chunk
+        }
+
+        resultArray[chunkIndex].push(item)
+
+        return resultArray
+      }, []);
+      return pages;
+    },
   },
   methods: {
     parseCsv() {
@@ -70,7 +118,7 @@ export default {
         reader.onload = (e) => {
           const text = e.target.result;
           let data = csvToArray(text);
-          this.data = data.filter(item => item.name !== '' );
+          this.cards = data.filter(item => item.name !== '' );
         };
 
         reader.readAsText(this.file);

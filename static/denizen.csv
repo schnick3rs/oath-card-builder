@@ -1,6 +1,8 @@
 name;suit;restriction;type;modifer;cost;text;image
-some;clockwork;adviser;power;;1;Some {1} or {o};
-some;arcane;adviser;power;;1;Some {1} or {o};
-some;order;adviser;power;;1;Some {1} or {o};
-some;clockwork;adviser;power;;1;Some {1} or {o};
-some;clockwork;adviser;power;;1;Some {1} or {o};
+some;arcane;;power;;1;Some {1} or {o};
+Lerooooy Jenkins;discord;adviser locked;battleplan-attacker;;2;Your skulls count double but if you win, the enemies force is destroyed.;https://images.mein-mmo.de/medien/2017/12/zujzujzuj.jpg
+some;order;;power;;1;Some {1} or {o};
+some;hearth;adviser;persistent-modifer;travel;1;Some {1} or {o};
+some;beast;site;persistent-modifer;search;1;Some {1} or {o};
+some;nomad;site locked;persistent-modifer;muster;1;Some {1} or {o};
+some;clockwork;;instant-small;;1;Some {1} or {o};
