@@ -4,6 +4,7 @@
     <v-col :cols="libraryCols">
 
       <v-btn @click="addDemoDenizen">new Denizen</v-btn>
+      <v-btn to="/print/deck">Download / Print</v-btn>
       <v-file-input v-model="csv" @change="importDenizen" label="import Denizen" dense outlined></v-file-input>
 
       <v-card>
@@ -35,11 +36,11 @@
     </v-col>
 
     <v-col v-if="selectedDenizenId">
-      <denizen-form :id="selectedDenizenId" />
+      <denizen-form :id="selectedDenizenId" preview />
     </v-col>
 
-    <v-col v-if="previewDenizen">
-      <denizen-card-wrapper :card="previewDenizen" />
+    <v-col v-if="selectedDenizenId" v-show="false">
+      <denizen-card-wrapper :card="selectedDenizen" />
     </v-col>
 
   </v-row>
@@ -73,6 +74,9 @@ export default {
     },
     selectedDenizenId() {
       return this.denizen.id;
+    },
+    selectedDenizen() {
+      return {...this.$store.getters['library/card'](this.selectedDenizenId)};
     },
     previewDenizen() {
       return this.$store.getters['library/card'](this.selectedDenizenId);

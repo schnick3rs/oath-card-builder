@@ -2,11 +2,13 @@
   <div>
     <div class="denizen cutter">
 
-      <div class="layer layer-image" :style="cardImage"></div>
+      <div v-if="image" class="layer layer-image" :style="cardImage"></div>
 
-      <img v-if="restrictionBand" class="layer" :src="restrictionBand">
-      <img class="layer" :src="suitBand">
-      <span class="name">{{name}}</span>
+      <img v-if="restriction" class="layer" :src="restrictionBand">
+      <img v-if="suit" class="layer" :src="suitBand">
+      <div v-if="name" class="name">
+        <span class="name__word" v-for="word in name.split(' ')">{{word}} </span>
+      </div>
 
       <div class="layer effect" :class="`effect--${type}`">
         <img v-if="showModifer" class="layer" :src="modiferImage">
@@ -112,14 +114,16 @@ export default {
   position: absolute;
   top: 8.5mm;
   left: 0;
-  /* font-family: OathCapital, Serif; */
-  font-family: OathText, sans-serif;
+  /*font-family: OathCapital, Serif;*/
   color: white;
   padding-left: 17mm;
-}
 
-.name::first-letter {
-  font-family: OathCapital, Serif;
+  font-family: OathText, sans-serif;
+
+  &:first-letter {
+    font-family: OathCapital, serif;
+    text-transform: capitalize;
+  }
 }
 
 .effect {
