@@ -22,9 +22,7 @@
       </div>
 
     </div>
-    <div class="denizen cutter" v-if="back">
-      <div class="layer back"></div>
-    </div>
+    <denizen-card-back v-if="back"></denizen-card-back>
   </div>
 </template>
 
@@ -104,10 +102,6 @@ export default {
 
 .illustration {
 
-}
-
-.back {
-  background-image: url('/img/denizen card back.png');
 }
 
 .name {

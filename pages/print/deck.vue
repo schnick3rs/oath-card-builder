@@ -13,6 +13,7 @@
                 To Print this page, print this page and save as PDF. Page Size Should be DIN-A4.
                 Enable Background graphics (checkbox)
                 This box will not be printed.
+                <v-checkbox label="Print with back" v-model="printBack"></v-checkbox>
               </v-card-text>
             </v-card>
           </v-col>
@@ -21,11 +22,13 @@
     </div>
     <div class="print-area">
       <page v-for="page in pages">
-        <denizen-card-wrapper
-          v-for="card in page"
-          :card="card"
-          :back="false"
-        ></denizen-card-wrapper>
+        <template v-for="card in page">
+          <denizen-card-wrapper
+            v-if="card.__type === 'denizen'"
+            :card="card"
+          ></denizen-card-wrapper>
+          <denizen-card-back v-else-if="card.__type === 'denizen-back'"></denizen-card-back>
+        </template>
       </page>
     </div>
   </div>
@@ -35,12 +38,29 @@
 export default {
   name: "deck",
   layout: 'print',
+  data() {
+    return {
+      printBack: false,
+    };
+  },
   computed: {
     library() {
       return this.$store.getters['library/cardSets'];
     },
+    finalDeck() {
+      let deck = [];
+      this.library.forEach(card => {
+        deck.push(card);
+        if (this.printBack) {
+          deck.push({
+            __type: 'denizen-back',
+          });
+        }
+      });
+      return deck;
+    },
     pages() {
-      let pages = this.library.reduce((resultArray, item, index) => {
+      let pages = this.finalDeck.reduce((resultArray, item, index) => {
         const chunkIndex = Math.floor(index/9)
 
         if(!resultArray[chunkIndex]) {
