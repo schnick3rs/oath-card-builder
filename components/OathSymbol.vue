@@ -37,6 +37,7 @@ export default {
         '7': 'sword',
         '&': 'sword-hallow',
         '%': 'sword-skull',
+        '>': 'to-favor-bank',
       },
     };
   },
@@ -45,7 +46,7 @@ export default {
       return `/img/icons/${this.map[this.symbol]}.png`;
     },
     styleSize() {
-      return `height: ${this.size}px;`;
+      return `height: ${this.symbol === '>' ? this.size-2 : this.size}px;`;
     },
   },
 }

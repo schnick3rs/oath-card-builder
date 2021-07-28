@@ -50,9 +50,7 @@ export default {
       return this.type.includes('modifer');
     },
     cardImage() {
-      return {
-        backgroundImage: `url(${this.image})`,
-      };
+      return { backgroundImage: `url(${this.image})` };
     },
     formatedText() {
       return marked(this.text);

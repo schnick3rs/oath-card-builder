@@ -107,7 +107,7 @@ export default {
   },
   data() {
     return {
-      denizen: {},
+      denizen: { text: '', type: '' },
       builder: {
         denizen: {
           suits: [
