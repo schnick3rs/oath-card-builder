@@ -9,29 +9,47 @@
 
         <v-col>
 
-          <v-text-field
-            label="Name"
-            v-model="card.name"
-            dense outlined
-          ></v-text-field>
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Name"
+                v-model="card.name"
+                dense outlined
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
-          <v-text-field
-            label="Relics"
-            v-model="card.relics"
-            type="number"
-            dense outlined
-          ></v-text-field>
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Recoverable Resources"
+                v-model="card.resources"
+                dense outlined
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                label="Relics"
+                v-model.number="card.relics"
+                type="number"
+                min="0"
+                max="3"
+                dense outlined
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                label="Capacity"
+                v-model.number="card.capacity"
+                type="number"
+                dense outlined
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
           <v-text-field
             label="Relic Recovery Cost"
             v-model="card.relicRecoverCost"
-            dense outlined
-          ></v-text-field>
-
-          <v-text-field
-            label="Capacity"
-            v-model="card.capacity"
-            type="number"
             dense outlined
           ></v-text-field>
 
@@ -48,6 +66,7 @@
           <site-card
             :name="card.name"
             :image="card.image"
+            :resources="card.resources"
             :relics="card.relics"
             :capacity="card.capacity"
             :relicRecoverCost="card.relicRecoverCost"
@@ -80,8 +99,10 @@ export default {
       card: {
         name: 'Some suit name',
         image: 'https://i.pinimg.com/originals/1b/ef/1a/1bef1a983ec32b11db534ca132a7c243.jpg',
+        resources: '',
         relics: 1,
         capacity: 1,
+        relicRecoverCost: '',
       },
       builder: {
         suits: [

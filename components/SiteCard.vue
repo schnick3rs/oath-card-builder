@@ -7,6 +7,20 @@
 
       <img class="layer" :src="relicFrame"/>
 
+      <div class="recoverables">
+        <div class="resources">
+          <template v-for="(n, index) in resources">
+            <oath-symbol :symbol="n" size="17" class="resource" />
+          </template>
+        </div>
+        <img
+          v-if="relics > 0"
+          v-for="n in relics"
+          src="/img/icons/relic.png"
+          style="height: 5mm; margin-right: 1mm;"
+        >
+      </div>
+
       <span class="capacity">{{capacity}}</span>
 
       <div v-if="name" class="name">
@@ -15,7 +29,7 @@
 
       <div v-if="relicRecoverCost" class="cost symbol">
         <img src="/img/icons/relic-recover.png" style="height: 20px;">
-        <oath-symbol :symbol="c" v-for="c in relicRecoverCosts" :size="14"></oath-symbol>
+        <oath-symbol :symbol="c" v-for="c in relicRecoverCosts" :size="18"></oath-symbol>
       </div>
 
     </div>
@@ -45,6 +59,7 @@ export default {
     },
     favor: Number,
     secrets: Number,
+    resources: String,
     relicRecoverCost: String,
     back: {
       type: Boolean,
@@ -56,7 +71,8 @@ export default {
       return { backgroundImage: `url(${this.image})` };
     },
     relicFrame() {
-      return `/img/site ${this.relics} relics.png`;
+      //return `/img/site ${this.relics} relics.png`;
+      return `/img/site 0 relics.png`;
     },
     relicRecoverCosts() {
       return this.relicRecoverCost?.split('') || [];
@@ -89,6 +105,21 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   clip-path: inset(1.5mm 1.5mm 1.5mm 1.5mm round 3mm);
+}
+
+.recoverables {
+  position: absolute;
+  top: 8mm;
+  left: 7.5mm;
+  height: 5mm;
+
+}
+
+.resource {
+  margin-right: -2mm;
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 .capacity {
