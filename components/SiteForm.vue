@@ -25,6 +25,7 @@
                 label="Recoverable Resources"
                 v-model="card.resources"
                 dense outlined
+                persistent-hint hint="1 (favor) 2 (secret)"
               ></v-text-field>
             </v-col>
             <v-col>
@@ -47,18 +48,27 @@
             </v-col>
           </v-row>
 
-          <v-text-field
-            label="Relic Recovery Cost"
-            v-model="card.relicRecoverCost"
-            dense outlined
-          ></v-text-field>
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Relic Recovery Cost"
+                v-model="card.relicRecoverCost"
+                dense outlined
+                persistent-hint hint="1 or ! (favor) @ (secret) > [a]rcane [o]rder ... "
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
-          <v-text-field
-            label="Image"
-            v-model="card.image"
-            dense outlined
-            clearable
-          ></v-text-field>
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Image"
+                v-model="card.image"
+                dense outlined
+                clearable
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
         </v-col>
 

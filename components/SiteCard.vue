@@ -27,9 +27,17 @@
         <span class="name__word" v-for="word in name.split(' ')">{{word}} </span>
       </div>
 
-      <div v-if="relicRecoverCost" class="cost symbol">
-        <img src="/img/icons/relic-recover.png" style="height: 20px;">
-        <oath-symbol :symbol="c" v-for="c in relicRecoverCosts" :size="18"></oath-symbol>
+      <div v-if="relicRecoverCost" class="recover-cost">
+        <img src="/img/icons/relic-recover.png" style="height: 24px;">
+        <div class="costs">
+          <template v-for="n in relicRecoverCosts.costs">
+            <oath-symbol :symbol="n" :size="17" class="resource" />
+          </template>
+        </div>
+        <template v-if="relicRecoverCosts.suit">
+          <oath-symbol symbol=">" :size="14"/>
+          <oath-symbol :symbol="relicRecoverCosts.suit" :size="20"/>
+        </template>
       </div>
 
     </div>
@@ -60,7 +68,10 @@ export default {
     favor: Number,
     secrets: Number,
     resources: String,
-    relicRecoverCost: String,
+    relicRecoverCost: {
+      type: String,
+      default: '',
+    },
     back: {
       type: Boolean,
       default: false,
@@ -75,7 +86,18 @@ export default {
       return `/img/site 0 relics.png`;
     },
     relicRecoverCosts() {
-      return this.relicRecoverCost?.split('') || [];
+      let split = this.relicRecoverCost.split('>');
+      if (split.length === 2) {
+        return {
+          costs: split[0].split('') || [],
+          suit: split[1],
+        };
+      } else {
+        return {
+          costs: split[0].split('') || [],
+          suit: null,
+        };
+      }
     },
   }
 }
@@ -149,7 +171,7 @@ export default {
   }
 }
 
-.cost {
+.recover-cost {
   position: absolute;
   bottom: 5mm;
   right: 0;
@@ -159,10 +181,17 @@ export default {
   font-size: 5mm;
   text-shadow: 0 0 white;
   display: inline-block;
+  vertical-align: middle;
+  height: 24px;
 
   & > * {
     vertical-align: middle;
   }
 
+}
+
+.costs {
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>
