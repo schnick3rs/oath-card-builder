@@ -10,7 +10,7 @@
       <div class="recoverables">
         <div class="resources">
           <template v-for="(n, index) in resources">
-            <oath-symbol :symbol="n" size="17" class="resource" />
+            <oath-symbol :symbol="n" :size="17" class="resource" />
           </template>
         </div>
         <img
@@ -135,6 +135,10 @@ export default {
   left: 7.5mm;
   height: 5mm;
 
+}
+
+.resources {
+  display: inline-block;
 }
 
 .resource {

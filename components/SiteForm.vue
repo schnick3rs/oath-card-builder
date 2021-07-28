@@ -107,12 +107,12 @@ export default {
   data() {
     return {
       card: {
-        name: 'Some suit name',
+        name: 'Floating City',
         image: 'https://i.pinimg.com/originals/1b/ef/1a/1bef1a983ec32b11db534ca132a7c243.jpg',
-        resources: '',
+        resources: '2',
         relics: 1,
-        capacity: 1,
-        relicRecoverCost: '',
+        capacity: 2,
+        relicRecoverCost: '111>a',
       },
       builder: {
         suits: [
