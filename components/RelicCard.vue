@@ -8,7 +8,9 @@
 
       <img class="layer layer--defense" :src="defenseImage">
 
-      <span class="name">{{name}}</span>
+      <div class="name">
+        <div class="name__word" v-for="word in name.split(' ')">{{word}}&nbsp;</div>
+      </div>
 
       <div class="layer effect" :class="`effect--${type}`">
         <img v-if="modifer" class="layer" :src="modiferImage">
@@ -88,11 +90,22 @@ export default {
 
 .name {
   position: absolute;
-  top: 6mm;
-  left: 5mm;
+  top: 4mm;
+  left: 4mm;
   width: 100%;
-  font-family: OathCapital, Serif;
   color: white;
+  display: inline-block;
+
+  &__word {
+    font-family: OathText, sans-serif;
+    display: inline-block;
+
+    &:first-letter {
+      font-family: OathCapital, serif;
+      font-size: 4.5mm;
+    }
+  }
+
 }
 
 .defense {

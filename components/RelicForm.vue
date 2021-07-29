@@ -1,7 +1,7 @@
 <template>
   <v-card>
-    <v-card-title>Edit Site Card</v-card-title>
-    <v-card-subtitle>[{{card.id}}] site card</v-card-subtitle>
+    <v-card-title>Edit Relic Card</v-card-title>
+    <v-card-subtitle>[{{card.id}}] <em>{{card.text}}</em></v-card-subtitle>
     <v-divider></v-divider>
 
     <v-card-text>
@@ -128,13 +128,13 @@ export default {
   data() {
     return {
       card: {
-        name: 'Ring of POWER!',
+        name: 'Dowsing Sticks',
         image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
-        defense: 2,
+        defense: 3,
         type: 'power',
         modifer: '',
-        text: 'This what i do',
-        cost: '12',
+        text: '**Action:** Draw a relic. Take it or put it on the bottom of the relic deck.',
+        cost: '2!!',
       },
       builder: {
         typeItems: [
