@@ -1,0 +1,170 @@
+<template>
+  <v-card>
+    <v-card-title>Edit Site Card</v-card-title>
+    <v-card-subtitle>[{{card.id}}] site card</v-card-subtitle>
+    <v-divider></v-divider>
+
+    <v-card-text>
+      <v-row>
+
+        <v-col>
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Name"
+                v-model="card.name"
+                dense outlined
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-slider
+                v-model="card.defense"
+                label="Defense dice"
+                min="1"
+                max="5"
+                step="1"
+                ticks="always"
+                tick-size="4"
+                dense
+              ></v-slider>
+            </v-col>
+            <v-col v-show="false">
+              <v-text-field
+                label="Defense dice"
+                v-model.number="card.defense"
+                type="number"
+                min="1"
+                max="5"
+                dense outlined
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Image"
+                v-model="card.image"
+                dense outlined
+                clearable
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Cost"
+                v-model="card.cost"
+                dense outlined
+                persistent-hint
+                hint="1/! (favor) 2/@ (secrets)"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-select
+                label="Effect type"
+                v-model="card.type"
+                :items="builder.typeItems"
+                dense outlined
+              ></v-select>
+            </v-col>
+            <v-col>
+              <v-select
+                label="Affected Action"
+                v-model="card.modifer"
+                :items="builder.modifier"
+                :disabled="!card.type.includes('modifer')"
+                dense outlined
+              ></v-select>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-textarea
+                label="Effect"
+                v-model="card.text"
+                dense outlined
+              ></v-textarea>
+            </v-col>
+          </v-row>
+
+        </v-col>
+
+        <v-col cols="5" v-if="preview">
+          <relic-card
+            :name="card.name"
+            :image="card.image"
+            :defense="card.defense"
+            :type="card.type"
+            :modifer="card.modifer"
+            :cost="card.cost"
+            :text="card.text"
+            show-back
+          ></relic-card>
+        </v-col>
+
+      </v-row>
+    </v-card-text>
+
+    <v-divider></v-divider>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="warning" outlined @click="">Cancel</v-btn>
+      <v-btn color="success" @click="">Save</v-btn>
+    </v-card-actions>
+  </v-card>
+</template>
+
+<script>
+export default {
+  name: "RelicForm",
+  props: {
+    preview: {
+      type: Boolean,
+      default: false,
+    }
+  },
+  data() {
+    return {
+      card: {
+        name: 'Ring of POWER!',
+        image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
+        defense: 2,
+        type: 'power',
+        modifer: '',
+        text: 'This what i do',
+        cost: '12',
+      },
+      builder: {
+        typeItems: [
+          { text: 'Power', value: 'power' },
+          { text: 'Power (modifier)', value: 'power-modifer' },
+          { text: 'Persistent', value: 'persistent' },
+          { text: 'Persistent (modifier)', value: 'persistent-modifer' },
+          { text: 'Battleplan (Attacker)', value: 'battleplan-attacker' },
+          { text: 'Battleplan (Defender)', value: 'battleplan-defender' },
+          { text: 'Battleplan (Both)', value: 'battleplan-both' },
+          { text: 'When played (small)', value: 'instant-small' },
+          { text: 'When played (medium)', value: 'instant-medium' },
+          { text: 'When played (large)', value: 'instant-large' },
+        ],
+        modifier: [
+          { text: 'Travel', value: 'travel' },
+          { text: 'Search', value: 'search' },
+          { text: 'Trade', value: 'trade' },
+          { text: 'Recover', value: 'recover' },
+          { text: 'Muster', value: 'muster' },
+          { text: 'Campaign', value: 'campaign' },
+        ],
+      },
+    };
+  },
+}
+</script>
+
+<style scoped>
+
+</style>

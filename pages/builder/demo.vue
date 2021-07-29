@@ -3,6 +3,12 @@
 
     <v-row>
       <v-col>
+        <relic-form preview></relic-form>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col>
         <site-form preview></site-form>
       </v-col>
     </v-row>

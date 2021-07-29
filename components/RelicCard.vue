@@ -22,7 +22,7 @@
       </div>
 
     </div>
-    <div class="relic cutter" v-if="false">
+    <div class="relic cutter" v-if="showBack">
       <div class="layer back"></div>
     </div>
   </div>
@@ -41,6 +41,7 @@ export default {
     modifer: String,
     text: String,
     cost: String,
+    showBack: Boolean,
   },
   computed: {
     cardImage() {
@@ -52,7 +53,7 @@ export default {
       return `/img/relic defense ${this.defense}.png`;
     },
     formatedText() {
-      return marked(this.text);
+      return this.text ? marked(this.text) : '';
     },
     costs() {
       return this.cost?.split('') || [];
@@ -119,7 +120,8 @@ export default {
   clip-path: inset(1.5mm 1.5mm 1.5mm 1.5mm round 3mm);
 
   &--image {
-    height: 41mm;
+    /*height: 41mm;*/
+    height: 44mm;
   }
 }
 
