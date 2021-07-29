@@ -7,7 +7,7 @@
       <img v-if="restriction" class="layer" :src="restrictionBand">
       <img v-if="suit" class="layer" :src="suitBand">
       <div v-if="name" class="name">
-        <span class="name__word" v-for="word in name.split(' ')">{{word}} </span>
+        <div class="name__word" v-for="word in name.split(' ')">{{word}}&nbsp;</div>
       </div>
 
       <div class="layer effect" :class="`effect--${type}`">
@@ -106,15 +106,19 @@ export default {
   position: absolute;
   top: 8.5mm;
   left: 0;
-  /*font-family: OathCapital, Serif;*/
-  color: white;
+
   padding-left: 17mm;
 
-  font-family: OathText, sans-serif;
+  &__word {
+    color: white;
+    font-family: OathText, sans-serif;
+    font-size: 4mm;
 
-  &:first-letter {
-    font-family: OathCapital, serif;
-    text-transform: capitalize;
+    display: inline-block;
+
+    &:first-letter {
+      font-family: OathCapital, serif;
+    }
   }
 }
 

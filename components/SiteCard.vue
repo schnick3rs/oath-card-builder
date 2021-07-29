@@ -24,7 +24,7 @@
       <span class="capacity">{{capacity}}</span>
 
       <div v-if="name" class="name">
-        <span class="name__word" v-for="word in name.split(' ')">{{word}} </span>
+        <div class="name__word" v-for="word in name.split(' ')">{{word}}&nbsp;</div>
       </div>
 
       <div v-if="relicRecoverCost" class="recover-cost">
@@ -161,17 +161,22 @@ export default {
 
 .name {
   position: absolute;
-  bottom: 6mm;
+  bottom: 4mm;
   left: 0;
   padding-left: 26mm;
 
+  display: inline-block;
   color: black;
-  font-size: 8mm;
-  font-family: OathText, sans-serif;
 
-  &:first-letter {
-    font-family: OathCapital, serif;
-    text-transform: capitalize;
+  &__word {
+    font-size: 8mm;
+    font-family: OathText, sans-serif;
+    display: inline-block;
+
+    &:first-letter {
+      font-family: OathCapital, serif;
+      text-transform: capitalize;
+    }
   }
 }
 

@@ -93,11 +93,11 @@ export default {
   top: 4mm;
   left: 4mm;
   width: 100%;
-  color: white;
-  display: inline-block;
 
   &__word {
+    color: white;
     font-family: OathText, sans-serif;
+
     display: inline-block;
 
     &:first-letter {

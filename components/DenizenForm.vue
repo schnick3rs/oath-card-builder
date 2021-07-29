@@ -103,7 +103,7 @@
         </v-col>
 
         <v-col cols="5" v-if="preview">
-            <denizen-card-wrapper :card="denizen"/>
+            <denizen-card-wrapper :card="denizen" :back="denizen.back" />
         </v-col>
 
       </v-row>
@@ -131,7 +131,16 @@ export default {
   },
   data() {
     return {
-      denizen: { text: '', type: '', back: true },
+      denizen: {
+        name: 'Good Boiis!',
+        suit: 'nomad',
+        restriction: 'adviser',
+        type: 'power-modifer',
+        modifer: 'travel',
+        cost: '1',
+        text: 'Run by day and night',
+        back: true
+      },
       builder: {
         denizen: {
           suits: [
