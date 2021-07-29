@@ -5,8 +5,27 @@
       fixed
       app
     >
+
+      <v-btn icon to="/">
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
+
       <v-toolbar-title v-text="title" />
+
+      <v-btn icon to="/builder/demo">
+        <v-icon>mdi-file-image</v-icon>
+      </v-btn>
+
+      <v-btn icon to="/print/deck">
+        <v-icon>mdi-printer</v-icon>
+      </v-btn>
+
+      <v-btn icon to="/print/csv">
+        <v-icon>mdi-file-upload</v-icon>
+      </v-btn>
+
       <v-spacer />
+
     </v-app-bar>
     <v-main>
       <v-container>

@@ -19,6 +19,18 @@
       </v-col>
     </v-row>
 
+    <v-row>
+      <v-col>
+        <v-card>edfacies</v-card>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col>
+        <v-card>Visions</v-card>
+      </v-col>
+    </v-row>
+
   </div>
 </template>
 

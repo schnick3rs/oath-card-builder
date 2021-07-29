@@ -21,9 +21,7 @@
               <v-slider
                 v-model="card.defense"
                 label="Defense dice"
-                min="1"
-                max="5"
-                step="1"
+                min="1" max="5" step="1"
                 ticks="always"
                 tick-size="4"
                 dense

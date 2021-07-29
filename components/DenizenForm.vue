@@ -9,72 +9,96 @@
 
         <v-col>
 
-            <v-text-field
-              label="Name"
-              v-model="denizen.name"
-              dense outlined
-            ></v-text-field>
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Name"
+                v-model="denizen.name"
+                dense outlined
+              ></v-text-field>
+            </v-col>
+          </v-row>
 
-            <v-radio-group
-              row
-              v-model="denizen.suit"
-              dense
-            >
-              <v-radio
-                v-for="suit in builder.denizen.suits"
-                :value="suit.value"
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Image"
+                v-model="denizen.image"
+                dense outlined
+                clearable
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-radio-group
+                row
+                v-model="denizen.suit"
+                dense
+                label="Suit"
               >
-                <template v-slot:label>
-                  <v-avatar size="28">
-                    <img :src="`/img/icons/suit-${suit.value}.png`">
-                  </v-avatar>
-                </template>
-              </v-radio>
-            </v-radio-group>
+                <v-radio
+                  v-for="suit in builder.denizen.suits"
+                  :value="suit.value"
+                >
+                  <template v-slot:label>
+                    <v-avatar size="28">
+                      <img :src="`/img/icons/suit-${suit.value}.png`">
+                    </v-avatar>
+                  </template>
+                </v-radio>
+              </v-radio-group>
+            </v-col>
+            <v-col cols="3">
+              <v-select
+                label="Restriction"
+                v-model="denizen.restriction"
+                :items="builder.denizen.restrictions"
+                clearable
+                dense outlined
+              ></v-select>
+            </v-col>
+          </v-row>
 
-            <v-select
-              label="Restriction"
-              v-model="denizen.restriction"
-              :items="builder.denizen.restrictions"
-              clearable
-              dense outlined
-            ></v-select>
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Cost"
+                v-model="denizen.cost"
+                dense outlined
+                persistent-hint
+                hint="1/! (favor) 2/@ (secrets)"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-select
+                label="Effect type"
+                v-model="denizen.type"
+                :items="builder.denizen.typeItems"
+                dense outlined
+              ></v-select>
+            </v-col>
+            <v-col>
+              <v-select
+                label="Affected Action"
+                v-model="denizen.modifer"
+                :items="builder.denizen.modifier"
+                :disabled="!denizen.type.includes('modifer')"
+                dense outlined
+              ></v-select>
+            </v-col>
+          </v-row>
 
-            <v-text-field
-              label="Image"
-              v-model="denizen.image"
-              dense outlined
-              clearable
-            ></v-text-field>
-
-            <v-text-field
-              label="Cost"
-              v-model="denizen.cost"
-              dense outlined
-              persistent-hint
-              hint="1/! (favor) 2/@ (secrets)"
-            ></v-text-field>
-
-            <v-select
-              label="Effect type"
-              v-model="denizen.type"
-              :items="builder.denizen.typeItems"
-              dense outlined
-            ></v-select>
-
-            <v-select
-              label="Affected Action"
-              v-model="denizen.modifer"
-              :items="builder.denizen.modifier"
-              :disabled="!denizen.type.includes('modifer')"
-              dense outlined
-            ></v-select>
-
-            <v-textarea
-              label="Effect"
-              v-model="denizen.text"
-              dense outlined
-            ></v-textarea>
+          <v-row>
+            <v-col>
+              <v-textarea
+                label="Effect"
+                v-model="denizen.text"
+                dense outlined
+              ></v-textarea>
+            </v-col>
+          </v-row>
 
         </v-col>
 
@@ -107,7 +131,7 @@ export default {
   },
   data() {
     return {
-      denizen: { text: '', type: '' },
+      denizen: { text: '', type: '', back: true },
       builder: {
         denizen: {
           suits: [
