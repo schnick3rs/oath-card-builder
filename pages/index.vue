@@ -4,7 +4,8 @@
     <v-col :cols="libraryCols">
 
       <v-btn @click="addDemoDenizen">new Denizen</v-btn>
-      <v-btn to="/print/deck">Download / Print</v-btn>
+      <v-btn @click="newRelic">new Relic</v-btn>
+      <v-btn @click="newSite">new Site</v-btn>
       <v-file-input v-model="csv" @change="importDenizen" label="import Denizen" dense outlined></v-file-input>
 
       <v-card>
@@ -35,22 +36,27 @@
       </v-card>
     </v-col>
 
-    <v-col v-if="selectedDenizenId">
-      <denizen-form :id="selectedDenizenId" preview />
-    </v-col>
-
-    <v-col v-if="selectedDenizenId" v-show="false">
-      <denizen-card-wrapper :card="selectedDenizen" />
+    <v-col v-if="selectedCardId">
+      <component
+        :is="dynamicForm(selectedCard.__type)"
+        :id="selectedCardId"
+        preview
+      ></component>
     </v-col>
 
   </v-row>
 </template>
 
 <script>
+const DenizenForm = () => import( /* webpackChunkName: "DenizenForm" */ '~/components/DenizenForm.vue' );
+const RelicForm = () => import( /* webpackChunkName: "RelicForm" */ '~/components/RelicForm.vue' );
+const SiteForm = () => import( /* webpackChunkName: "SiteForm" */ '~/components/SiteForm.vue' );
+
 export default {
   name: "index",
   data() {
     return {
+      card: {},
       denizen: {
         name: 'Errand Boy',
         suit: 'beast',
@@ -72,23 +78,40 @@ export default {
     libraryCols() {
       return 3;
     },
-    selectedDenizenId() {
-      return this.denizen.id;
+    selectedCardId() {
+      return this.card.id;
     },
-    selectedDenizen() {
-      return {...this.$store.getters['library/card'](this.selectedDenizenId)};
+    selectedCard() {
+      return {...this.$store.getters['library/card'](this.selectedCardId)};
     },
     previewDenizen() {
-      return this.$store.getters['library/card'](this.selectedDenizenId);
+      return this.$store.getters['library/card'](this.selectedCardId);
     },
   },
   methods: {
+    dynamicForm(cardType) {
+      switch (cardType) {
+        case 'denizen': return DenizenForm;
+        case 'relic': return RelicForm;
+        case 'site': return SiteForm;
+        default:
+          return null;
+      }
+    },
     addDemoDenizen() {
       const denizen = { name: 'Random Name', suit: 'arcane' };
       this.$store.commit('library/createDenizen', denizen);
     },
+    newRelic() {
+      const relic = { name: 'Random Name', defense: 2 };
+      this.$store.commit('library/createRelic', relic);
+    },
+    newSite() {
+      const relic = { name: 'Random Site', relics: 1, capacity: 2 };
+      this.$store.commit('library/createSite', relic);
+    },
     openCardEditor(cardId, cardType) {
-      this.denizen = this.$store.getters['library/card'](cardId);
+      this.card = this.$store.getters['library/card'](cardId);
     },
     importDenizen() {
       if (this.csv) {

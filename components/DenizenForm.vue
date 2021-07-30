@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>Edit Denizen Card</v-card-title>
-    <v-card-subtitle>[{{denizen.id}}] {{denizen.suit}} denizen card</v-card-subtitle>
+    <v-card-subtitle>[{{card.id}}] {{card.suit}} denizen card</v-card-subtitle>
     <v-divider></v-divider>
 
     <v-card-text>
@@ -13,7 +13,7 @@
             <v-col>
               <v-text-field
                 label="Name"
-                v-model="denizen.name"
+                v-model="card.name"
                 dense outlined
               ></v-text-field>
             </v-col>
@@ -23,7 +23,7 @@
             <v-col>
               <v-text-field
                 label="Image"
-                v-model="denizen.image"
+                v-model="card.image"
                 dense outlined
                 clearable
               ></v-text-field>
@@ -34,7 +34,7 @@
             <v-col>
               <v-radio-group
                 row
-                v-model="denizen.suit"
+                v-model="card.suit"
                 dense
                 label="Suit"
               >
@@ -53,7 +53,7 @@
             <v-col cols="3">
               <v-select
                 label="Restriction"
-                v-model="denizen.restriction"
+                v-model="card.restriction"
                 :items="builder.denizen.restrictions"
                 clearable
                 dense outlined
@@ -65,7 +65,7 @@
             <v-col>
               <v-text-field
                 label="Cost"
-                v-model="denizen.cost"
+                v-model="card.cost"
                 dense outlined
                 persistent-hint
                 hint="1/! (favor) 2/@ (secrets)"
@@ -74,7 +74,7 @@
             <v-col>
               <v-select
                 label="Effect type"
-                v-model="denizen.type"
+                v-model="card.type"
                 :items="builder.denizen.typeItems"
                 dense outlined
               ></v-select>
@@ -82,9 +82,9 @@
             <v-col>
               <v-select
                 label="Affected Action"
-                v-model="denizen.modifer"
+                v-model="card.modifer"
                 :items="builder.denizen.modifier"
-                :disabled="!denizen.type.includes('modifer')"
+                :disabled="!card.type.includes('modifer')"
                 dense outlined
               ></v-select>
             </v-col>
@@ -94,7 +94,7 @@
             <v-col>
               <v-textarea
                 label="Effect"
-                v-model="denizen.text"
+                v-model="card.text"
                 dense outlined
               ></v-textarea>
             </v-col>
@@ -103,7 +103,7 @@
         </v-col>
 
         <v-col cols="5" v-if="preview">
-            <denizen-card-wrapper :card="denizen" :back="denizen.back" />
+            <denizen-card-wrapper :card="card" :back="card.back" />
         </v-col>
 
       </v-row>
@@ -131,8 +131,9 @@ export default {
   },
   data() {
     return {
-      denizen: {
+      card: {
         name: 'Good Boiis!',
+        image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
         suit: 'nomad',
         restriction: 'adviser',
         type: 'power-modifer',
@@ -197,10 +198,10 @@ export default {
   },
   methods: {
     load() {
-      this.denizen = Object.assign({}, this.$store.getters['library/card'](this.id));
+      this.card = Object.assign({}, this.$store.getters['library/card'](this.id));
     },
     save() {
-      this.$store.commit('library/saveDenizen', { id: this.denizen.id, denizen: this.denizen });
+      this.$store.commit('library/saveCard', { id: this.card.id, card: this.card });
     }
   }
 }

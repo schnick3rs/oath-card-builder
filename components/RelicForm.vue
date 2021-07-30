@@ -111,7 +111,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="warning" outlined @click="">Cancel</v-btn>
-      <v-btn color="success" @click="">Save</v-btn>
+      <v-btn color="success" @click="save">Save</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -120,6 +120,7 @@
 export default {
   name: "RelicForm",
   props: {
+    id: String,
     preview: {
       type: Boolean,
       default: false,
@@ -160,6 +161,24 @@ export default {
       },
     };
   },
+  watch: {
+    id: {
+      handler(newValue) {
+        if (newValue) {
+          this.load();
+        }
+      },
+      immediate: true,
+    },
+  },
+  methods: {
+    load() {
+      this.card = Object.assign({}, this.$store.getters['library/card'](this.id));
+    },
+    save() {
+      this.$store.commit('library/saveCard', { id: this.card.id, card: this.card });
+    }
+  }
 }
 </script>
 

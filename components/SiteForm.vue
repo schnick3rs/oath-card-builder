@@ -99,6 +99,7 @@
 export default {
   name: "SiteForm",
   props: {
+    id: String,
     preview: {
       type: Boolean,
       default: false,
@@ -154,9 +155,24 @@ export default {
       },
     };
   },
-  methods: {
-    save() {},
+  watch: {
+    id: {
+      handler(newValue) {
+        if (newValue) {
+          this.load();
+        }
+      },
+      immediate: true,
+    },
   },
+  methods: {
+    load() {
+      this.card = Object.assign({}, this.$store.getters['library/card'](this.id));
+    },
+    save() {
+      this.$store.commit('library/saveCard', { id: this.card.id, card: this.card });
+    }
+  }
 }
 </script>
 

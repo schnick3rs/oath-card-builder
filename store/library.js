@@ -32,9 +32,45 @@ export const mutations = {
 
   },
 
-  saveDenizen(state, { id, denizen }) {
+  createRelic(state, { name, defense }) {
+
+    const id = nanoid(4);
+    console.info(id)
+
+    const newRelic = {};
+    Object.assign(newRelic, createRelic(id, name, defense));
+
+    state.list.push(id);
     const newObj = {};
-    newObj[id] = denizen;
+    newObj[id] = newRelic;
+    state.cards = {
+      ...state.cards,
+      ...newObj,
+    };
+
+  },
+
+  createSite(state, { name, relics, capacity }) {
+
+    const id = nanoid(4);
+    console.info(id)
+
+    const newSite = {};
+    Object.assign(newSite, createSite(id, name, relics, capacity));
+
+    state.list.push(id);
+    const newObj = {};
+    newObj[id] = newSite;
+    state.cards = {
+      ...state.cards,
+      ...newObj,
+    };
+
+  },
+
+  saveCard(state, { id, card }) {
+    const newObj = {};
+    newObj[id] = card;
     state.cards = {
       ...state.cards,
       ...newObj,
@@ -65,5 +101,45 @@ const createDenizen = (
   modifer,
   cost,
   text,
+  image,
+});
+
+const createRelic = (
+  id = nanoid(7),
+  name = 'some relic name',
+  defense = 3,
+  type = 'power',
+  modifer = null,
+  cost = null,
+  text = 'some fancy text for {1}',
+  image = ''
+) => ({
+  id,
+  __type: 'relic',
+  name,
+  defense,
+  type,
+  modifer,
+  cost,
+  text,
+  image,
+});
+
+const createSite = (
+  id = nanoid(7),
+  name = 'some site name',
+  resources = '',
+  relics = 1,
+  capacity = 2,
+  relicRecoverCost = '',
+  image = ''
+) => ({
+  id,
+  __type: 'site',
+  name,
+  resources,
+  relics,
+  capacity,
+  relicRecoverCost,
   image,
 });
