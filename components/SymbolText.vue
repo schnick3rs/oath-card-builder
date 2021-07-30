@@ -22,6 +22,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+.markdown-html-text > p {
+  margin-bottom: 0;
+}
 </style>

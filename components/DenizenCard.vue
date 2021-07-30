@@ -146,7 +146,7 @@ export default {
   bottom: 0;
   right: 0;
   width: 100%;
-  height: 22mm;
+  height: 23mm;
   text-align: center;
   font-size: 3.8mm;
   line-height: 3.5mm;
