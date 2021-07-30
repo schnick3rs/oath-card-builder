@@ -15,7 +15,9 @@ export default {
       finalHtml = finalHtml.replace(/{(.)}/mg,
         `<oath-symbol style="position: relative; top: 0.5mm;" symbol="$1"></oath-symbol>`);
 
-      console.info(finalHtml)
+      finalHtml = finalHtml.replace(/<strong>(.)(.+:)<\/strong>/mg,
+        `<strong class="uppercase"><span class="capital">$1</span>$2</strong>`);
+
       finalHtml = finalHtml.replace(/\[(.*)\](.*)<\/p>/mg,
         `<span class="big-die">$1</span><span class="normal-text">$2</span></p>`);
 
@@ -35,6 +37,16 @@ export default {
 .markdown-html-text {
   & > p {
     margin-bottom: 0;
+  }
+
+  & .uppercase {
+    text-transform: uppercase;
+    font-size: xx-small;
+
+    & .capital {
+      font-size: 3.8mm;
+    }
+
   }
 
   & > blockquote {
