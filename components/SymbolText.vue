@@ -15,8 +15,9 @@ export default {
       finalHtml = finalHtml.replace(/{(.)}/mg,
         `<oath-symbol style="position: relative; top: 0.5mm;" symbol="$1"></oath-symbol>`);
 
-      finalHtml = finalHtml.replace(/\[(.*)\](.*)/mg,
-        `<span class="big-die">$1</span><span class="normal-text">$2</span>`);
+      console.info(finalHtml)
+      finalHtml = finalHtml.replace(/\[(.*)\](.*)<\/p>/mg,
+        `<span class="big-die">$1</span><span class="normal-text">$2</span></p>`);
 
       return finalHtml;
     },

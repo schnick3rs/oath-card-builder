@@ -202,6 +202,7 @@ export default {
     },
     save() {
       this.$store.commit('library/saveCard', { id: this.card.id, card: this.card });
+      this.load();
     }
   }
 }
