@@ -8,7 +8,7 @@
 
       <img class="layer layer--defense" :src="defenseImage">
 
-      <div class="name">
+      <div class="name" v-if="name">
         <div class="name__word" v-for="word in name.split(' ')">{{word}}&nbsp;</div>
       </div>
 

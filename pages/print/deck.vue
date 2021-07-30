@@ -23,11 +23,11 @@
     <div class="print-area">
       <page v-for="page in pages">
         <template v-for="card in page">
-          <denizen-card-wrapper
-            v-if="card.__type === 'denizen'"
+          <component
+            :is="dynamicCard(card.__type)"
             :card="card"
-          ></denizen-card-wrapper>
-          <denizen-card-back v-else-if="card.__type === 'denizen-back'"></denizen-card-back>
+            :back="printBack"
+          ></component>
         </template>
       </page>
     </div>
@@ -35,6 +35,10 @@
 </template>
 
 <script>
+const DenizenCardWrapper = () => import( /* webpackChunkName: "DenizenCardWrapper" */ '~/components/DenizenCardWrapper.vue' );
+const RelicCardWrapper = () => import( /* webpackChunkName: "RelicCardWrapper" */ '~/components/RelicCardWrapper.vue' );
+const SiteCardWrapper = () => import( /* webpackChunkName: "SiteCardWrapper" */ '~/components/SiteCardWrapper.vue' );
+
 export default {
   name: "deck",
   layout: 'print',
@@ -74,6 +78,17 @@ export default {
       return pages;
     },
   },
+  methods: {
+    dynamicCard(cardType) {
+      switch (cardType) {
+        case 'denizen': return DenizenCardWrapper;
+        case 'relic': return RelicCardWrapper;
+        case 'site': return SiteCardWrapper;
+        default:
+          return null;
+      }
+    },
+  }
 }
 </script>
 
