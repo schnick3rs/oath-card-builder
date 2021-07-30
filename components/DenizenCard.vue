@@ -32,6 +32,7 @@ import marked from "marked";
 export default {
   name: "DenizenCard",
   props: {
+    edifice: Boolean,
     name: String,
     suit: String,
     restriction: String,
@@ -59,7 +60,7 @@ export default {
       return this.cost?.split('') || [];
     },
     suitBand() {
-      return `/img/denizen ${this.suit}.png`;
+      return `/img/${this.edifice ? 'ediface' : 'denizen'} ${this.suit}.png`;
     },
     restrictionBand() {
       return `/img/restriction ${this.restriction} ${this.suit}.png`;

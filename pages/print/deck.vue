@@ -26,7 +26,6 @@
           <component
             :is="dynamicCard(card.__type)"
             :card="card"
-            :back="printBack"
           ></component>
         </template>
       </page>
@@ -50,6 +49,16 @@ export default {
   computed: {
     library() {
       return this.$store.getters['library/cardSets'];
+    },
+    groupedDeck() {
+      return this.library.reduce((groups, card) => {
+        const group = card.__type;
+
+        if(!groups[group]) groups[group] = [];
+
+        groups[group].push(card);
+        return groups;
+      }, {});
     },
     finalDeck() {
       let deck = [];

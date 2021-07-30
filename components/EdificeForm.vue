@@ -1,7 +1,7 @@
 <template>
   <v-card>
-    <v-card-title>Edit Denizen Card</v-card-title>
-    <v-card-subtitle>[{{card.id}}] {{card.suit}} denizen card</v-card-subtitle>
+    <v-card-title>Edit Edifice Card</v-card-title>
+    <v-card-subtitle>[{{card.id}}] {{card.front.suit}} edifice card</v-card-subtitle>
     <v-divider></v-divider>
 
     <v-card-text>
@@ -12,8 +12,8 @@
           <v-row>
             <v-col>
               <v-text-field
-                label="Name"
-                v-model="card.name"
+                label="Name (front)"
+                v-model="card.front.name"
                 dense outlined
               ></v-text-field>
             </v-col>
@@ -23,7 +23,7 @@
             <v-col>
               <v-text-field
                 label="Image"
-                v-model="card.image"
+                v-model="card.front.image"
                 dense outlined
                 clearable
               ></v-text-field>
@@ -34,7 +34,7 @@
             <v-col>
               <v-radio-group
                 row
-                v-model="card.suit"
+                v-model="card.front.suit"
                 dense
                 label="Suit"
               >
@@ -50,22 +50,13 @@
                 </v-radio>
               </v-radio-group>
             </v-col>
-            <v-col cols="3">
-              <v-select
-                label="Restriction"
-                v-model="card.restriction"
-                :items="builder.denizen.restrictions"
-                clearable
-                dense outlined
-              ></v-select>
-            </v-col>
           </v-row>
 
           <v-row>
             <v-col>
               <v-text-field
                 label="Cost"
-                v-model="card.cost"
+                v-model="card.front.cost"
                 dense outlined
                 persistent-hint
                 hint="1/! (favor) 2/@ (secrets)"
@@ -74,7 +65,7 @@
             <v-col>
               <v-select
                 label="Effect type"
-                v-model="card.type"
+                v-model="card.front.type"
                 :items="builder.denizen.typeItems"
                 dense outlined
               ></v-select>
@@ -82,9 +73,9 @@
             <v-col>
               <v-select
                 label="Affected Action"
-                v-model="card.modifer"
+                v-model="card.front.modifer"
                 :items="builder.denizen.modifier"
-                :disabled="!card.type.includes('modifer')"
+                :disabled="!card.front.type.includes('modifer')"
                 dense outlined
               ></v-select>
             </v-col>
@@ -94,7 +85,71 @@
             <v-col>
               <v-textarea
                 label="Effect"
-                v-model="card.text"
+                v-model="card.front.text"
+                dense outlined
+              ></v-textarea>
+            </v-col>
+          </v-row>
+
+        </v-col>
+
+        <v-col>
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Name (ruined)"
+                v-model="card.ruined.name"
+                dense outlined
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Image"
+                v-model="card.ruined.image"
+                dense outlined
+                clearable
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Cost"
+                v-model="card.ruined.cost"
+                dense outlined
+                persistent-hint
+                hint="1/! (favor) 2/@ (secrets)"
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-select
+                label="Effect type"
+                v-model="card.ruined.type"
+                :items="builder.denizen.typeItems"
+                dense outlined
+              ></v-select>
+            </v-col>
+            <v-col>
+              <v-select
+                label="Affected Action"
+                v-model="card.ruined.modifer"
+                :items="builder.denizen.modifier"
+                :disabled="!card.ruined.type.includes('modifer')"
+                dense outlined
+              ></v-select>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-textarea
+                label="Effect"
+                v-model="card.ruined.text"
                 dense outlined
               ></v-textarea>
             </v-col>
@@ -103,7 +158,8 @@
         </v-col>
 
         <v-col cols="5" v-if="preview">
-            <denizen-card-wrapper :card="card" back />
+            <denizen-card-wrapper :card="card.front" />
+            <denizen-card-wrapper :card="card.ruined" />
         </v-col>
 
       </v-row>
@@ -127,20 +183,40 @@ export default {
     preview: {
       type: Boolean,
       default: false,
-    }
+    },
+    mode: {
+      type: String,
+      default: 'denizen',
+    },
   },
   data() {
     return {
       card: {
-        name: 'Good Boiis!',
-        image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
-        suit: 'nomad',
-        restriction: 'adviser',
-        type: 'power-modifer',
-        modifer: 'travel',
-        cost: '1',
-        text: 'Run by day and night',
-        back: true
+        name: 'A fine edifice',
+        front: {
+          edifice: true,
+          name: 'Good Boiis!',
+          image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
+          suit: 'nomad',
+          restriction: 'site locked',
+          type: 'power-modifer',
+          modifer: 'travel',
+          cost: '1',
+          text: 'Run by day and night',
+          back: false
+        },
+        ruined: {
+          edifice: true,
+          name: 'Good Boiis! but ruined',
+          image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
+          suit: 'ruined',
+          restriction: 'site locked',
+          type: 'power-modifer',
+          modifer: 'travel',
+          cost: '1',
+          text: 'Run by day and night',
+          back: false
+        },
       },
       builder: {
         denizen: {

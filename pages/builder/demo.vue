@@ -3,6 +3,12 @@
 
     <v-row>
       <v-col>
+        <edifice-form preview></edifice-form>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col>
         <relic-form preview></relic-form>
       </v-col>
     </v-row>
@@ -19,11 +25,6 @@
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-col>
-        <v-card>edfacies</v-card>
-      </v-col>
-    </v-row>
 
     <v-row>
       <v-col>

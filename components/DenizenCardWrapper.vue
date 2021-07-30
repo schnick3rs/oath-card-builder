@@ -1,5 +1,6 @@
 <template>
   <denizen-card
+    :edifice="card.edifice"
     :name="card.name"
     :image="card.image"
     :suit="card.suit"

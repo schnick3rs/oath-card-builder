@@ -97,7 +97,7 @@ export default {
       return this.$store.getters['library/cardSets'];
     },
     libraryCols() {
-      return 3;
+      return 4;
     },
     selectedCardId() {
       return this.card?.id || undefined;
