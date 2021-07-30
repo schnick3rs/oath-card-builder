@@ -6,7 +6,12 @@
       <v-btn @click="addDemoDenizen">new Denizen</v-btn>
       <v-btn @click="newRelic">new Relic</v-btn>
       <v-btn @click="newSite">new Site</v-btn>
-      <v-file-input v-model="csv" @change="importDenizen" label="import Denizen" dense outlined></v-file-input>
+      <v-file-input
+        v-model="csv"
+        @change="importDenizen"
+        label="import Denizen"
+        dense outlined
+      ></v-file-input>
 
       <v-card>
 
@@ -16,7 +21,10 @@
 
         <v-card-text>
           <v-list dense>
-            <v-list-item v-for="card in library" @click="openCardEditor(card.id, card.__type)">
+            <v-list-item
+              v-for="card in library"
+              @click="openCardEditor(card.id, card.__type)"
+            >
               <v-list-item-avatar>
                 <img :src="`/img/icons/suit-${card.suit}.png`">
               </v-list-item-avatar>
@@ -27,7 +35,20 @@
                 </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action>
-                <v-btn icon @click=""><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn
+                  icon
+                  @click="removeCard(card.id)"
+                >
+                  <v-icon color="error">mdi-delete</v-icon>
+                </v-btn>
+              </v-list-item-action>
+              <v-list-item-action>
+                <v-btn
+                  icon
+                  @click="openCardEditor(card.id, card.__type)"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
               </v-list-item-action>
             </v-list-item>
           </v-list>
@@ -79,7 +100,7 @@ export default {
       return 3;
     },
     selectedCardId() {
-      return this.card.id;
+      return this.card?.id || undefined;
     },
     selectedCard() {
       return {...this.$store.getters['library/card'](this.selectedCardId)};
@@ -112,6 +133,10 @@ export default {
     },
     openCardEditor(cardId, cardType) {
       this.card = this.$store.getters['library/card'](cardId);
+    },
+    removeCard(cardId) {
+      this.card = undefined;
+      this.$store.commit('library/deleteCard', cardId);
     },
     importDenizen() {
       if (this.csv) {

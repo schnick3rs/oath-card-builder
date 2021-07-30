@@ -17,7 +17,6 @@ export const mutations = {
   createDenizen(state, { name, suit }) {
 
     const id = nanoid(4);
-    console.info(id)
 
     const newDenizen = {};
     Object.assign(newDenizen, createDenizen(id, name, suit));
@@ -35,7 +34,6 @@ export const mutations = {
   createRelic(state, { name, defense }) {
 
     const id = nanoid(4);
-    console.info(id)
 
     const newRelic = {};
     Object.assign(newRelic, createRelic(id, name, defense));
@@ -53,7 +51,6 @@ export const mutations = {
   createSite(state, { name, relics, capacity }) {
 
     const id = nanoid(4);
-    console.info(id)
 
     const newSite = {};
     Object.assign(newSite, createSite(id, name, relics, capacity));
@@ -75,6 +72,11 @@ export const mutations = {
       ...state.cards,
       ...newObj,
     }
+  },
+
+  deleteCard(state, cardId) {
+    state.list = state.list.filter(item => item !== cardId);
+    delete state.cards[cardId];
   },
 
 }
@@ -142,4 +144,17 @@ const createSite = (
   capacity,
   relicRecoverCost,
   image,
+});
+
+const createEdifice = (
+  id = nanoid(7),
+  name = 'some fancy name',
+  suit = 'arcane',
+) => ({
+  id,
+  __type: 'edifice',
+  name,
+  suit,
+  front: {},
+  back: {},
 });

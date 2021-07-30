@@ -120,7 +120,7 @@
 
 <script>
 export default {
-  name: "DenizenForm",
+  name: "EdificeForm",
   props: {
     id: String,
     //denizen: Object,
