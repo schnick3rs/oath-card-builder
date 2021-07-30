@@ -10,7 +10,15 @@ export default {
       return finalHtml;
     },
     parseForShortcodes(html) {
-      return html.replace(/{(.)}/mg, `<oath-symbol style="position: relative; top: 0.5mm;" symbol="$1"></oath-symbol>`);
+      let finalHtml = html;
+
+      finalHtml = finalHtml.replace(/{(.)}/mg,
+        `<oath-symbol style="position: relative; top: 0.5mm;" symbol="$1"></oath-symbol>`);
+
+      finalHtml = finalHtml.replace(/\[(.*)\](.*)/mg,
+        `<span class="big-die">$1</span><span class="normal-text">$2</span>`);
+
+      return finalHtml;
     },
   },
   render(h) {
@@ -23,7 +31,43 @@ export default {
 </script>
 
 <style lang="scss">
-.markdown-html-text > p {
-  margin-bottom: 0;
+.markdown-html-text {
+  & > p {
+    margin-bottom: 0;
+  }
+
+  & > blockquote {
+    font-size: 7.5mm;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1mm;
+
+    & > p {
+
+      font-size: 6.6mm;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 0;
+
+      & > .big-die {
+        display: contents;
+        /* vertical-align: middle; */
+        & > img {
+          height: 6mm !important;
+        }
+      }
+
+      & > .normal-text {
+        font-size: 3.8mm;
+        text-align: left;
+        padding-left: 2mm;
+      }
+    }
+
+  }
 }
+
+
 </style>

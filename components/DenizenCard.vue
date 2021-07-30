@@ -119,6 +119,7 @@ export default {
 
     &:first-letter {
       font-family: OathCapital, serif;
+      text-transform: capitalize;
     }
   }
 }
