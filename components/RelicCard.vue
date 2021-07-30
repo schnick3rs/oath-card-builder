@@ -24,7 +24,7 @@
       </div>
 
     </div>
-    <div class="relic cutter" v-if="showBack">
+    <div class="relic cutter" v-if="back">
       <div class="layer back"></div>
     </div>
   </div>
@@ -43,7 +43,7 @@ export default {
     modifer: String,
     text: String,
     cost: String,
-    showBack: Boolean,
+    back: Boolean,
   },
   computed: {
     cardImage() {

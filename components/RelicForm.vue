@@ -100,7 +100,7 @@
             :modifer="card.modifer"
             :cost="card.cost"
             :text="card.text"
-            show-back
+            back
           ></relic-card>
         </v-col>
 
