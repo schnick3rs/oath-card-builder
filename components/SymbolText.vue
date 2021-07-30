@@ -41,10 +41,10 @@ export default {
 
   & .uppercase {
     text-transform: uppercase;
-    font-size: xx-small;
+    font-size: 2.2mm;
 
     & .capital {
-      font-size: 3.8mm;
+      font-size: 3.4mm;
     }
 
   }
