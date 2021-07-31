@@ -123,7 +123,7 @@ export default {
           { text: 'Hearth', value: 'hearth' },
           { text: 'Nomad', value: 'nomad' },
           { text: 'Order', value: 'order' },
-          { text: 'Clockwork (uofficial)', value: 'clockwork' },
+          { text: 'Clockwork (unofficial)', value: 'clockwork' },
         ],
         restrictions: [
           { text: 'None', value: undefined },
