@@ -27,7 +27,7 @@
               @click="openCardEditor(card.id, card.__type)"
             >
               <v-list-item-avatar>
-                <img :src="`/img/icons/suit-${card.suit || card.front.suit}.png`">
+                <img :src="`/img/icons/suit-${card.suit}.png`">
               </v-list-item-avatar>
               <v-list-item-content>
                 {{card.name || card.front.name }}
