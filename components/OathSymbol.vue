@@ -40,6 +40,7 @@ export default {
         '*': 'die-attacker-hallow',
         '%': 'die-attacker-skull',
         '>': 'to-favor-bank',
+        '=': 'to-favor-bank',
       },
     };
   },

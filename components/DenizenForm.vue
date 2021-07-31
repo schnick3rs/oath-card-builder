@@ -31,7 +31,7 @@
           </v-row>
 
           <v-row>
-            <v-col>
+            <v-col cols="6">
 
               <v-select
                 row
@@ -52,7 +52,7 @@
                 </template>
               </v-select>
             </v-col>
-            <v-col cols="3">
+            <v-col cols="6">
               <v-select
                 label="Restriction"
                 v-model="card.restriction"
@@ -64,7 +64,7 @@
           </v-row>
 
           <v-row>
-            <v-col>
+            <v-col cols="4">
               <v-text-field
                 label="Cost"
                 v-model="card.cost"
@@ -73,7 +73,7 @@
                 hint="1/! (favor) 2/@ (secrets)"
               ></v-text-field>
             </v-col>
-            <v-col>
+            <v-col cols="8">
               <v-select
                 label="Effect type"
                 v-model="card.type"
@@ -81,7 +81,7 @@
                 dense outlined
               ></v-select>
             </v-col>
-            <v-col>
+            <v-col cols="12">
               <v-select
                 label="Affected Action"
                 v-model="card.modifer"
