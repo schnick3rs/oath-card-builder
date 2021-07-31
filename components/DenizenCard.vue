@@ -54,6 +54,10 @@ export default {
       return { backgroundImage: `url(${this.image})` };
     },
     formatedText() {
+      const renderer = {
+        del(text) { return `~${text}~`; }
+      };
+      marked.use({ renderer });
       return marked(this.text);
     },
     costs() {
