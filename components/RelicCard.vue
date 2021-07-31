@@ -55,6 +55,8 @@ export default {
       return `/img/relic defense ${this.defense}.png`;
     },
     formatedText() {
+      const renderer = {del(text) { return `~${text}~`; } };
+      marked.use({ renderer });
       return this.text ? marked(this.text) : '';
     },
     costs() {
