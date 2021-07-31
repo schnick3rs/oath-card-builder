@@ -27,10 +27,10 @@
               @click="openCardEditor(card.id, card.__type)"
             >
               <v-list-item-avatar>
-                <img :src="`/img/icons/suit-${card.suit}.png`">
+                <img :src="`/img/icons/suit-${card.suit || card.front.suit}.png`">
               </v-list-item-avatar>
               <v-list-item-content>
-                {{card.name}}
+                {{card.name || card.front.name }}
                 <v-list-item-subtitle>
                   {{card.__type}}
                 </v-list-item-subtitle>
@@ -43,7 +43,7 @@
                   <v-icon color="error">mdi-delete</v-icon>
                 </v-btn>
               </v-list-item-action>
-              <v-list-item-action>
+              <v-list-item-action v-show="false">
                 <v-btn
                   icon
                   @click="openCardEditor(card.id, card.__type)"
