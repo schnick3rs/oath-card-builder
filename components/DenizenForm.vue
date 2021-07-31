@@ -99,6 +99,10 @@
                 v-model="card.text"
                 dense outlined
               ></v-textarea>
+              <div>
+                <markdown-reference></markdown-reference>
+                <oath-symbol-reference></oath-symbol-reference>
+              </div>
             </v-col>
           </v-row>
 

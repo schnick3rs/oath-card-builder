@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import DOMPurify from 'dompurify';
 import marked from "marked";
 
 export default {
@@ -54,9 +55,9 @@ export default {
       return { backgroundImage: `url(${this.image})` };
     },
     formatedText() {
-      const renderer = {del(text) { return `~${text}~`; } };
+      const renderer = { del(text) { return `~${text}~`; } };
       marked.use({ renderer });
-      return marked(this.text);
+      return this.text ? marked(DOMPurify.sanitize(this.text)) : '';
     },
     costs() {
       return this.cost?.split('') || [];

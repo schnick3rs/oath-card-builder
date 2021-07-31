@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import DOMPurify from 'dompurify';
 import marked from 'marked';
 
 export default {
@@ -55,9 +56,9 @@ export default {
       return `/img/relic defense ${this.defense}.png`;
     },
     formatedText() {
-      const renderer = {del(text) { return `~${text}~`; } };
+      const renderer = { del(text) { return `~${text}~`; } };
       marked.use({ renderer });
-      return this.text ? marked(this.text) : '';
+      return this.text ? marked(DOMPurify.sanitize(this.text)) : '';
     },
     costs() {
       return this.cost?.split('') || [];

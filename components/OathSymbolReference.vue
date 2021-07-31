@@ -1,20 +1,20 @@
 <template>
-  <img :src="src" :style="styleSize" class="oath-symbol">
+  <div>
+    <p>You can use these brackets <code>{*}</code> to write OATH symbols. Where <code>*</code> needs to match one of the characters below.</p>
+    <ul>
+      <li v-for="s in Object.keys(symbols)">
+        <code>{{s}}</code> => <oath-symbol :symbol="s"></oath-symbol>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "OathSymbol",
-  props: {
-    symbol: String,
-    size: {
-      type: Number,
-      default: 12,
-    },
-  },
+  name: "OathSymbolReference",
   data() {
     return {
-      map: {
+      symbols: {
         'f': 'favor',
         '1': 'favor',
         'F': 'favor-burned',
@@ -36,8 +36,6 @@ export default {
         '$': 'die-defender-shield',
         '§': 'die-defender-double',
         '7': 'die-attacker-sword',
-        //'&': 'die-attacker-hallow',
-        //'*': 'die-attacker-hallow',
         '8': 'die-attacker-hallow',
         '%': 'die-attacker-skull',
         '>': 'to-favor-bank',
@@ -45,18 +43,9 @@ export default {
       },
     };
   },
-  computed: {
-    src() {
-      return `/img/icons/${this.map[this.symbol]}.png`;
-    },
-    styleSize() {
-      return `height: ${this.symbol === '>' ? this.size-2 : this.size}px;`;
-    },
-  },
 }
 </script>
 
-<style scoped lang="scss">
-.oath-symbol {
-}
+<style scoped>
+
 </style>
