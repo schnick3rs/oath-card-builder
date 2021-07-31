@@ -183,8 +183,7 @@
         </v-col>
 
         <v-col cols="5" v-if="preview">
-            <denizen-card-wrapper :card="card.front" />
-            <denizen-card-wrapper :card="card.ruined" />
+          <edifice-card-wrapper :card="card" />
         </v-col>
 
       </v-row>
@@ -299,7 +298,7 @@ export default {
   },
   methods: {
     load() {
-      this.card = Object.assign({}, this.$store.getters['library/card'](this.id));
+      this.card = JSON.parse(JSON.stringify(this.$store.getters['library/card'](this.id)));
     },
     save() {
       this.$store.commit('library/saveCard', { id: this.card.id, card: this.card });

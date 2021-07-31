@@ -31,6 +31,23 @@ export const mutations = {
 
   },
 
+  createEdifice(state, { name, suit }) {
+
+    const id = nanoid(4);
+
+    const newCard = {};
+    Object.assign(newCard, createEdifice(id, name, suit));
+
+    state.list.push(id);
+    const newObj = {};
+    newObj[id] = newCard;
+    state.cards = {
+      ...state.cards,
+      ...newObj,
+    };
+
+  },
+
   createRelic(state, { name, defense }) {
 
     const id = nanoid(4);
@@ -106,6 +123,40 @@ const createDenizen = (
   image,
 });
 
+const createEdifice = (
+  id = nanoid(7),
+  name = 'some fancy name',
+  suit = 'arcane',
+  type = 'power',
+  cost = null,
+  modifer = null,
+  text = 'some fancy text for {1}',
+  image = ''
+) => ({
+  id,
+  __type: 'edifice',
+  front: {
+    name,
+    suit,
+    restriction: 'site locked',
+    type,
+    modifer,
+    cost,
+    text,
+    image,
+  },
+  ruined: {
+    name,
+    suit: 'ruined',
+    restriction: 'site locked',
+    type,
+    modifer,
+    cost,
+    text,
+    image,
+  },
+});
+
 const createRelic = (
   id = nanoid(7),
   name = 'some relic name',
@@ -144,17 +195,4 @@ const createSite = (
   capacity,
   relicRecoverCost,
   image,
-});
-
-const createEdifice = (
-  id = nanoid(7),
-  name = 'some fancy name',
-  suit = 'arcane',
-) => ({
-  id,
-  __type: 'edifice',
-  name,
-  suit,
-  front: {},
-  back: {},
 });

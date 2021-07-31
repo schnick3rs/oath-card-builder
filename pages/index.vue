@@ -3,7 +3,8 @@
 
     <v-col :cols="libraryCols">
 
-      <v-btn @click="addDemoDenizen">new Denizen</v-btn>
+      <v-btn @click="newDenizen">new Denizen</v-btn>
+      <v-btn @click="newEdifice">new Edifice</v-btn>
       <v-btn @click="newRelic">new Relic</v-btn>
       <v-btn @click="newSite">new Site</v-btn>
       <v-file-input
@@ -70,6 +71,7 @@
 
 <script>
 const DenizenForm = () => import( /* webpackChunkName: "DenizenForm" */ '~/components/DenizenForm.vue' );
+const EdificeForm = () => import( /* webpackChunkName: "EdificeForm" */ '~/components/EdificeForm.vue' );
 const RelicForm = () => import( /* webpackChunkName: "RelicForm" */ '~/components/RelicForm.vue' );
 const SiteForm = () => import( /* webpackChunkName: "SiteForm" */ '~/components/SiteForm.vue' );
 
@@ -113,15 +115,20 @@ export default {
     dynamicForm(cardType) {
       switch (cardType) {
         case 'denizen': return DenizenForm;
+        case 'edifice': return EdificeForm;
         case 'relic': return RelicForm;
         case 'site': return SiteForm;
         default:
           return null;
       }
     },
-    addDemoDenizen() {
+    newDenizen() {
       const denizen = { name: 'Random Name', suit: 'arcane' };
       this.$store.commit('library/createDenizen', denizen);
+    },
+    newEdifice() {
+      const edifice = { name: 'Random Name', suit: 'arcane' };
+      this.$store.commit('library/createEdifice', edifice);
     },
     newRelic() {
       const relic = { name: 'Random Name', defense: 2 };

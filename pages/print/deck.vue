@@ -37,6 +37,7 @@
 const DenizenCardWrapper = () => import( /* webpackChunkName: "DenizenCardWrapper" */ '~/components/DenizenCardWrapper.vue' );
 const RelicCardWrapper = () => import( /* webpackChunkName: "RelicCardWrapper" */ '~/components/RelicCardWrapper.vue' );
 const SiteCardWrapper = () => import( /* webpackChunkName: "SiteCardWrapper" */ '~/components/SiteCardWrapper.vue' );
+const EdificeCardWrapper = () => import( /* webpackChunkName: "EdificeCardWrapper" */ '~/components/EdificeCardWrapper.vue' );
 
 export default {
   name: "deck",
@@ -91,6 +92,7 @@ export default {
     dynamicCard(cardType) {
       switch (cardType) {
         case 'denizen': return DenizenCardWrapper;
+        case 'edifice': return EdificeCardWrapper;
         case 'relic': return RelicCardWrapper;
         case 'site': return SiteCardWrapper;
         default:
