@@ -32,23 +32,25 @@
 
           <v-row>
             <v-col>
-              <v-radio-group
+
+              <v-select
                 row
                 v-model="card.suit"
-                dense
+                dense outlined
                 label="Suit"
+                :items="builder.denizen.suits"
               >
-                <v-radio
-                  v-for="suit in builder.denizen.suits"
-                  :value="suit.value"
-                >
-                  <template v-slot:label>
-                    <v-avatar size="28">
-                      <img :src="`/img/icons/suit-${suit.value}.png`">
-                    </v-avatar>
-                  </template>
-                </v-radio>
-              </v-radio-group>
+                <template v-slot:item="{ item, on }">
+                  <v-list-item @click="on.click">
+                    <v-list-item-avatar size="16">
+                      <img :src="`/img/icons/suit-${item.value}.png`">
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ item.text }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+              </v-select>
             </v-col>
             <v-col cols="3">
               <v-select
@@ -152,6 +154,7 @@ export default {
             { text: 'Nomad', value: 'nomad' },
             { text: 'Order', value: 'order' },
             { text: 'Clockwork (uofficial)', value: 'clockwork' },
+            { text: 'Ruined', value: 'ruined' },
           ],
           restrictions: [
             { text: 'None', value: undefined },
