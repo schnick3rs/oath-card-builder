@@ -32,28 +32,29 @@
 
           <v-row>
             <v-col>
-              <v-radio-group
+              <v-select
                 row
                 v-model="card.front.suit"
-                dense
+                dense outlined
                 label="Suit"
+                :items="builder.denizen.suits"
               >
-                <v-radio
-                  v-for="suit in builder.denizen.suits"
-                  :value="suit.value"
-                >
-                  <template v-slot:label>
-                    <v-avatar size="28">
-                      <img :src="`/img/icons/suit-${suit.value}.png`">
-                    </v-avatar>
-                  </template>
-                </v-radio>
-              </v-radio-group>
+                <template v-slot:item="{ item, on }">
+                  <v-list-item @click="on.click">
+                    <v-list-item-avatar size="16">
+                      <img :src="`/img/icons/suit-${item.value}.png`">
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ item.text }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+              </v-select>
             </v-col>
           </v-row>
 
           <v-row>
-            <v-col>
+            <v-col cols="4">
               <v-text-field
                 label="Cost"
                 v-model="card.front.cost"
@@ -62,7 +63,7 @@
                 hint="1/! (favor) 2/@ (secrets)"
               ></v-text-field>
             </v-col>
-            <v-col>
+            <v-col cols="8">
               <v-select
                 label="Effect type"
                 v-model="card.front.type"
@@ -70,7 +71,7 @@
                 dense outlined
               ></v-select>
             </v-col>
-            <v-col>
+            <v-col cols="12">
               <v-select
                 label="Affected Action"
                 v-model="card.front.modifer"
@@ -118,6 +119,30 @@
 
           <v-row>
             <v-col>
+              <v-select
+                row
+                v-model="card.ruined.suit"
+                dense outlined
+                label="Suit"
+                readonly disabled
+                :items="builder.denizen.suits"
+              >
+                <template v-slot:item="{ item, on }">
+                  <v-list-item @click="on.click">
+                    <v-list-item-avatar size="16">
+                      <img :src="`/img/icons/suit-${item.value}.png`">
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title>{{ item.text }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+              </v-select>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col cols="4">
               <v-text-field
                 label="Cost"
                 v-model="card.ruined.cost"
@@ -126,7 +151,7 @@
                 hint="1/! (favor) 2/@ (secrets)"
               ></v-text-field>
             </v-col>
-            <v-col>
+            <v-col cols="8">
               <v-select
                 label="Effect type"
                 v-model="card.ruined.type"
@@ -134,7 +159,7 @@
                 dense outlined
               ></v-select>
             </v-col>
-            <v-col>
+            <v-col cols="12">
               <v-select
                 label="Affected Action"
                 v-model="card.ruined.modifer"
@@ -192,29 +217,28 @@ export default {
   data() {
     return {
       card: {
-        name: 'A fine edifice',
         front: {
           edifice: true,
-          name: 'Good Boiis!',
+          name: 'Spraling Rampart',
           image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
-          suit: 'nomad',
+          suit: 'order',
           restriction: 'site locked',
-          type: 'power-modifer',
-          modifer: 'travel',
-          cost: '1',
-          text: 'Run by day and night',
+          type: 'persistent-modifer',
+          modifer: 'campaign',
+          cost: '',
+          text: 'Each site ruled by Sprawling\'s Ramparts ruler adds one  \nmore {-} when targeted.',
           back: false
         },
         ruined: {
           edifice: true,
-          name: 'Good Boiis! but ruined',
+          name: 'Bandit Rampart',
           image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
           suit: 'ruined',
           restriction: 'site locked',
-          type: 'power-modifer',
-          modifer: 'travel',
-          cost: '1',
-          text: 'Run by day and night',
+          type: 'battleplan-defender',
+          modifer: '',
+          cost: '',
+          text: '> [-2{-}] if this site is targeted.',
           back: false
         },
       },
@@ -228,6 +252,7 @@ export default {
             { text: 'Nomad', value: 'nomad' },
             { text: 'Order', value: 'order' },
             { text: 'Clockwork (uofficial)', value: 'clockwork' },
+            { text: 'Ruined', value: 'ruined' },
           ],
           restrictions: [
             { text: 'None', value: undefined },

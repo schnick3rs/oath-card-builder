@@ -36,6 +36,10 @@ export default {
 <style lang="scss">
 .markdown-html-text {
   & > p {
+    margin-bottom: 1mm;
+  }
+
+  & > p:last-child {
     margin-bottom: 0;
   }
 
@@ -54,7 +58,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-top: 1mm;
+    //margin-top: 1mm;
 
     & > p {
 
