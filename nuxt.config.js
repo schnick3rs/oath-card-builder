@@ -84,5 +84,9 @@ export default {
           // Include the compiler version of Vue so that wp-content works
           config.resolve.alias["vue$"] = "vue/dist/vue.esm.js"
         }
-  }
+  },
+
+  serverMiddleware: [
+    '~/api/express', // handles /api/** calls
+  ],
 }
