@@ -43,6 +43,7 @@ export default {
       title,
       meta: [
         { hid: 'description', name: 'description', content: description },
+        { hid: 'robots', name: 'robots', content: 'noindex,follow' },
 
         // Open Graph
         { hid: 'og:title', name: 'og:title', content: title },
