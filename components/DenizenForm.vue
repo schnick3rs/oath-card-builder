@@ -99,10 +99,13 @@
                 v-model="card.text"
                 dense outlined
               ></v-textarea>
-              <div>
+              <details>
+                <summary>
+                  Click to show how to format your code.
+                </summary>
                 <markdown-reference></markdown-reference>
                 <oath-symbol-reference></oath-symbol-reference>
-              </div>
+              </details>
             </v-col>
           </v-row>
 

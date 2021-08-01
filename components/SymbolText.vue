@@ -15,6 +15,9 @@ export default {
       finalHtml = finalHtml.replace(/{(.)}/mg,
         `<oath-symbol style="position: relative; top: 0.5mm;" symbol="$1"></oath-symbol>`);
 
+      finalHtml = finalHtml.replace(/<strong>When played,<\/strong>/mg,
+        `<strong class="uppercase"><span class="capital">W</span>hen&nbsp;played,</strong>`);
+
       finalHtml = finalHtml.replace(/<strong>(.)(.+:)<\/strong>/mg,
         `<strong class="uppercase"><span class="capital">$1</span>$2</strong>`);
 
