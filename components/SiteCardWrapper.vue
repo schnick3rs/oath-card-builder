@@ -2,6 +2,7 @@
   <site-card
     :name="card.name"
     :image="card.image"
+    :resources="card.resources"
     :relics="card.relics"
     :capacity="card.capacity"
     :special="card.special"

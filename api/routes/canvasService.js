@@ -26,30 +26,42 @@ async function drawSite(card) {
   const ctx = canvas.getContext('2d');
 
   const frameLayer = await loadImage(`https://oath-card-builder.herokuapp.com/img/site 0 relics.png`);
-  const backgroundLayer = await loadImage(card.image);
   const favor = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/favor.png');
   const secret = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/secret.png');
   const relic = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/relic.png');
 
-  ctx.drawImage(backgroundLayer, 0, 0, 460, 356);
+
+  if (card.image) {
+    try {
+      const backgroundLayer = await loadImage(card.image);
+      ctx.drawImage(backgroundLayer, 0, 0, 460, 356);
+    } catch (e) {}
+  }
   ctx.drawImage(frameLayer, 0, 0, 460, 356);
 
   // name
-  capitalText(ctx, card.name, 30, 110, 335);
+  if (card.name) {
+    capitalText(ctx, card.name, 30, 110, 335);
+  }
 
   // capacity
-  ctx.font = '30px OathText';
-  ctx.fillText(card.capacity,  410, 60);
+  if (card.capacity) {
+    ctx.font = '30px OathText';
+    ctx.fillText(card.capacity,  410, 60);
+  }
 
-  let resources = card.resources.split('');
-  resources.forEach((c, i) => {
-    const icon = c === '1' ? favor : secret;
-    const x = 5*F + 3*F*i;
-    ctx.drawImage(icon, x, 8*F, 5*F, 5*F);
-  });
+  if (card.resources && card.resources.length > 0) {
+    let resources = card.resources.split('');
+    resources.forEach((c, i) => {
+      const icon = c === '1' ? favor : secret;
+      const x = 5*F + 3*F*i;
+      ctx.drawImage(icon, x, 8*F, 5*F, 5*F);
+    });
+  }
 
   for(let i = 0; i < card.relics; i++) {
-    const x = 5*F + 6*F*i + (resources.length*20);
+    const relicOffset = card.resources?.length || 0;
+    const x = 5*F + 6*F*i + (relicOffset*20);
     ctx.drawImage(relic, x, 8*F, 5*F, 5*F);
   }
 
@@ -68,26 +80,27 @@ async function drawSite(card) {
   const hearth = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/suit-hearth.png');
 
   if (card.relicRecoverCost) {
-    let costs = card.relicRecoverCost.length;
-    let startX = 460 - 10*F - (costs * 5 * F);
+    const iconSize = 5*F;
+    let costIconCount = card.relicRecoverCost.length;
+    let startX = 460 - 10*F - (costIconCount * iconSize);
     let delta = 0;
     card.relicRecoverCost.split('').forEach((c, i) => {
       const x = startX + 10*F - 3*F;
       switch (c) {
-        case '!': delta += 3*F; ctx.drawImage(favorBurned, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case '@': delta += 3*F; ctx.drawImage(secretBurned, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case '1': delta += 3*F; ctx.drawImage(favor, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case '2': delta += 3*F; ctx.drawImage(secret, x+delta, 356-(11*F), 5*F, 5*F); break;
+        case '!': delta += 3*F; ctx.drawImage(favorBurned, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case '@': delta += 3*F; ctx.drawImage(secretBurned, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case '1': delta += 3*F; ctx.drawImage(favor, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case '2': delta += 3*F; ctx.drawImage(secret, x+delta, 356-(11*F), iconSize, iconSize); break;
         case '>':
         case '=':
-          delta += 6*F; ctx.drawImage(shared, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case 'a': delta += 6*F; ctx.drawImage(arcane, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case 'c': delta += 6*F; ctx.drawImage(clockwork, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case 'o': delta += 6*F; ctx.drawImage(order, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case 'b': delta += 6*F; ctx.drawImage(beast, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case 'n': delta += 6*F; ctx.drawImage(nomad, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case 'h': delta += 6*F; ctx.drawImage(hearth, x+delta, 356-(11*F), 5*F, 5*F); break;
-        case 'd': delta += 6*F; ctx.drawImage(discord, x+delta, 356-(11*F), 5*F, 5*F); break;
+          delta += 6*F; ctx.drawImage(shared, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case 'a': delta += 6*F; ctx.drawImage(arcane, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case 'c': delta += 6*F; ctx.drawImage(clockwork, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case 'o': delta += 6*F; ctx.drawImage(order, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case 'b': delta += 6*F; ctx.drawImage(beast, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case 'n': delta += 6*F; ctx.drawImage(nomad, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case 'h': delta += 6*F; ctx.drawImage(hearth, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case 'd': delta += 6*F; ctx.drawImage(discord, x+delta, 356-(11*F), iconSize, iconSize); break;
       }
     });
     ctx.drawImage(relicRecovery, startX, 356-(12*F), 8*F, 8*F);
