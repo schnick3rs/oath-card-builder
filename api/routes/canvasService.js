@@ -1,5 +1,5 @@
 const Router = require('express-promise-router');
-const { createCanvas, loadImage } = require('canvas')
+const { createCanvas, loadImage, registerFont } = require('canvas')
 
 const router = new Router();
 
@@ -19,25 +19,20 @@ function capitalText(ctx, str, fontSize, x, y){
 }
 
 async function draw(card) {
-  const canvas = createCanvas(460, 356)
-  const ctx = canvas.getContext('2d')
+  registerFont('goudy_old_style_regular-webfont.ttf', { family: 'OathText' });
+  registerFont('goudy_text_mt_lombardic_capitals-webfont.ttf', { family: 'OathCapital' });
 
-  const frameLayer = await loadImage('https://oath-card-builder.herokuapp.com/img/site%200%20relics.png');
+  const canvas = createCanvas(460, 356);
+  const ctx = canvas.getContext('2d');
+
+  const frameLayer = await loadImage(`https://oath-card-builder.herokuapp.com/img/site ${card.relics} relics.png`);
   const backgroundLayer = await loadImage(card.image);
 
   ctx.drawImage(backgroundLayer, 0, 0, 460, 356);
   ctx.drawImage(frameLayer, 0, 0, 460, 356);
 
-  ctx.font = '30px sans-serif';
-  capitalText(ctx, card.name, 20, 50, 300);
-
-  // Draw line under text
-  let text = ctx.measureText('Awesome!')
-  ctx.strokeStyle = 'rgba(0,0,0,0.5)'
-  ctx.beginPath()
-  ctx.lineTo(50, 102)
-  ctx.lineTo(50 + text.width, 102)
-  ctx.stroke()
+  // name
+  capitalText(ctx, card.name, 30, 110, 335);
 
   return canvas;
 }
