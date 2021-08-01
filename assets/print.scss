@@ -1,8 +1,7 @@
 
 @font-face {
   font-family: 'OathText';
-  font-style: normal;
-  font-weight: 500;
+  //font-weight: 500;
   font-display: swap;
   // src: url('~assets/fonts/Goudy Old Style Regular.ttf') format('truetype');
   src:
@@ -16,10 +15,17 @@
 
 @font-face {
   font-family: 'OathCapital';
-  font-style: normal;
-  font-weight: 500;
+  //font-weight: 500;
   font-display: swap;
-  src: url('~assets/fonts/Goudy Text MT Lombardic Capitals.otf') format('opentype');
+  //src: url('~assets/fonts/Goudy Text MT Lombardic Capitals.otf') format('opentype');
+  src:
+    url('~assets/fonts/goudy-capitals/goudy_text_mt_lombardic_capitals-webfont.woff2') format('woff2'),
+    url('~assets/fonts/goudy-capitals/goudy_text_mt_lombardic_capitals-webfont.woff') format('woff'),
+    url('~assets/fonts/goudy-capitals/goudy_text_mt_lombardic_capitals-webfont.ttf') format('truetype'),
+    url('~assets/fonts/goudy-capitals/goudy_text_mt_lombardic_capitals-webfont.svg#goudy_text_mlombardiccapitals') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
 }
 
 @font-face {
