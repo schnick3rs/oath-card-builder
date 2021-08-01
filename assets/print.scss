@@ -3,8 +3,8 @@
   font-family: 'OathText';
   //font-weight: 500;
   font-display: swap;
-  // src: url('~assets/fonts/Goudy Old Style Regular.ttf') format('truetype');
   src:
+    //url('~assets/fonts/Goudy Old Style Regular.ttf') format('truetype');
     url('~assets/fonts/goudy_old_style_regular/goudy_old_style_regular-webfont.woff2') format('woff2'),
     url('~assets/fonts/goudy_old_style_regular/goudy_old_style_regular-webfont.woff') format('woff'),
     url('~assets/fonts/goudy_old_style_regular/goudy_old_style_regular-webfont.ttf') format('truetype'),
@@ -22,7 +22,8 @@
     url('~assets/fonts/goudy-capitals/goudy_text_mt_lombardic_capitals-webfont.woff2') format('woff2'),
     url('~assets/fonts/goudy-capitals/goudy_text_mt_lombardic_capitals-webfont.woff') format('woff'),
     url('~assets/fonts/goudy-capitals/goudy_text_mt_lombardic_capitals-webfont.ttf') format('truetype'),
-    url('~assets/fonts/goudy-capitals/goudy_text_mt_lombardic_capitals-webfont.svg#goudy_text_mlombardiccapitals') format('svg');
+    url('~assets/fonts/goudy-capitals/goudy_text_mt_lombardic_capitals-webfont.svg#goudy_text_mlombardiccapitals') format('svg'),
+    url('~assets/fonts/Goudy Text MT Lombardic Capitals.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 
