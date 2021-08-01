@@ -32,12 +32,13 @@ export default {
 
     return {
       card,
+      importString,
     }
   },
   head() {
     const title = `${this.card.name} - a custom ${this.card.__type} card`;
     const description = `${s(this.card.type)} \n ${this.card.text}`;
-    const image = `/img/${this.card.__type} card back.png`;
+    const image = `/api/canvas/${this.importString}`;
     return {
       title,
       meta: [

@@ -5,14 +5,31 @@ const router = new Router();
 
 module.exports = router;
 
-function draw() {
-  const canvas = createCanvas(200, 200)
+function capitalText(ctx, str, fontSize, x, y){
+  let previousChar = '';
+  for(let i = 0; i <= str.length; ++i){
+    let ch = str.charAt(i);
+    ctx.font = i === 0 || previousChar === ' '
+      ? `${fontSize}px OathCapital`
+      : `${fontSize}px OathText`;
+    ctx.fillText(ch, x, y);
+    x += ctx.measureText(ch).width;
+    previousChar = ch;
+  }
+}
+
+async function draw(card) {
+  const canvas = createCanvas(460, 356)
   const ctx = canvas.getContext('2d')
 
-  // Write "Awesome!"
-  ctx.font = '30px Impact'
-  ctx.rotate(0.1)
-  ctx.fillText('Awesome!', 50, 100)
+  const frameLayer = await loadImage('https://oath-card-builder.herokuapp.com/img/site%200%20relics.png');
+  const backgroundLayer = await loadImage(card.image);
+
+  ctx.drawImage(backgroundLayer, 0, 0, 460, 356);
+  ctx.drawImage(frameLayer, 0, 0, 460, 356);
+
+  ctx.font = '30px sans-serif';
+  capitalText(ctx, card.name, 20, 50, 300);
 
   // Draw line under text
   let text = ctx.measureText('Awesome!')
@@ -25,9 +42,15 @@ function draw() {
   return canvas;
 }
 
-router.get('/:slug', (request, response) => {
+router.get('/:slug', async (request, response) => {
+
+  const slug = request.params.slug;
+
+  const cardJson = decodeURIComponent(escape(Buffer.from(slug, 'base64').toString('ascii')));
+  const card = JSON.parse(cardJson);
 
   response.setHeader('Content-Type', 'image/png');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
-  draw().pngStream().pipe(response)
+  const drawed = await draw(card);
+  drawed.pngStream().pipe(response)
 });
