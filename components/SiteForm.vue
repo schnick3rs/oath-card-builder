@@ -88,6 +88,13 @@
 
     <v-divider></v-divider>
     <v-card-actions>
+      <v-text-field
+        id="exportSnippet"
+        v-model="sharableLink"
+        dense outlined
+        append-outer-icon="mdi-content-copy"
+        @click:append-outer="copyToClipboard"
+      ></v-text-field>
       <v-spacer></v-spacer>
       <v-btn color="warning" outlined @click="save">Cancel</v-btn>
       <v-btn color="success" @click="save">Save</v-btn>
@@ -155,6 +162,14 @@ export default {
       },
     };
   },
+  computed: {
+    sharableLink() {
+      const shortCard = { __type: 'site', ...this.card };
+      const jsonString = JSON.stringify(shortCard);
+      const exportString = Buffer.from(unescape(encodeURIComponent(jsonString)), 'ascii').toString('base64');
+      return `https://oath-card-builder.herokuapp.com/share/${exportString}`;
+    },
+  },
   watch: {
     id: {
       handler(newValue) {
@@ -171,7 +186,11 @@ export default {
     },
     save() {
       this.$store.commit('library/saveCard', { id: this.card.id, card: this.card });
-    }
+    },
+    copyToClipboard() {
+      document.getElementById('exportSnippet').select();
+      document.execCommand("copy");
+    },
   }
 }
 </script>

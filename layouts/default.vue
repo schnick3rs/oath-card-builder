@@ -17,7 +17,7 @@
       </v-btn>
 
       <v-btn icon to="/print/deck">
-        <v-icon>mdi-printer</v-icon>
+        <v-icon color="primary">mdi-printer</v-icon>
       </v-btn>
 
       <v-btn icon to="/print/csv">
@@ -25,6 +25,14 @@
       </v-btn>
 
       <v-spacer />
+
+      <v-btn icon href="https://github.com/schnick3rs/oath-card-builder" target="_blank">
+        <v-icon>mdi-git</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon color="info">mdi-help-circle</v-icon>
+      </v-btn>
 
     </v-app-bar>
     <v-main>

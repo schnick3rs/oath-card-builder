@@ -109,6 +109,7 @@
 
     <v-divider></v-divider>
     <v-card-actions>
+
       <v-spacer></v-spacer>
       <v-btn color="warning" outlined @click="">Cancel</v-btn>
       <v-btn color="success" @click="save">Save</v-btn>
@@ -177,7 +178,7 @@ export default {
     },
     save() {
       this.$store.commit('library/saveCard', { id: this.card.id, card: this.card });
-    }
+    },
   }
 }
 </script>

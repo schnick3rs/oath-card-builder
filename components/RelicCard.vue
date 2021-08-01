@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import marked from 'marked';
 
 export default {
