@@ -36,7 +36,7 @@ export default {
   },
   head() {
     const title = `${this.card.name} - a custom ${this.card.__type} card`;
-    const description = `${s(this.card.type).toUpperCase()} > ${this.card.text}`;
+    const description = `${s(this.card.type)} \n ${this.card.text}`;
     const image = `/img/${this.card.__type} card back.png`;
     return {
       title,

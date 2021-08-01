@@ -4,7 +4,14 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('~assets/fonts/Goudy Old Style Regular.ttf') format('truetype');
+  // src: url('~assets/fonts/Goudy Old Style Regular.ttf') format('truetype');
+  src:
+    url('~assets/fonts/goudy_old_style_regular/goudy_old_style_regular-webfont.woff2') format('woff2'),
+    url('~assets/fonts/goudy_old_style_regular/goudy_old_style_regular-webfont.woff') format('woff'),
+    url('~assets/fonts/goudy_old_style_regular/goudy_old_style_regular-webfont.ttf') format('truetype'),
+    url('~assets/fonts/goudy_old_style_regular/goudy_old_style_regular-webfont.svg#goudy_old_styleregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
