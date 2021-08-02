@@ -5,6 +5,75 @@ const router = new Router();
 
 module.exports = router;
 
+const typeMap = {
+  'power': '/img/box minor action.png',
+  'power-modifer': '/img/box action modifier.png',
+  'persistent': '/img/box persistent.png',
+  'persistent-modifer': '/img/box persistent action modifer.png',
+  'battleplan-attacker': '/img/box battle plan attacker.png',
+  'battleplan-defender': '/img/box battle plan defender.png',
+  'battleplan-both': '/img/box battle plan both.png',
+  'instant-large': '/img/box when played large.png',
+  'instant-medium': '/img/box when played medium.png',
+  'instant-small': '/img/box when played small.png',
+};
+
+/**
+ * By Ken Fyrstenberg Nilsen
+ * https://stackoverflow.com/questions/21961839/simulation-background-size-cover-in-canvas/21961894#21961894
+ *
+ * drawImageProp(context, image [, x, y, width, height [,offsetX, offsetY]])
+ *
+ * If image and context are only arguments rectangle will equal canvas
+ */
+function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
+
+  if (arguments.length === 2) {
+    x = y = 0;
+    w = ctx.canvas.width;
+    h = ctx.canvas.height;
+  }
+
+  // default offset is center
+  offsetX = typeof offsetX === "number" ? offsetX : 0.5;
+  offsetY = typeof offsetY === "number" ? offsetY : 0.5;
+
+  // keep bounds [0.0, 1.0]
+  if (offsetX < 0) offsetX = 0;
+  if (offsetY < 0) offsetY = 0;
+  if (offsetX > 1) offsetX = 1;
+  if (offsetY > 1) offsetY = 1;
+
+  var iw = img.width,
+    ih = img.height,
+    r = Math.min(w / iw, h / ih),
+    nw = iw * r,   // new prop. width
+    nh = ih * r,   // new prop. height
+    cx, cy, cw, ch, ar = 1;
+
+  // decide which gap to fill
+  if (nw < w) ar = w / nw;
+  if (Math.abs(ar - 1) < 1e-14 && nh < h) ar = h / nh;  // updated
+  nw *= ar;
+  nh *= ar;
+
+  // calc source rectangle
+  cw = iw / (nw / w);
+  ch = ih / (nh / h);
+
+  cx = (iw - cw) * offsetX;
+  cy = (ih - ch) * offsetY;
+
+  // make sure source rectangle is valid
+  if (cx < 0) cx = 0;
+  if (cy < 0) cy = 0;
+  if (cw > iw) cw = iw;
+  if (ch > ih) ch = ih;
+
+  // fill image in dest. rectangle
+  ctx.drawImage(img, cx, cy, cw, ch,  x, y, w, h);
+}
+
 function capitalText(ctx, str, fontSize, x, y){
   let previousChar = '';
   for(let i = 0; i <= str.length; ++i){
@@ -26,17 +95,65 @@ async function drawDenizen(card, F = 4) {
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
 
+  const favor = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/favor.png');
+  const secret = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/secret.png');
+  const favorBurned = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/favor-burned.png');
+  const secretBurned = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/secret-burned.png');
+
+  // draw card image
   if (card.image) {
     try {
       const backgroundLayer = await loadImage(card.image);
-      ctx.drawImage(backgroundLayer, 0, 0, width, height);
+      drawImageProp(ctx, backgroundLayer, 0, 0, width, height);
     } catch (e) {}
   }
 
-  const suitBand = await loadImage(`${baseUrl}/img/denizen arcane.png`);
-  ctx.drawImage(suitBand, 0, 0, width, height);
+  // restriction
+  if (card.restriction) ctx.drawImage(await loadImage( `${baseUrl}/img/restriction ${card.restriction} ${card.suit}.png`), 0, 0, width, height);
 
-  ctx.drawImage(await loadImage( `${baseUrl}/img/icons/relic.png`), 0, 0, width, height);
+  // draw suit band
+  ctx.drawImage(await loadImage(`${baseUrl}/img/denizen ${card.suit}.png`), 0, 0, width, height);
+
+  ctx.fillStyle ='white';
+  ctx.strokeStyle ='white';
+  capitalText(ctx, card.name, 3*F, 17*F, 12*F);
+
+  ctx.drawImage(await loadImage( `${baseUrl}${typeMap[card.type]}`), 0, 0, width, height);
+
+  if (card.cost) {
+    const iconSize = 5*F;
+    let costIconCount = card.cost.length;
+    const y = height - 25*F;
+    let startX = (width - (costIconCount * iconSize)) / 2;
+    let delta = 0;
+    card.cost.split('').forEach((c) => {
+      const x = startX - 5*F;
+      switch (c) {
+        case '!':
+          delta += 5 * F;
+          ctx.drawImage(favorBurned, x + delta, y, iconSize, iconSize);
+          break;
+        case '@':
+          delta += 5 * F;
+          ctx.drawImage(secretBurned, x + delta, y, iconSize, iconSize);
+          break;
+        case '1':
+          delta += 5 * F;
+          ctx.drawImage(favor, x + delta, y, iconSize, iconSize);
+          break;
+        case '2':
+          delta += 5 * F;
+          ctx.drawImage(secret, x + delta, y, iconSize, iconSize);
+          break;
+      }
+    });
+  }
+
+  ctx.font = '10px OathText';
+  ctx.fillStyle = 'black';
+  ctx.fillText(card.text, 5,height - 15*F);
+
+  return canvas;
 }
 
 async function drawSite(card) {
@@ -134,8 +251,8 @@ async function draw(card) {
   registerFont('goudy_text_mt_lombardic_capitals-webfont.ttf', { family: 'OathCapital' });
 
   switch (card.__type) {
-    case 'site':
-      return await drawSite(card);
+    case 'site': return await drawSite(card);
+    case 'denizen': return await drawDenizen(card);
     default:
       return;
   }

@@ -24,7 +24,7 @@ const s = (key) => {
 }
 
 export default {
-  name: "_import",
+  name: "import",
   asyncData({ params }) {
     const importString = params.import;
     let card = {};
