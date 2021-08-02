@@ -27,8 +27,24 @@ export default {
   name: "_import",
   asyncData({ params }) {
     const importString = params.import;
-    const cardJson = decodeURIComponent(escape(Buffer.from(importString, 'base64').toString('ascii')));
-    const card = JSON.parse(cardJson);
+    let card = {};
+    const cardCode = decodeURIComponent(escape(Buffer.from(importString, 'base64').toString('ascii')));
+
+    if (importString.length < 150) {
+      const codes = cardCode.split('#');
+      const base = codes[0].split('');
+      card = {
+        __type: 'site',
+        resources: '11',
+        relics: base[2],
+        capacity: base[3],
+        name: codes[1],
+        relicRecoverCost: codes[3],
+        image: codes[2],
+      }
+    } else {
+      card = JSON.parse(cardCode);
+    }
 
     return {
       card,
