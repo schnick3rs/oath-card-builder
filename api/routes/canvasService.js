@@ -18,6 +18,27 @@ function capitalText(ctx, str, fontSize, x, y){
   }
 }
 
+async function drawDenizen(card, F = 4) {
+  const width = 57 * F;
+  const height = 89 * F;
+  let baseUrl = 'https://oath-card-builder.herokuapp.com';
+
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext('2d');
+
+  if (card.image) {
+    try {
+      const backgroundLayer = await loadImage(card.image);
+      ctx.drawImage(backgroundLayer, 0, 0, width, height);
+    } catch (e) {}
+  }
+
+  const suitBand = await loadImage(`${baseUrl}/img/denizen arcane.png`);
+  ctx.drawImage(suitBand, 0, 0, width, height);
+
+  ctx.drawImage(await loadImage( `${baseUrl}/img/icons/relic.png`), 0, 0, width, height);
+}
+
 async function drawSite(card) {
 
   const F = 4;
