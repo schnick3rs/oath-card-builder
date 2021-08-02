@@ -87,6 +87,25 @@ function capitalText(ctx, str, fontSize, x, y){
   }
 }
 
+function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
+  const words = text.split(' ');
+  console.info(words);
+  let line = [];
+  let lineWidth = 0;
+  words.forEach((word, i) => {
+    const { width } = ctx.measureText(word);
+    if ((lineWidth + width) > maxWidth) {
+      ctx.fillText(line.join(' '), x, y);
+      y += fontSize;
+      line = [word];
+      lineWidth = width;
+    } else {
+      line.push(word);
+      lineWidth += width;
+    }
+  });
+}
+
 async function drawDenizen(card, F = 4) {
   const width = 57 * F;
   const height = 89 * F;
@@ -151,7 +170,11 @@ async function drawDenizen(card, F = 4) {
 
   ctx.font = '10px OathText';
   ctx.fillStyle = 'black';
-  ctx.fillText(card.text, 5,height - 15*F);
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  //ctx.fillText(card.text, 5,height - 15*F);
+
+  fillContainedText(ctx, card.text, 11, width/2,height - 15*F, width-10*F);
 
   return canvas;
 }
