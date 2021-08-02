@@ -37,7 +37,19 @@ export default {
   },
   head() {
     const title = `${this.card.name} - a custom ${this.card.__type} card`;
-    const description = `${s(this.card.type)} \n ${this.card.text}`;
+    let description = this.card.name;
+
+    switch (this.card.__type) {
+      case 'denizen': description = `${s(this.card.type)} \n ${this.card.text}`; break;
+      case 'site': description = `
+          Loadout: ${this.card.relics} Relics \n
+          Defense: 1\n
+          Capacity: ${this.card.capacity}\n
+          Relic Recovery Cost: ${this.card.relicRecoverCost}
+        `; break;
+      case 'relic': description = `${s(this.card.type)} \n ${this.card.text}`; break;
+    }
+
     const image = `/api/canvas/${this.importString}`;
     return {
       title,
