@@ -143,5 +143,5 @@ router.get('/:slug/preview.jpg', async (request, response) => {
   response.setHeader('Content-Type', 'image/jpg');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
   const drawed = await draw(card);
-  drawed.pngStream().pipe(response)
+  drawed.createJPEGStream({quality: 100}).pipe(response)
 });
