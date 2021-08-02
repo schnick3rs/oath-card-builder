@@ -52,26 +52,14 @@ export default {
     }
   },
   head() {
-    const title = `${this.card.name} - a custom ${this.card.__type} card`;
-    let description = this.card.name;
-
-    switch (this.card.__type) {
-      case 'denizen': description = `${s(this.card.type)} \n ${this.card.text}`; break;
-      case 'site': description = `
-          Loadout: ${this.card.relics} Relics \n
-          Defense: 1\n
-          Capacity: ${this.card.capacity}\n
-          Relic Recovery Cost: ${this.card.relicRecoverCost}
-        `; break;
-      case 'relic': description = `${s(this.card.type)} \n ${this.card.text}`; break;
-    }
-
+    const title = `${this.card.name}`;
+    let description = `a custom ${this.card.__type} card for Oath`;
     const image = `/api/canvas/${this.importString}`;
     return {
       title,
       meta: [
         { hid: 'description', name: 'description', content: description },
-        { hid: 'robots', name: 'robots', content: 'noindex,follow' },
+        //{ hid: 'robots', name: 'robots', content: 'noindex,follow' },
 
         // Open Graph
         { hid: 'og:title', name: 'og:title', content: title },
