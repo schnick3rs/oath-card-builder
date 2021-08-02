@@ -30,7 +30,6 @@ async function drawSite(card) {
   const secret = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/secret.png');
   const relic = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/relic.png');
 
-
   if (card.image) {
     try {
       const backgroundLayer = await loadImage(card.image);
@@ -121,7 +120,7 @@ async function draw(card) {
   }
 }
 
-router.get('/:slug', async (request, response) => {
+router.get('/:slug/preview.png', async (request, response) => {
 
   const slug = request.params.slug;
 
@@ -129,6 +128,19 @@ router.get('/:slug', async (request, response) => {
   const card = JSON.parse(cardJson);
 
   response.setHeader('Content-Type', 'image/png');
+  //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
+  const drawed = await draw(card);
+  drawed.pngStream().pipe(response)
+});
+
+router.get('/:slug/preview.jpg', async (request, response) => {
+
+  const slug = request.params.slug;
+
+  const cardJson = decodeURIComponent(escape(Buffer.from(slug, 'base64').toString('ascii')));
+  const card = JSON.parse(cardJson);
+
+  response.setHeader('Content-Type', 'image/jpg');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
   const drawed = await draw(card);
   drawed.pngStream().pipe(response)
