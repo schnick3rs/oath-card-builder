@@ -54,7 +54,7 @@ export default {
   head() {
     const title = `${this.card.name}`;
     let description = `A custom ${this.card.__type} card for Oath.`;
-    const image = `/api/canvas/${this.importString}/preview.jpg`;
+    const image = `/api/canvas/${this.importString}/preview.png`;
     return {
       title,
       meta: [
