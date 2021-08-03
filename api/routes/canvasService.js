@@ -120,7 +120,7 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   }
 }
 
-async function drawDenizen(card, F = 4) {
+async function drawDenizen(card, F = 7) {
   const width = 57 * F;
   const height = 89 * F;
   let baseUrl = 'https://oath-card-builder.herokuapp.com';
@@ -186,12 +186,16 @@ async function drawDenizen(card, F = 4) {
     });
   }
 
-  ctx.font = '12px OathText';
+  const fontSize = 4*F;
+  ctx.font = `${fontSize}px OathText`;
   ctx.fillStyle = 'black';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  //ctx.fillText(card.text, 5,height - 15*F);
-  fillContainedText(ctx, card.text, 11, width/2,height - 15*F, width-10*F);
+  // TODO adjust and height width by "when played"
+  console.info(card.type)
+  const bounds = card.type.startsWith('instant-') ? width-14*F : width-10*F;
+  const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*4;
+  fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
 
   return canvas;
 }
