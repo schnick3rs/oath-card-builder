@@ -192,97 +192,104 @@ async function drawDenizen(card, F = 7) {
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   const bounds = card.type.startsWith('instant-') ? width-14*F : width-10*F;
-  const boxY = card.type.startsWith('instant-') ? height - fontSize*5 : height - fontSize*5;
+  const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*5;
   fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
 
   return canvas;
 }
 
-async function drawSite(card) {
+async function drawSite(card, F = 7) {
 
-  const F = 4;
+  const width = 115 * F;
+  const height = 89 * F;
+  let baseUrl = 'https://oath-card-builder.herokuapp.com';
 
-  const canvas = createCanvas(460, 356);
+  const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
 
-  const frameLayer = await loadImage(`https://oath-card-builder.herokuapp.com/img/site 0 relics.png`);
-  const favor = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/favor.png');
-  const secret = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/secret.png');
-  const relic = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/relic.png');
+  const frameLayer = await loadImage(`${baseUrl}/img/site 0 relics.png`);
+  const favor = await loadImage(`${baseUrl}/img/icons/favor.png`);
+  const secret = await loadImage(`${baseUrl}/img/icons/secret.png`);
+  const relic = await loadImage(`${baseUrl}/img/icons/relic.png`);
 
   if (card.image) {
     try {
       const backgroundLayer = await loadImage(card.image);
-      ctx.drawImage(backgroundLayer, 0, 0, 460, 356);
+      ctx.drawImage(backgroundLayer, 0, 0, width, height);
     } catch (e) {}
   }
-  ctx.drawImage(frameLayer, 0, 0, 460, 356);
+  ctx.drawImage(frameLayer, 0, 0, width, height);
 
   // name
   if (card.name) {
-    capitalText(ctx, card.name, 30, 110, 335);
+    capitalText(ctx, card.name, 7*F, 28*F, height - 6*F);
   }
 
   // capacity
   if (card.capacity) {
-    ctx.font = '30px OathText';
-    ctx.fillText(card.capacity,  410, 60);
+    ctx.font = `${7*F}px OathText`;
+    ctx.fillText(card.capacity,  width-13*F, 14*F);
   }
 
+  const iconSize = 5*F;
+  const resourcesY = 8*F;
+  let resourceX = 5*F;
   if (card.resources && card.resources.length > 0) {
     let resources = card.resources.split('');
     resources.forEach((c, i) => {
       const icon = c === '1' ? favor : secret;
-      const x = 5*F + 3*F*i;
-      ctx.drawImage(icon, x, 8*F, 5*F, 5*F);
+      ctx.drawImage(icon, resourceX, resourcesY, iconSize, iconSize);
+      resourceX += 3*F;
     });
+    // offset from resources to relic
+    resourceX += 3*F;
   }
 
   for(let i = 0; i < card.relics; i++) {
-    const relicOffset = card.resources?.length || 0;
-    const x = 5*F + 6*F*i + (relicOffset*20);
-    ctx.drawImage(relic, x, 8*F, 5*F, 5*F);
+    ctx.drawImage(relic, resourceX, resourcesY, iconSize, iconSize);
+    resourceX += iconSize + F;
   }
 
-  const relicRecovery = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/relic-recover.png');
-  const shared = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/to-favor-bank.png');
+  const relicRecovery = await loadImage(`${baseUrl}/img/icons/relic-recover.png`);
+  const shared = await loadImage(`${baseUrl}/img/icons/to-favor-bank.png`);
 
-  const favorBurned = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/favor-burned.png');
-  const secretBurned = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/secret-burned.png');
+  const favorBurned = await loadImage(`${baseUrl}/img/icons/favor-burned.png`);
+  const secretBurned = await loadImage(`${baseUrl}/img/icons/secret-burned.png`);
 
-  const arcane = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/suit-arcane.png');
-  const order = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/suit-order.png');
-  const beast = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/suit-beast.png');
-  const discord = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/suit-discord.png');
-  const nomad = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/suit-nomad.png');
-  const clockwork = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/suit-clockwork.png');
-  const hearth = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/suit-hearth.png');
+  const arcan = await loadImage(`${baseUrl}/img/icons/suit-arcane.png`);
+  const order = await loadImage(`${baseUrl}/img/icons/suit-order.png`);
+  const beast = await loadImage(`${baseUrl}/img/icons/suit-beast.png`);
+  const disco = await loadImage(`${baseUrl}/img/icons/suit-discord.png`);
+  const nomad = await loadImage(`${baseUrl}/img/icons/suit-nomad.png`);
+  const clock = await loadImage(`${baseUrl}/img/icons/suit-clockwork.png`);
+  const heart = await loadImage(`${baseUrl}/img/icons/suit-hearth.png`);
 
   if (card.relicRecoverCost) {
     const iconSize = 5*F;
     let costIconCount = card.relicRecoverCost.length;
-    let startX = 460 - 10*F - (costIconCount * iconSize);
+    let startX = width - 10*F - (costIconCount * iconSize);
     let delta = 0;
     card.relicRecoverCost.split('').forEach((c, i) => {
       const x = startX + 10*F - 3*F;
+      const costLineY = height - (11*F);
       switch (c) {
-        case '!': delta += 3*F; ctx.drawImage(favorBurned, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case '@': delta += 3*F; ctx.drawImage(secretBurned, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case '1': delta += 3*F; ctx.drawImage(favor, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case '2': delta += 3*F; ctx.drawImage(secret, x+delta, 356-(11*F), iconSize, iconSize); break;
+        case '!': delta += 3*F; ctx.drawImage(favorBurned, x+delta, costLineY, iconSize, iconSize); break;
+        case '@': delta += 3*F; ctx.drawImage(secretBurned, x+delta, costLineY, iconSize, iconSize); break;
+        case '1': delta += 3*F; ctx.drawImage(favor, x+delta, costLineY, iconSize, iconSize); break;
+        case '2': delta += 3*F; ctx.drawImage(secret, x+delta, costLineY, iconSize, iconSize); break;
         case '>':
         case '=':
-          delta += 6*F; ctx.drawImage(shared, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case 'a': delta += 6*F; ctx.drawImage(arcane, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case 'c': delta += 6*F; ctx.drawImage(clockwork, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case 'o': delta += 6*F; ctx.drawImage(order, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case 'b': delta += 6*F; ctx.drawImage(beast, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case 'n': delta += 6*F; ctx.drawImage(nomad, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case 'h': delta += 6*F; ctx.drawImage(hearth, x+delta, 356-(11*F), iconSize, iconSize); break;
-        case 'd': delta += 6*F; ctx.drawImage(discord, x+delta, 356-(11*F), iconSize, iconSize); break;
+          delta += 6*F; ctx.drawImage(shared, x+delta, costLineY, iconSize, iconSize); break;
+        case 'a': delta += 6*F; ctx.drawImage(arcan, x+delta, costLineY, iconSize, iconSize); break;
+        case 'b': delta += 6*F; ctx.drawImage(beast, x+delta, costLineY, iconSize, iconSize); break;
+        case 'c': delta += 6*F; ctx.drawImage(clock, x+delta, costLineY, iconSize, iconSize); break;
+        case 'd': delta += 6*F; ctx.drawImage(disco, x+delta, costLineY, iconSize, iconSize); break;
+        case 'o': delta += 6*F; ctx.drawImage(order, x+delta, costLineY, iconSize, iconSize); break;
+        case 'h': delta += 6*F; ctx.drawImage(heart, x+delta, costLineY, iconSize, iconSize); break;
+        case 'n': delta += 6*F; ctx.drawImage(nomad, x+delta, costLineY, iconSize, iconSize); break;
       }
     });
-    ctx.drawImage(relicRecovery, startX, 356-(12*F), 8*F, 8*F);
+    ctx.drawImage(relicRecovery, startX, height-(12*F), 8*F, 8*F);
   }
 
   return canvas;
