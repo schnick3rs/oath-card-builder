@@ -186,7 +186,7 @@ async function drawDenizen(card, F = 7) {
     });
   }
 
-  const fontSize = 4*F;
+  const fontSize = 3.5*F;
   ctx.font = `${fontSize}px OathText`;
   ctx.fillStyle = 'black';
   ctx.textAlign = 'center';
@@ -194,7 +194,7 @@ async function drawDenizen(card, F = 7) {
   // TODO adjust and height width by "when played"
   console.info(card.type)
   const bounds = card.type.startsWith('instant-') ? width-14*F : width-10*F;
-  const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*4;
+  const boxY = card.type.startsWith('instant-') ? height - fontSize*5 : height - fontSize*5;
   fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
 
   return canvas;
