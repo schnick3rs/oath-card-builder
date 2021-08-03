@@ -191,8 +191,6 @@ async function drawDenizen(card, F = 7) {
   ctx.fillStyle = 'black';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  // TODO adjust and height width by "when played"
-  console.info(card.type)
   const bounds = card.type.startsWith('instant-') ? width-14*F : width-10*F;
   const boxY = card.type.startsWith('instant-') ? height - fontSize*5 : height - fontSize*5;
   fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
