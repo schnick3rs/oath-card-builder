@@ -88,13 +88,23 @@ function capitalText(ctx, str, fontSize, x, y){
 }
 
 function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
-  const words = text.split(' ');
-  console.info(words);
+  const words = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ').split(' ');
   let line = [];
   let lineWidth = 0;
   words.forEach((word, i) => {
     const { width } = ctx.measureText(word);
-    if ((lineWidth + width) > maxWidth) {
+
+    if (word.startsWith('**') && word.endsWith('**')) {
+      word = word.replace(/\*\*(.*)\*\*/gm, '$1');
+      word = word.toUpperCase();
+    }
+
+    if (word === '<p>') {
+      y += fontSize;
+      line = [];
+      lineWidth = 0;
+    } else if ((lineWidth + width) > maxWidth) {
+      console.info(`write ${line.join(' ')} at ${x}:${y} `);
       ctx.fillText(line.join(' '), x, y);
       y += fontSize;
       line = [word];
@@ -104,6 +114,10 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
       lineWidth += width;
     }
   });
+  if (line.length > 0 ){
+    console.info(`write ${line.join(' ')} at ${x}:${y} `);
+    ctx.fillText(line.join(' '), x, y);
+  }
 }
 
 async function drawDenizen(card, F = 4) {
@@ -135,9 +149,13 @@ async function drawDenizen(card, F = 4) {
 
   ctx.fillStyle ='white';
   ctx.strokeStyle ='white';
-  capitalText(ctx, card.name, 3*F, 17*F, 12*F);
+  capitalText(ctx, card.name, 4*F, 17*F, 12*F);
 
   ctx.drawImage(await loadImage( `${baseUrl}${typeMap[card.type]}`), 0, 0, width, height);
+
+  if (card.modifer) {
+    ctx.drawImage(await loadImage( `${baseUrl}/img/action modifer ${card.modifer}.png`), 0, 0, width, height);
+  }
 
   if (card.cost) {
     const iconSize = 5*F;
@@ -168,12 +186,11 @@ async function drawDenizen(card, F = 4) {
     });
   }
 
-  ctx.font = '10px OathText';
+  ctx.font = '12px OathText';
   ctx.fillStyle = 'black';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   //ctx.fillText(card.text, 5,height - 15*F);
-
   fillContainedText(ctx, card.text, 11, width/2,height - 15*F, width-10*F);
 
   return canvas;
