@@ -134,7 +134,7 @@ async function drawDenizen(card, F = 7) {
   const secretBurned = await loadImage('https://oath-card-builder.herokuapp.com/img/icons/secret-burned.png');
 
   // draw card image
-  if (card.image) {
+  if (card.image && card.image.length > 0) {
     try {
       const backgroundLayer = await loadImage(card.image);
       drawImageProp(ctx, backgroundLayer, 0, 0, width, height);
@@ -142,17 +142,23 @@ async function drawDenizen(card, F = 7) {
   }
 
   // restriction
-  if (card.restriction) ctx.drawImage(await loadImage( `${baseUrl}/img/restriction ${card.restriction} ${card.suit}.png`), 0, 0, width, height);
+  console.info(`Load restriction image for ${card.restriction}/${card.suit}`);
+  if (card.restriction && card.restriction !== 'None') {
+    if (card.restriction) ctx.drawImage(await loadImage( `${baseUrl}/img/restriction ${card.restriction} ${card.suit}.png`), 0, 0, width, height);
+  }
 
   // draw suit band
+  console.info(`Load suit image for ${card.suit}`);
   ctx.drawImage(await loadImage(`${baseUrl}/img/denizen ${card.suit}.png`), 0, 0, width, height);
 
   ctx.fillStyle ='white';
   ctx.strokeStyle ='white';
   capitalText(ctx, card.name, 4*F, 17*F, 12.5*F);
 
+  console.info(`Load type image for ${card.type}`);
   ctx.drawImage(await loadImage( `${baseUrl}${typeMap[card.type]}`), 0, 0, width, height);
 
+  console.info(`Load modiger image for ${card.modifer}`)
   if (card.modifer) {
     ctx.drawImage(await loadImage( `${baseUrl}/img/action modifer ${card.modifer}.png`), 0, 0, width, height);
   }
@@ -212,7 +218,7 @@ async function drawSite(card, F = 7) {
   const secret = await loadImage(`${baseUrl}/img/icons/secret.png`);
   const relic = await loadImage(`${baseUrl}/img/icons/relic.png`);
 
-  if (card.image) {
+  if (card.image && card.image.length > 0) {
     try {
       const backgroundLayer = await loadImage(card.image);
       ctx.drawImage(backgroundLayer, 0, 0, width, height);
