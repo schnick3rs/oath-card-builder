@@ -149,7 +149,7 @@ async function drawDenizen(card, F = 7) {
 
   ctx.fillStyle ='white';
   ctx.strokeStyle ='white';
-  capitalText(ctx, card.name, 4*F, 17*F, 12*F);
+  capitalText(ctx, card.name, 4*F, 17*F, 12.5*F);
 
   ctx.drawImage(await loadImage( `${baseUrl}${typeMap[card.type]}`), 0, 0, width, height);
 
