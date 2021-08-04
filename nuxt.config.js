@@ -27,6 +27,7 @@ export default {
   plugins: [
     { src: '~/plugins/vuex-persist', ssr: false },
     '~/plugins/oath-symbol-component.js',
+    '~plugins/gtag.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

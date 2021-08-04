@@ -12,7 +12,7 @@
       <p>Shows all your created denizen.</p>
     </v-col>
 
-    <client-only>
+    <client-only placeholder="loading...">
       <v-col cols="12">
         <v-data-table
           :headers="table.headers"
