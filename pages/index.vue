@@ -1,6 +1,14 @@
 <template>
   <v-row>
     <v-col>
+      <v-btn to="/builder" color="primary">
+        To the Card Builder
+      </v-btn>
+    </v-col>
+    <v-col cols="12">
+      <p>Shows all your created denizen.</p>
+    </v-col>
+    <v-col cols="12">
       <v-data-table
         :headers="table.headers"
         :items="library"
