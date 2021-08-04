@@ -12,6 +12,10 @@
 
       <v-toolbar-title v-text="title" />
 
+      <v-btn icon to="/builder">
+        <v-icon>mdi-wrench</v-icon>
+      </v-btn>
+
       <v-btn icon to="/builder/demo">
         <v-icon>mdi-file-image</v-icon>
       </v-btn>
@@ -40,12 +44,15 @@
         <Nuxt />
       </v-container>
     </v-main>
+
     <v-footer
       :absolute="!fixed"
       app
     >
+      <v-spacer></v-spacer>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
+
   </v-app>
 </template>
 

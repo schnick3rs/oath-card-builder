@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 89mm">
     <denizen-card
       :edifice="card.front.edifice"
       :name="card.front.name"

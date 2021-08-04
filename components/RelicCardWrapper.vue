@@ -1,5 +1,6 @@
 <template>
   <relic-card
+    style="height: 57mm"
     :name="card.name"
     :image="card.image"
     :defense="card.defense"

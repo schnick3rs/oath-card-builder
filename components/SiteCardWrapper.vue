@@ -1,5 +1,6 @@
 <template>
   <site-card
+    style="height: 89mm"
     :name="card.name"
     :image="card.image"
     :resources="card.resources"

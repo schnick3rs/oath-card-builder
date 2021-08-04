@@ -1,5 +1,6 @@
 <template>
   <denizen-card
+    style="height: 89mm;"
     :edifice="card.edifice"
     :name="card.name"
     :image="card.image"
