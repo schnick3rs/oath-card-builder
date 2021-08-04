@@ -96,7 +96,9 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
 
     if (word.startsWith('**') && word.endsWith('**')) {
       word = word.replace(/\*\*(.*)\*\*/gm, '$1');
-      word = word.toUpperCase();
+      if (word.endsWith(':') || word.endsWith(',')) {
+        word = word.toUpperCase();
+      }
     }
 
     if (word === '<p>') {
