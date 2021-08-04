@@ -2,6 +2,7 @@
   <page>
     <denizen-card
       v-for="denizen in denizens"
+      :key="denizen.name"
       :name="denizen.name"
       :image="denizen.image"
       :suit="denizen.suit"
@@ -13,6 +14,7 @@
     ></denizen-card>
     <relic-card
       v-for="relic in relics"
+      :key="relic.name"
       :name="relic.name"
       :image="relic.image"
       :defense="relic.defense"

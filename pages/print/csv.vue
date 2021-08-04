@@ -47,9 +47,10 @@
         </v-row>
       </v-container>
     </div>
-    <page v-for="page in pages">
+    <page v-for="(page, i) in pages" :key="j">
       <denizen-card-wrapper
-        v-for="card in page"
+        v-for="(card, j) in page"
+        :key="j"
         :card="card"
         :back="false"
       ></denizen-card-wrapper>

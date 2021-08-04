@@ -24,6 +24,7 @@
           <v-list dense>
             <v-list-item
               v-for="card in library"
+              :key="card.id"
               @click="openCardEditor(card.id, card.__type)"
             >
               <v-list-item-avatar>

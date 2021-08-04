@@ -18,6 +18,7 @@
           >
             <v-radio
               v-for="suit in builder.denizen.suits"
+              :key="suit.value"
               :value="suit.value"
             >
               <template v-slot:label>

@@ -21,9 +21,10 @@
       </v-container>
     </div>
     <div class="print-area">
-      <page v-for="page in pages">
+      <page v-for="(page, i) in pages" :key="i">
         <template v-for="card in page">
           <component
+            :key="card.id"
             :is="dynamicCard(card.__type)"
             :card="card"
           ></component>

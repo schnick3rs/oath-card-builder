@@ -2,7 +2,7 @@
   <div>
     <p>You can use these brackets <code>{*}</code> to write OATH symbols. Where <code>*</code> needs to match one of the characters below.</p>
     <ul>
-      <li v-for="s in Object.keys(symbols)">
+      <li v-for="(s, i) in Object.keys(symbols)" :key="i">
         <code>{{s}}</code> => <oath-symbol :symbol="s"></oath-symbol>
       </li>
     </ul>

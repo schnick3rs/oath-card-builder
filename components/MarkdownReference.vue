@@ -18,7 +18,7 @@
           Use <code>&gt;</code> do e.g. promote battle dice within <code>[]</code>
         </em>
       </li>
-      <li v-for="s in syntax">
+      <li v-for="(s, i) in syntax" :key="i" >
         <code>{{s}}</code> => <span v-html="parse(s)"></span>
       </li>
     </ul>

@@ -9,7 +9,7 @@
       <img class="layer layer--defense" :src="defenseImage">
 
       <div class="name" v-if="name">
-        <div class="name__word" v-for="word in name.split(' ')">{{word}}&nbsp;</div>
+        <div class="name__word" v-for="(word, i) in name.split(' ')" :key="i">{{word}}&nbsp;</div>
       </div>
 
       <div class="layer effect" :class="`effect--${type}`">
@@ -20,7 +20,12 @@
       </div>
 
       <div v-if="cost" class="cost symbol">
-        <oath-symbol :symbol="c" v-for="c in costs" :size="18"></oath-symbol>
+        <oath-symbol
+          v-for="(c, i) in costs"
+          :key="i"
+          :symbol="c"
+          :size="18"
+        ></oath-symbol>
       </div>
 
     </div>

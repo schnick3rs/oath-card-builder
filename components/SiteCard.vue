@@ -9,13 +9,14 @@
 
       <div class="recoverables">
         <div class="resources">
-          <template v-for="(n, index) in resources">
-            <oath-symbol :symbol="n" :size="17" class="resource" />
+          <template v-for="(n, i) in resources">
+            <oath-symbol :key="i" :symbol="n" :size="17" class="resource" />
           </template>
         </div>
         <img
           v-if="relics > 0"
-          v-for="n in relics"
+          v-for="(n, i) in relics"
+          :key="i"
           src="/img/icons/relic.png"
           style="height: 5mm; margin-right: 1mm;"
         >
@@ -24,14 +25,20 @@
       <span class="capacity">{{capacity}}</span>
 
       <div v-if="name" class="name">
-        <div class="name__word" v-for="word in name.split(' ')">{{word}}&nbsp;</div>
+        <div
+          class="name__word"
+          v-for="(word, i) in name.split(' ')"
+          :key="i"
+        >
+          {{word}}&nbsp;
+        </div>
       </div>
 
       <div v-if="relicRecoverCost" class="recover-cost">
         <img src="/img/icons/relic-recover.png" style="height: 24px;">
         <div class="costs">
-          <template v-for="n in relicRecoverCosts.costs">
-            <oath-symbol :symbol="n" :size="17" class="resource" />
+          <template v-for="(n, i) in relicRecoverCosts.costs" >
+            <oath-symbol :key="i" :symbol="n" :size="17" class="resource" />
           </template>
         </div>
         <template v-if="relicRecoverCosts.suit">
