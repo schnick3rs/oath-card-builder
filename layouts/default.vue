@@ -48,9 +48,17 @@
     <v-footer
       :absolute="!fixed"
       app
+      class="caption"
     >
+      <span><a href="https://ledergames.com/products/oath-chronicles-of-empire-exile">Oath</a> from <a href="https://ledergames.com/">Leder Games</a></span>
+      <span>&nbsp;•&nbsp;</span>
+      <span><a href="https://github.com/schnick3rs/oath-card-builder">Code</a> by schnick3rs</span>
+      <span>&nbsp;•&nbsp;</span>
+      <span>Support me on <a href="https://ko-fi.com/schnickers">ko.fi</a>.</span>
       <v-spacer></v-spacer>
       <span>&copy; {{ new Date().getFullYear() }}</span>
+      <span>&nbsp;•&nbsp;</span>
+      <nuxt-link to="/about">About</nuxt-link>
     </v-footer>
 
   </v-app>

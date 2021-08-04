@@ -8,11 +8,7 @@
       </v-btn>
     </v-col>
 
-    <v-col cols="12">
-      <p>Shows all your created denizen.</p>
-    </v-col>
-
-    <client-only placeholder="loading...">
+    <client-only>
       <v-col cols="12">
         <v-data-table
           class="elevation-1"

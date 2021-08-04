@@ -36,6 +36,7 @@
 
 <script>
 const DenizenCardWrapper = () => import( /* webpackChunkName: "DenizenCardWrapper" */ '~/components/DenizenCardWrapper.vue' );
+const DenizenCardBack = () => import( /* webpackChunkName: "DenizenCardBack" */ '~/components/DenizenCardBack.vue' );
 const RelicCardWrapper = () => import( /* webpackChunkName: "RelicCardWrapper" */ '~/components/RelicCardWrapper.vue' );
 const SiteCardWrapper = () => import( /* webpackChunkName: "SiteCardWrapper" */ '~/components/SiteCardWrapper.vue' );
 const EdificeCardWrapper = () => import( /* webpackChunkName: "EdificeCardWrapper" */ '~/components/EdificeCardWrapper.vue' );
@@ -66,7 +67,7 @@ export default {
       let deck = [];
       this.library.forEach(card => {
         deck.push(card);
-        if (this.printBack) {
+        if (card.__type === 'denizen' && this.printBack) {
           deck.push({
             __type: 'denizen-back',
           });
@@ -93,6 +94,7 @@ export default {
     dynamicCard(cardType) {
       switch (cardType) {
         case 'denizen': return DenizenCardWrapper;
+        case 'denizen-back': return DenizenCardBack;
         case 'edifice': return EdificeCardWrapper;
         case 'relic': return RelicCardWrapper;
         case 'site': return SiteCardWrapper;
