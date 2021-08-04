@@ -20,6 +20,7 @@
           :headers="table.headers"
           :items="library"
           :items-per-page="25"
+          multi-sort
         >
           <template v-slot:top>
             <v-text-field
@@ -44,6 +45,13 @@
               <div>{{item.ruined.name}}</div>
             </div>
             <span v-else>{{item.name}}</span>
+          </template>
+
+          <template v-slot:item.type="{ item }">
+            <v-avatar :size="24" tile>
+              <img v-if="item.__type === 'edifice'" :alt="item.front.type" :src="`/img/icons/type-${item.front.type}.png`" />
+              <img v-else :alt="item.type" :src="`/img/icons/type-${item.type}.png`" />
+            </v-avatar>
           </template>
 
           <template v-slot:item.cost="{ item }">
@@ -111,9 +119,10 @@ export default {
     return {
       table: {
         headers: [
-          { text: 'Type', value: '__type' },
+          { text: 'Category', value: '__type' },
           { text: 'Suit', value: 'suit', align: 'center' },
           { text: 'Name', value: 'name' },
+          { text: 'Type', value: 'type' },
           { text: 'Cost', value: 'cost', align: 'center' },
           { text: 'Text', value: 'text' },
           { text: 'Preview', value: 'preview' },
