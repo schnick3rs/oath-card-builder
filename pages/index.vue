@@ -86,6 +86,7 @@
             :is="dynamicCard(previewCard.__type)"
             :card="previewCard"
             :back="['denizen', 'relic'].includes(previewCard.__type)"
+            fixed-width
           ></component>
         </v-card-text>
       </v-card>

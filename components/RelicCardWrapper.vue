@@ -1,6 +1,6 @@
 <template>
   <relic-card
-    style="height: 57mm"
+    :class="{ 'fixed': fixedWidth }"
     :name="card.name"
     :image="card.image"
     :defense="card.defense"
@@ -18,10 +18,16 @@ export default {
   props: {
     card: Object,
     back: Boolean,
+    fixedWidth: {
+      type: Boolean,
+      default: false,
+    },
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.fixed {
+  height: 57mm;
+}
 </style>

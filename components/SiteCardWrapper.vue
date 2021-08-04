@@ -1,6 +1,6 @@
 <template>
   <site-card
-    style="height: 89mm"
+    :class="{ 'fixed': fixedWidth }"
     :name="card.name"
     :image="card.image"
     :resources="card.resources"
@@ -18,10 +18,16 @@ export default {
   props: {
     card: Object,
     back: Boolean,
+    fixedWidth: {
+      type: Boolean,
+      default: false,
+    },
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.fixed {
+  height: 89mm;
+}
 </style>
