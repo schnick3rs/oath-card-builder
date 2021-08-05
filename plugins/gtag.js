@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import VueGtag from 'vue-gtag';
 
-Vue.use(VueGtag, {
-  //enabled: false,
-  config: { id: 'G-9RT30ZY41J' },
-})
+export default ({ app }) => {
+  Vue.use(VueGtag, {
+    enabled: app.context.$config.gtag,
+    config: { id: 'G-9RT30ZY41J' },
+  })
+}
+

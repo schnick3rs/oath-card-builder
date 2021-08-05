@@ -3,8 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s | Oath Card Builder',
-    title: 'Home',
+    titleTemplate: '%s',
+    title: 'Oath Card Builder',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -23,11 +23,15 @@ export default {
     '@/assets/print.scss',
   ],
 
+  publicRuntimeConfig: {
+    gtag: process.env.gtag || true
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/vuex-persist', ssr: false },
     '~/plugins/oath-symbol-component.js',
-    '~plugins/gtag.js',
+    '~/plugins/gtag.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

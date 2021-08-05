@@ -73,9 +73,11 @@
           </template>
 
           <template v-slot:item.actions="{ item }">
-            <v-btn icon color="primary" :to="`builder/${item.id}`"><v-icon>mdi-pencil</v-icon></v-btn>
-            <v-btn v-if="false" icon @click=""><v-icon>mdi-share-variant</v-icon></v-btn>
-            <v-btn icon @click="removeCard(item.id)"><v-icon color="error">mdi-delete</v-icon></v-btn>
+            <div style="display: flex">
+              <v-btn icon color="primary" :to="`builder/${item.id}`"><v-icon>mdi-pencil</v-icon></v-btn>
+              <v-btn v-if="false" icon @click=""><v-icon>mdi-share-variant</v-icon></v-btn>
+              <v-btn icon @click="removeCard(item.id)"><v-icon color="error">mdi-delete</v-icon></v-btn>
+            </div>
           </template>
 
         </v-data-table>
@@ -108,6 +110,7 @@
 <script>
 import marked from "marked";
 import DOMPurify from "isomorphic-dompurify";
+import SeoHead from "@/mixins/SeoHead";
 const DenizenCardWrapper = () => import( /* webpackChunkName: "DenizenCardWrapper" */ '~/components/DenizenCardWrapper.vue' );
 const RelicCardWrapper = () => import( /* webpackChunkName: "RelicCardWrapper" */ '~/components/RelicCardWrapper.vue' );
 const SiteCardWrapper = () => import( /* webpackChunkName: "SiteCardWrapper" */ '~/components/SiteCardWrapper.vue' );
@@ -116,6 +119,7 @@ const EdificeCardWrapper = () => import( /* webpackChunkName: "EdificeCardWrappe
 
 export default {
   name: 'index',
+  mixins: [SeoHead],
   data() {
     return {
       table: {
@@ -134,6 +138,14 @@ export default {
       showPreviewDialog: false,
       previewCard: null,
     };
+  },
+  head() {
+    const title = `Oath Card Builder`;
+    let description = `Create your own variants of Denizens, Sites, Relics and Edifices for the Boardgame Oath.`;
+    const image = `https://oath-card-builder.herokuapp.com/img/seo/index.png`;
+    return {
+      ...this.seo(title, description, image),
+    }
   },
   computed: {
     library() {

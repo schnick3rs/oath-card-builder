@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import SeoHead from "@/mixins/SeoHead";
+
 const DenizenCardWrapper = () => import( /* webpackChunkName: "DenizenCardWrapper" */ '~/components/DenizenCardWrapper.vue' );
 const DenizenCardBack = () => import( /* webpackChunkName: "DenizenCardBack" */ '~/components/DenizenCardBack.vue' );
 const RelicCardWrapper = () => import( /* webpackChunkName: "RelicCardWrapper" */ '~/components/RelicCardWrapper.vue' );
@@ -44,10 +46,19 @@ const EdificeCardWrapper = () => import( /* webpackChunkName: "EdificeCardWrappe
 export default {
   name: "deck",
   layout: 'print',
+  mixins: [SeoHead],
   data() {
     return {
       printBack: false,
     };
+  },
+  head() {
+    const title = `Print your cards`;
+    let description = `Print your library on DIN A4 and cut them ready to use.`;
+    const image = `https://oath-card-builder.herokuapp.com/img/seo/index.png`;
+    return {
+      ...this.seo(title, description, image),
+    }
   },
   computed: {
     library() {
