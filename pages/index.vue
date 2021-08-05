@@ -116,12 +116,13 @@ export default {
       table: {
         headers: [
           { text: 'Category', value: '__type' },
+          { text: 'Preview', value: 'preview' },
           { text: 'Suit', value: 'suit', align: 'center' },
           { text: 'Name', value: 'name' },
           { text: 'Type', value: 'type' },
           { text: 'Cost', value: 'cost', align: 'center' },
           { text: 'Text', value: 'text' },
-          { text: 'Preview', value: 'preview' },
+          { text: 'Actions', value: 'actions' },
         ],
       },
       search: '',

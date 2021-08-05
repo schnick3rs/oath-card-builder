@@ -215,7 +215,7 @@ async function drawDenizen(card, F = 7) {
   console.info(symbols);
   if (symbols) {
     symbols.forEach(symbol => {
-      ctx.drawImage(favor, symbol.x, symbol.y - fontSize/2, fontSize, fontSize);
+      //ctx.drawImage(favor, symbol.x, symbol.y - fontSize/2, fontSize, fontSize);
     })
   }
 
