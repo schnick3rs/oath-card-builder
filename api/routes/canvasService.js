@@ -382,7 +382,7 @@ router.get('/:slug/preview.png', async (request, response) => {
   response.setHeader('Content-Type', 'image/png');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
   const drawed = await draw(card);
-  drawed.pngStream().pipe(response)
+  drawed.createPNGStream().pipe(response)
 });
 
 router.get('/:slug/preview.jpg', async (request, response) => {

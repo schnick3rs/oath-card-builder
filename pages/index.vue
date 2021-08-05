@@ -34,7 +34,6 @@
             </v-avatar>
           </template>
 
-
           <template v-slot:item.name="{ item }">
             <div v-if="item.__type === 'edifice'">
               <div>{{item.front.name}}</div>
@@ -74,9 +73,8 @@
           </template>
 
           <template v-slot:item.actions="{ item }">
-            <v-btn icon @click="">
-              <v-icon>mdi-share-variant</v-icon>
-            </v-btn>
+            <v-btn icon color="primary" :to="`builder/${item.id}`"><v-icon>mdi-pencil</v-icon></v-btn>
+            <v-btn v-if="false" icon @click=""><v-icon>mdi-share-variant</v-icon></v-btn>
           </template>
 
         </v-data-table>

@@ -1,42 +1,53 @@
 <template>
   <v-app>
     <v-app-bar
-      :clipped-left="clipped"
-      fixed
       app
+      dark
+      dense
+      fixed
+      :clipped-left="clipped"
     >
+      <v-container
+        class="pa-0 fill-height"
+        :class="{ 'pl-2 pr-2': this.$vuetify.breakpoint.mdAndUp }"
+      >
+        <v-toolbar-title>
+          <nuxt-link to="/" class="title" style="color: hsl(0, 0%, 100%); text-decoration: none;">
+            {{title}}
+          </nuxt-link>
+        </v-toolbar-title>
 
-      <v-btn icon to="/">
-        <v-icon>mdi-home</v-icon>
-      </v-btn>
+        <v-toolbar-items>
+          <v-btn icon to="/builder" exact>
+            <v-icon>mdi-wrench</v-icon>
+          </v-btn>
 
-      <v-toolbar-title v-text="title" />
+          <v-btn icon to="/builder/demo" exact>
+            <v-icon>mdi-file-image</v-icon>
+          </v-btn>
 
-      <v-btn icon to="/builder">
-        <v-icon>mdi-wrench</v-icon>
-      </v-btn>
+          <v-btn icon to="/print/deck">
+            <v-icon>mdi-printer</v-icon>
+          </v-btn>
 
-      <v-btn icon to="/builder/demo">
-        <v-icon>mdi-file-image</v-icon>
-      </v-btn>
+          <v-btn icon to="/print/csv">
+            <v-icon>mdi-file-upload</v-icon>
+          </v-btn>
+        </v-toolbar-items>
 
-      <v-btn icon to="/print/deck">
-        <v-icon color="primary">mdi-printer</v-icon>
-      </v-btn>
+        <v-spacer />
 
-      <v-btn icon to="/print/csv">
-        <v-icon>mdi-file-upload</v-icon>
-      </v-btn>
+        <v-toolbar-items>
+          <v-btn icon href="https://github.com/schnick3rs/oath-card-builder" target="_blank">
+            <v-icon>mdi-git</v-icon>
+          </v-btn>
+          <v-btn icon>
+            <v-icon color="info">mdi-help-circle</v-icon>
+          </v-btn>
+        </v-toolbar-items>
 
-      <v-spacer />
+      </v-container>
 
-      <v-btn icon href="https://github.com/schnick3rs/oath-card-builder" target="_blank">
-        <v-icon>mdi-git</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon color="info">mdi-help-circle</v-icon>
-      </v-btn>
 
     </v-app-bar>
     <v-main>

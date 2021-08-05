@@ -129,7 +129,7 @@
       ></v-text-field>
       <v-spacer></v-spacer>
       <v-btn color="warning" outlined @click="save">Cancel</v-btn>
-      <v-btn color="success" @click="save">Save</v-btn>
+      <v-btn color="success" @click="save" :disabled="!hasChanges">Save</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -171,7 +171,6 @@ export default {
             { text: 'Ruined', value: 'ruined' },
           ],
           restrictions: [
-            { text: 'None', value: undefined },
             { text: 'Adviser', value: 'adviser' },
             { text: 'Adviser (Locked)', value: 'adviser locked' },
             { text: 'Site', value: 'site' },
@@ -199,6 +198,7 @@ export default {
           ],
         },
       },
+      initialHash: null,
     }
   },
   computed: {
@@ -207,6 +207,12 @@ export default {
       const jsonString = JSON.stringify(shortCard);
       const exportString = Buffer.from(unescape(encodeURIComponent(jsonString)), 'ascii').toString('base64');
       return `https://oath-card-builder.herokuapp.com/share/${exportString}`;
+    },
+    currentHash() {
+      return JSON.stringify(this.card);
+    },
+    hasChanges() {
+      return this.initialHash != this.currentHash;
     },
   },
   watch: {
@@ -222,6 +228,7 @@ export default {
   methods: {
     load() {
       this.card = Object.assign({}, this.$store.getters['library/card'](this.id));
+      this.initialHash = JSON.stringify(this.card);
     },
     save() {
       this.$store.commit('library/saveCard', { id: this.card.id, card: this.card });
