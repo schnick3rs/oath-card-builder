@@ -90,12 +90,16 @@ function capitalText(ctx, str, fontSize, x, y){
 function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   const words = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ').split(' ');
   let line = [];
+  let currentLineIndex = 0;
   let lineWidth = 0;
-  let symbols = [];
+  let symbols = [[],[],[],[],[]];//{ 0: [], 1: [], 2: [], 3: [], 4: []};
 
   words.forEach((word, i) => {
     const { width } = ctx.measureText(word);
 
+    //console.debug(`line[${currentLineIndex}] word(${word}:${width}) line(${line})`);
+
+    // apply BOLD to word
     if (word.startsWith('**') && word.endsWith('**')) {
       word = word.replace(/\*\*(.*)\*\*/gm, '$1');
       if (word.endsWith(':') || word.endsWith(',')) {
@@ -104,30 +108,51 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
     }
 
     // save symbol positions for later
+    let symbol = null;
     if (word.startsWith('{') && (word.endsWith('}') || word.endsWith('}.') || word.endsWith('},'))) {
-      const symbolX = ctx.measureText(line.join(' ')).width;
-      symbols.push({ word, x: symbolX, y });
-      //word = word.replace(/{.*}(.?)/gm, '   $1');
+      const symbolX = ctx.measureText(line.join(' ')+' ').width;
+      //console.info(`Cache ${word} in line ${currentLineIndex}. Line is ${line.join(' ')}`);
+      symbol = {
+        word: word.replace(/{(.*)}.?/gm, '$1'),
+        x: symbolX,
+        y,
+        lineWidth: symbolX,
+      };
+      word = word.replace(/{.*}(.?)/gm, '   $1');
     }
 
     if (word === '<p>') {
       y += fontSize;
       line = [];
       lineWidth = 0;
+      currentLineIndex++;
     } else if ((lineWidth + width) > maxWidth) {
       console.info(`write ${line.join(' ')} at ${x}:${y} `);
       ctx.fillText(line.join(' '), x, y);
+
+      // we update all symbols in this line to know their lines width.
+      symbols[currentLineIndex].forEach(s => { s.lineWidth = lineWidth; s.y = y; });
+
+      // we increse the currentl line and
+      currentLineIndex++;
       y += fontSize;
       line = [word];
+      if (symbol) {
+        symbol.x = 0;
+        symbols[currentLineIndex].push(symbol);
+      }
       lineWidth = width;
     } else {
       line.push(word);
+      if (symbol) symbols[currentLineIndex].push(symbol);
       lineWidth += width;
     }
   });
+
   if (line.length > 0 ){
     console.info(`write ${line.join(' ')} at ${x}:${y} `);
     ctx.fillText(line.join(' '), x, y);
+    symbols[currentLineIndex].forEach(s => { s.lineWidth = lineWidth; s.y = y; });
   }
   return symbols;
 }
@@ -165,7 +190,7 @@ async function drawDenizen(card, F = 7) {
 
   ctx.fillStyle ='white';
   ctx.strokeStyle ='white';
-  capitalText(ctx, card.name, 6*F, 17*F, 12.5*F);
+  capitalText(ctx, card.name, 5*F, 17*F, 12.5*F);
 
   console.info(`Load type image for ${card.type}`);
   ctx.drawImage(await loadImage( `${baseUrl}${typeMap[card.type]}`), 0, 0, width, height);
@@ -212,11 +237,27 @@ async function drawDenizen(card, F = 7) {
   const bounds = card.type.startsWith('instant-') ? width-14*F : width-15.5*F;
   const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*5;
   let symbols = fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
-  console.info(symbols);
   if (symbols) {
-    symbols.forEach(symbol => {
-      //ctx.drawImage(favor, symbol.x, symbol.y - fontSize/2, fontSize, fontSize);
-    })
+    symbols.forEach(line => line.forEach(symbol => {
+      console.info(symbol);
+      const symbolXOffset = -1 * (symbol.lineWidth/2 - symbol.x);
+      const symbolX = width/2 + symbolXOffset;
+      switch (symbol.word) {
+          case '!':
+            ctx.drawImage(favorBurned, symbolX, symbol.y - fontSize/2, fontSize, fontSize);
+            break;
+          case '@':
+            ctx.drawImage(secretBurned, symbolX, symbol.y - fontSize/2, fontSize, fontSize);
+            break;
+          case '1':
+            ctx.drawImage(favor, symbolX, symbol.y - fontSize/2, fontSize, fontSize);
+            break;
+          case '2':
+            ctx.drawImage(secret, symbolX, symbol.y - fontSize/2, fontSize, fontSize);
+            break;
+        }
+      })
+    );
   }
 
   return canvas;
