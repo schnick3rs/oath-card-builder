@@ -91,6 +91,8 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   const words = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ').split(' ');
   let line = [];
   let lineWidth = 0;
+  let symbols = [];
+
   words.forEach((word, i) => {
     const { width } = ctx.measureText(word);
 
@@ -99,6 +101,13 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
       if (word.endsWith(':') || word.endsWith(',')) {
         word = word.toUpperCase();
       }
+    }
+
+    // save symbol positions for later
+    if (word.startsWith('{') && (word.endsWith('}') || word.endsWith('}.') || word.endsWith('},'))) {
+      const symbolX = ctx.measureText(line.join(' ')).width;
+      symbols.push({ word, x: symbolX, y });
+      word = word.replace(/{.*}(.?)/gm, '   $1');
     }
 
     if (word === '<p>') {
@@ -120,6 +129,7 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
     console.info(`write ${line.join(' ')} at ${x}:${y} `);
     ctx.fillText(line.join(' '), x, y);
   }
+  return symbols;
 }
 
 async function drawDenizen(card, F = 7) {
@@ -155,12 +165,12 @@ async function drawDenizen(card, F = 7) {
 
   ctx.fillStyle ='white';
   ctx.strokeStyle ='white';
-  capitalText(ctx, card.name, 4*F, 17*F, 12.5*F);
+  capitalText(ctx, card.name, 6*F, 17*F, 12.5*F);
 
   console.info(`Load type image for ${card.type}`);
   ctx.drawImage(await loadImage( `${baseUrl}${typeMap[card.type]}`), 0, 0, width, height);
 
-  console.info(`Load modiger image for ${card.modifer}`)
+  console.info(`Load modifer image for ${card.modifer}`)
   if (card.modifer) {
     ctx.drawImage(await loadImage( `${baseUrl}/img/action modifer ${card.modifer}.png`), 0, 0, width, height);
   }
@@ -199,9 +209,15 @@ async function drawDenizen(card, F = 7) {
   ctx.fillStyle = 'black';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const bounds = card.type.startsWith('instant-') ? width-14*F : width-10*F;
+  const bounds = card.type.startsWith('instant-') ? width-14*F : width-15.5*F;
   const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*5;
-  fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
+  let symbols = fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
+  console.info(symbols);
+  if (symbols) {
+    symbols.forEach(symbol => {
+      ctx.drawImage(favor, symbol.x, symbol.y - fontSize/2, fontSize, fontSize);
+    })
+  }
 
   return canvas;
 }
