@@ -75,6 +75,7 @@
           <template v-slot:item.actions="{ item }">
             <v-btn icon color="primary" :to="`builder/${item.id}`"><v-icon>mdi-pencil</v-icon></v-btn>
             <v-btn v-if="false" icon @click=""><v-icon>mdi-share-variant</v-icon></v-btn>
+            <v-btn icon @click="removeCard(item.id)"><v-icon color="error">mdi-delete</v-icon></v-btn>
           </template>
 
         </v-data-table>
@@ -158,6 +159,9 @@ export default {
         default:
           return null;
       }
+    },
+    removeCard(cardId) {
+      this.$store.commit('library/deleteCard', cardId);
     },
   }
 }
