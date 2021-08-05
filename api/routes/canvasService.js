@@ -107,7 +107,7 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
     if (word.startsWith('{') && (word.endsWith('}') || word.endsWith('}.') || word.endsWith('},'))) {
       const symbolX = ctx.measureText(line.join(' ')).width;
       symbols.push({ word, x: symbolX, y });
-      word = word.replace(/{.*}(.?)/gm, '   $1');
+      //word = word.replace(/{.*}(.?)/gm, '   $1');
     }
 
     if (word === '<p>') {

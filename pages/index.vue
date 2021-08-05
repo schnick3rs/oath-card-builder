@@ -73,6 +73,12 @@
             </v-btn>
           </template>
 
+          <template v-slot:item.actions="{ item }">
+            <v-btn icon @click="">
+              <v-icon>mdi-share-variant</v-icon>
+            </v-btn>
+          </template>
+
         </v-data-table>
       </v-col>
     </client-only>
