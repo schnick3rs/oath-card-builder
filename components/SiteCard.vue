@@ -7,7 +7,7 @@
 
       <img class="layer" :src="relicFrame"/>
 
-      <div class="special-text">
+      <div v-if="text" class="special-text">
         <symbol-text class="text" :html="formatedText"></symbol-text>
       </div>
 
