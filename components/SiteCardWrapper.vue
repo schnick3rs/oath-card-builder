@@ -6,6 +6,7 @@
     :resources="card.resources"
     :relics="card.relics"
     :capacity="card.capacity"
+    :text="card.text"
     :special="card.special"
     :relicRecoverCost="card.relicRecoverCost"
     :back="back"

@@ -70,6 +70,23 @@
             </v-col>
           </v-row>
 
+          <v-row>
+            <v-col>
+              <v-textarea
+                label="Special Power Text"
+                v-model="card.text"
+                dense outlined
+              ></v-textarea>
+              <details>
+                <summary>
+                  Click to show how to format your code.
+                </summary>
+                <markdown-reference></markdown-reference>
+                <oath-symbol-reference></oath-symbol-reference>
+              </details>
+            </v-col>
+          </v-row>
+
         </v-col>
 
         <v-col cols="5" v-if="preview">
@@ -79,6 +96,7 @@
             :resources="card.resources"
             :relics="card.relics"
             :capacity="card.capacity"
+            :text="card.text"
             :relicRecoverCost="card.relicRecoverCost"
             back></site-card>
         </v-col>

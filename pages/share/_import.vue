@@ -28,8 +28,7 @@ export default {
   asyncData({ params }) {
     const importString = params.import;
     let card = {};
-    const cardCode = decodeURIComponent(escape(Buffer.from(importString, 'base64').toString('ascii')));
-
+    const cardCode = Buffer.from(importString, 'base64').toString('utf8');
     if (importString.length < 150) {
       const codes = cardCode.split('#');
       const base = codes[0].split('');

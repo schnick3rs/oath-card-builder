@@ -136,8 +136,8 @@ export default {
       this.$store.commit('library/createRelic', relic);
     },
     newSite() {
-      const relic = { name: 'Random Site', relics: 1, capacity: 2 };
-      this.$store.commit('library/createSite', relic);
+      const site = { name: 'Random Site', relics: 1, capacity: 2 };
+      this.$store.commit('library/createSite', site);
     },
     openCardEditor(cardId, cardType) {
       this.card = this.$store.getters['library/card'](cardId);

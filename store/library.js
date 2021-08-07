@@ -185,7 +185,9 @@ const createSite = (
   relics = 1,
   capacity = 2,
   relicRecoverCost = '',
-  image = ''
+  image = '',
+  text = '',
+  special = '',
 ) => ({
   id,
   __type: 'site',
@@ -195,4 +197,6 @@ const createSite = (
   capacity,
   relicRecoverCost,
   image,
+  text,
+  special,
 });

@@ -376,8 +376,7 @@ router.get('/:slug/preview.png', async (request, response) => {
 
   const slug = request.params.slug;
 
-  const cardJson = decodeURIComponent(escape(Buffer.from(slug, 'base64').toString('ascii')));
-  const card = JSON.parse(cardJson);
+  const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
 
   response.setHeader('Content-Type', 'image/png');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
@@ -389,8 +388,7 @@ router.get('/:slug/preview.jpg', async (request, response) => {
 
   const slug = request.params.slug;
 
-  const cardJson = decodeURIComponent(escape(Buffer.from(slug, 'base64').toString('ascii')));
-  const card = JSON.parse(cardJson);
+  const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
 
   response.setHeader('Content-Type', 'image/jpg');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes

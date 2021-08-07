@@ -7,6 +7,10 @@
 
       <img class="layer" :src="relicFrame"/>
 
+      <div class="special-text">
+        <symbol-text class="text" :html="formatedText"></symbol-text>
+      </div>
+
       <div class="recoverables">
         <div class="resources">
           <template v-for="(n, i) in resources">
@@ -54,6 +58,9 @@
 </template>
 
 <script>
+import marked from "marked";
+import DOMPurify from "isomorphic-dompurify";
+
 export default {
   name: "SuitCard",
   props: {
@@ -68,12 +75,11 @@ export default {
       default: 1,
     },
     special: String,
+    text: String,
     relics: {
       type: Number,
       default: 0,
     },
-    favor: Number,
-    secrets: Number,
     resources: String,
     relicRecoverCost: {
       type: String,
@@ -106,6 +112,11 @@ export default {
         };
       }
     },
+    formatedText() {
+      const renderer = { del(text) { return `~${text}~`; } };
+      marked.use({ renderer });
+      return this.text ? marked(DOMPurify.sanitize(this.text)) : '';
+    },
   }
 }
 </script>
@@ -134,6 +145,18 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   clip-path: inset(1.5mm 1.5mm 1.5mm 1.5mm round 3mm);
+}
+
+.special-text {
+  position: absolute;
+  top: 20mm;
+  left: 10mm;
+  width: 50mm;
+  background: white;
+  padding: 5mm;
+  margin: 5mm;
+  border: black dashed 0.5mm;
+  border-radius: 2mm;
 }
 
 .recoverables {
