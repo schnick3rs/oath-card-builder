@@ -150,11 +150,10 @@ export default {
 .special-text {
   position: absolute;
   top: 20mm;
-  left: 10mm;
-  width: 50mm;
+  left: 5%;
+  max-width: 80%;
   background: white;
-  padding: 5mm;
-  margin: 5mm;
+  padding: 2mm;
   border: black dashed 0.5mm;
   border-radius: 2mm;
 }
