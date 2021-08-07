@@ -7,7 +7,7 @@
       <img v-if="restriction" class="layer" :src="restrictionBand">
       <img v-if="suit" class="layer" :src="suitBand">
       <div v-if="name" class="name">
-        <div class="name__word" v-for="(word, i) in name.split(' ')" :key="i">{{word}}&nbsp;</div>
+        <capital-text :text="name" :font-size="'4mm'"></capital-text>
       </div>
 
       <div class="layer effect" :class="`effect--${type}`">
@@ -53,6 +53,12 @@ export default {
     }
   },
   computed: {
+    nameWords() {
+      if (this.name) {
+        return [...this.name.split(' ')];
+      }
+      return '';
+    },
     showModifer() {
       return this.type.includes('modifer');
     },
@@ -117,19 +123,7 @@ export default {
   left: 0;
 
   padding-left: 17mm;
-
-  &__word {
-    color: white;
-    font-family: OathText, sans-serif;
-    font-size: 4mm;
-
-    display: inline-block;
-
-    &:first-letter {
-      font-family: OathCapital, serif;
-      text-transform: capitalize;
-    }
-  }
+  color: white;
 }
 
 .effect {
@@ -199,10 +193,4 @@ export default {
   font-size: 5mm;
   text-shadow: 0 0 white;
 }
-
-.symbol {
-  font-family: OathSymbols;
-  color: red;
-}
-
 </style>
