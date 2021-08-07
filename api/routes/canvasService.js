@@ -18,6 +18,36 @@ const typeMap = {
   'instant-small': '/img/box when played small.png',
 };
 
+const symbolMap = {
+  'f': 'favor',
+  '1': 'favor',
+  'F': 'favor-burned',
+  '!': 'favor-burned',
+  's': 'secret',
+  '2': 'secret',
+  'S': 'secret-burned',
+  '@': 'secret-burned',
+  '+': 'die-attacker',
+  '-': 'die-defender',
+  '~': 'die-turn-order', // del deleted in marked renderer
+  'a': 'suit-arcane',
+  'b': 'suit-beast',
+  'c': 'suit-clockwork',
+  'd': 'suit-discord',
+  'h': 'suit-hearth',
+  'n': 'suit-nomad',
+  'o': 'suit-order',
+  '$': 'die-defender-shield',
+  '§': 'die-defender-double',
+  '7': 'die-attacker-sword',
+  //'&': 'die-attacker-hallow',
+  //'*': 'die-attacker-hallow',
+  '8': 'die-attacker-hallow',
+  '%': 'die-attacker-skull',
+  '>': 'to-favor-bank',
+  '=': 'to-favor-bank',
+};
+
 /**
  * By Ken Fyrstenberg Nilsen
  * https://stackoverflow.com/questions/21961839/simulation-background-size-cover-in-canvas/21961894#21961894
@@ -74,6 +104,11 @@ function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
   ctx.drawImage(img, cx, cy, cw, ch,  x, y, w, h);
 }
 
+async function drawSymbol(ctx, symbol, x, y, w, h) {
+  const icon = await loadImage(`https://oath-card-builder.herokuapp.com/img/icons/${symbolMap[symbol]}.png`);
+  ctx.drawImage(icon, x, y, w, h);
+}
+
 function capitalText(ctx, str, fontSize, x, y){
   let previousChar = '';
   for(let i = 0; i <= str.length; ++i){
@@ -88,7 +123,9 @@ function capitalText(ctx, str, fontSize, x, y){
 }
 
 function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
-  const words = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ').split(' ');
+  let cleanedText = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ');
+  cleanedText = text.replace(/([\[\]>])/gm, '')
+  const words = cleanedText.split(' ');
   let line = [];
   let currentLineIndex = 0;
   let lineWidth = 0;
@@ -238,26 +275,16 @@ async function drawDenizen(card, F = 7) {
   const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*5;
   let symbols = fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
   if (symbols) {
-    symbols.forEach(line => line.forEach(symbol => {
-      console.info(symbol);
-      const symbolXOffset = -1 * (symbol.lineWidth/2 - symbol.x);
-      const symbolX = width/2 + symbolXOffset;
-      switch (symbol.word) {
-          case '!':
-            ctx.drawImage(favorBurned, symbolX, symbol.y - fontSize/2, fontSize, fontSize);
-            break;
-          case '@':
-            ctx.drawImage(secretBurned, symbolX, symbol.y - fontSize/2, fontSize, fontSize);
-            break;
-          case '1':
-            ctx.drawImage(favor, symbolX, symbol.y - fontSize/2, fontSize, fontSize);
-            break;
-          case '2':
-            ctx.drawImage(secret, symbolX, symbol.y - fontSize/2, fontSize, fontSize);
-            break;
-        }
-      })
-    );
+    for (let i = 0; i < symbols.length; i++) {
+      const line = symbols[i];
+      for (let j = 0; j < line.length; j++) {
+        const symbol = line[j];
+        const symbolXOffset = -1 * (symbol.lineWidth/2 - symbol.x);
+        const symbolX = width/2 + symbolXOffset;
+        const symbolY = symbol.y - fontSize / 2;
+        await drawSymbol(ctx, symbol.word, symbolX, symbolY, fontSize, fontSize);
+      }
+    }
   }
 
   return canvas;
