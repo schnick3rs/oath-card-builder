@@ -30,6 +30,22 @@
             </v-list>
           </v-menu>
         </v-toolbar-items>
+        <v-toolbar-items class="ml-2">
+          <v-btn to="/print/deck">
+            <v-icon left>mdi-printer</v-icon>
+            Print Cards
+          </v-btn>
+
+          <v-btn to="/print/csv">
+            <v-icon left>mdi-file-upload</v-icon>
+            Upload Csv
+          </v-btn>
+
+          <v-btn to="/builder/demo" exact>
+            <v-icon left>mdi-file-image</v-icon>
+            Demo Page
+          </v-btn>
+        </v-toolbar-items>
       </v-toolbar>
     </v-col>
 

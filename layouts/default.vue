@@ -17,24 +17,6 @@
           </nuxt-link>
         </v-toolbar-title>
 
-        <v-toolbar-items>
-          <v-btn icon to="/builder" exact>
-            <v-icon>mdi-wrench</v-icon>
-          </v-btn>
-
-          <v-btn icon to="/builder/demo" exact>
-            <v-icon>mdi-file-image</v-icon>
-          </v-btn>
-
-          <v-btn icon to="/print/deck">
-            <v-icon>mdi-printer</v-icon>
-          </v-btn>
-
-          <v-btn icon to="/print/csv">
-            <v-icon>mdi-file-upload</v-icon>
-          </v-btn>
-        </v-toolbar-items>
-
         <v-spacer />
 
         <v-toolbar-items>
@@ -46,11 +28,14 @@
           >
             <v-icon>mdi-git</v-icon>
           </v-btn>
-          <v-btn icon>
+          <v-btn icon to="/about">
             <v-icon color=" info">mdi-help-circle</v-icon>
           </v-btn>
 
-          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon
+            v-if="false"
+            @click.stop="drawer = !drawer"
+          ></v-app-bar-nav-icon>
 
         </v-toolbar-items>
 
