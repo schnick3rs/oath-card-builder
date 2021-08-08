@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 export const state = () => ({
   list: [],
   cards: {},
+  lastType: 'denizen',
 });
 
 export const getters = {
@@ -10,37 +11,44 @@ export const getters = {
   cardSets: (state) => state.list.map((id) => state.cards[id]),
 
   card: (state) => (id) => { return state.cards[id]; },
+
+  lastType: (state) => state.lastType,
 }
 
 export const mutations = {
 
-  createDenizen(state, { name, suit }) {
+  setLastType(state, type) {
+    state.lastType = type;
+  },
 
-    const id = nanoid(4);
+  createDenizen(state, { id, name, suit }) {
+
+    const cardId = id || nanoid(4);
 
     const newDenizen = {};
-    Object.assign(newDenizen, createDenizen(id, name, suit));
+    Object.assign(newDenizen, createDenizen(cardId, name, suit));
 
-    state.list.push(id);
+    state.list.push(cardId);
     const newObj = {};
-    newObj[id] = newDenizen;
+    newObj[cardId] = newDenizen;
     state.cards = {
       ...state.cards,
       ...newObj,
     };
 
+    return cardId;
   },
 
-  createEdifice(state, { name, suit }) {
+  createEdifice(state, { id, name, suit }) {
 
-    const id = nanoid(4);
+    const cardId = id || nanoid(4);
 
     const newCard = {};
-    Object.assign(newCard, createEdifice(id, name, suit));
+    Object.assign(newCard, createEdifice(cardId, name, suit));
 
-    state.list.push(id);
+    state.list.push(cardId);
     const newObj = {};
-    newObj[id] = newCard;
+    newObj[cardId] = newCard;
     state.cards = {
       ...state.cards,
       ...newObj,
@@ -48,16 +56,16 @@ export const mutations = {
 
   },
 
-  createRelic(state, { name, defense }) {
+  createRelic(state, { id, name, defense }) {
 
-    const id = nanoid(4);
+    const cardId = id || nanoid(4);
 
     const newRelic = {};
-    Object.assign(newRelic, createRelic(id, name, defense));
+    Object.assign(newRelic, createRelic(cardId, name, defense));
 
-    state.list.push(id);
+    state.list.push(cardId);
     const newObj = {};
-    newObj[id] = newRelic;
+    newObj[cardId] = newRelic;
     state.cards = {
       ...state.cards,
       ...newObj,
@@ -65,16 +73,16 @@ export const mutations = {
 
   },
 
-  createSite(state, { name, relics, capacity }) {
+  createSite(state, { id, name, relics, capacity }) {
 
-    const id = nanoid(4);
+    const cardId = id || nanoid(4);
 
     const newSite = {};
-    Object.assign(newSite, createSite(id, name, relics, capacity));
+    Object.assign(newSite, createSite(cardId, name, relics, capacity));
 
-    state.list.push(id);
+    state.list.push(cardId);
     const newObj = {};
-    newObj[id] = newSite;
+    newObj[cardId] = newSite;
     state.cards = {
       ...state.cards,
       ...newObj,
@@ -98,7 +106,32 @@ export const mutations = {
 
 }
 
-export const actions = {}
+export const actions = {
+
+  async createCard({ commit }, type) {
+    const id = nanoid(4);
+    switch (type) {
+      case 'denizen':
+        const denizen = { id, name: 'Random Denizen', suit: 'arcane' };
+        commit('createDenizen', denizen);
+        break;
+      case 'site':
+        const site = { id, name: 'Random Site', relics: 1, capacity: 2 };
+        commit('createDenizen', site);
+        break;
+      case 'relic':
+        const relic = { id, name: 'Random Relic', defense: 2 };
+        commit('createRelic', relic);
+        break;
+      case 'edifice':
+        const edifice = { id, name: 'Random Edifice', suit: 'arcane' };
+        commit('createEdifice', edifice);
+        break;
+    }
+    return id;
+  }
+
+}
 
 const createDenizen = (
   id = nanoid(7),

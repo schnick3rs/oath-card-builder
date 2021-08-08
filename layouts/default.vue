@@ -38,18 +38,42 @@
         <v-spacer />
 
         <v-toolbar-items>
-          <v-btn icon href="https://github.com/schnick3rs/oath-card-builder" target="_blank">
+          <v-btn
+            icon
+            href="https://github.com/schnick3rs/oath-card-builder"
+            target="_blank"
+            title="Code Repository on GitHub"
+          >
             <v-icon>mdi-git</v-icon>
           </v-btn>
           <v-btn icon>
-            <v-icon color="info">mdi-help-circle</v-icon>
+            <v-icon color=" info">mdi-help-circle</v-icon>
           </v-btn>
+
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+
         </v-toolbar-items>
 
       </v-container>
 
-
     </v-app-bar>
+
+
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      bottom
+      right
+      temporary
+    >
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item>somes</v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-main>
       <v-container>
         <Nuxt />

@@ -3,9 +3,34 @@
   <v-row>
 
     <v-col>
-      <v-btn to="/builder" color="primary">
-        To the Card Builder
-      </v-btn>
+      <v-toolbar dense>
+        <v-toolbar-items>
+          <v-btn color="primary" @click="createAndOpenEditor(lastType)">
+            Create {{ lastType }}
+          </v-btn>
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                color="primary"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-chevron-down</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="item in toolbar.create"
+                :key="item.value"
+                @click="createAndOpenEditor(item.value)"
+              >
+                {{ item.text }}
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-toolbar-items>
+      </v-toolbar>
     </v-col>
 
     <client-only>
@@ -37,6 +62,7 @@
           <template v-slot:item.name="{ item }">
             <div v-if="item.__type === 'edifice'">
               <div>{{item.front.name}}</div>
+              <hr>
               <div>{{item.ruined.name}}</div>
             </div>
             <span v-else>{{item.name}}</span>
@@ -61,6 +87,7 @@
           <template v-slot:item.text="{ item }">
             <div v-if="item.__type === 'edifice'" >
               <div><symbol-text :html="formatText(item.front.text)"></symbol-text></div>
+              <hr>
               <div><symbol-text :html="formatText(item.ruined.text)"></symbol-text></div>
             </div>
             <symbol-text v-else :html="formatText(item.text)"></symbol-text>
@@ -90,7 +117,15 @@
     >
       <v-card v-if="previewCard">
         <v-card-title style="color: white; background: #131212;">
-          Preview: {{previewCard.name}}
+          Preview:
+          <v-spacer></v-spacer>
+          <v-btn
+            icon
+            @click="showPreviewDialog = false"
+            color="white"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
         </v-card-title>
         <v-card-text class="mt-4">
           <component
@@ -122,6 +157,14 @@ export default {
   mixins: [SeoHead],
   data() {
     return {
+      toolbar: {
+        create: [
+          { text: 'Create Denizen', value: 'denizen' },
+          { text: 'Create Site', value: 'site' },
+          { text: 'Create Relic', value: 'relic' },
+          { text: 'Create Edifice', value: 'edifice' },
+        ],
+      },
       table: {
         headers: [
           { text: 'Category', value: '__type' },
@@ -148,6 +191,9 @@ export default {
     }
   },
   computed: {
+    lastType() {
+      return this.$store.getters['library/lastType'] || 'denizen';
+    },
     library() {
       return this.$store.getters['library/cardSets'];
     },
@@ -174,6 +220,14 @@ export default {
     },
     removeCard(cardId) {
       this.$store.commit('library/deleteCard', cardId);
+    },
+    createAndOpenEditor(type = this.lastType) {
+      this.$store.dispatch('library/createCard', type)
+        .then((id) => {
+          console.info(`New card with id ${id} created, opening editor.`);
+          this.$store.commit('library/setLastType', type);
+          this.$router.push(`/builder/${id}`);
+        });
     },
   }
 }
