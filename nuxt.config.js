@@ -8,10 +8,19 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'format-detection', content: 'telephone=no' },
       { hid: 'robots', name: 'robots', content: 'index,follow' },
-      { hid: 'description', name: 'description', content: 'Design and print your own Denizen, Relics, Sites and Edifices for Oath from Leder Games.' },
       { hid: 'theme-color', name: 'theme-color', content: '#f69943' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { hid: 'description', name: 'description', content: 'Design and print your own Denizen, Relics, Sites and Edifices for Oath from Leder Games.' },
+      // OpenGraph
+      { hid: 'og:title', name: 'og:title', content: 'Design and print your own Denizen, Relics, Sites and Edifices for Oath from Leder Games.' },
+      { hid: 'og:image', name: 'og:image', content: 'https://oath-card-builder.herokuapp.com/img/seo/index.png' },
+      { hid: 'og:description', name: 'og:description', content: 'Design and print your own Denizen, Relics, Sites and Edifices for Oath from Leder Games.' },
+      // Twitter
+      { hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' },
+      { hid: 'twitter:title', name: 'twitter:title', content: '' },
+      { hid: 'twitter:description', name: 'twitter:description', content: 'Design and print your own Denizen, Relics, Sites and Edifices for Oath from Leder Games.' },
+      { hid: 'twitter:image', name: 'twitter:image', content: 'https://oath-card-builder.herokuapp.com/img/seo/index.png' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
