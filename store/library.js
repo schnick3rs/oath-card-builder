@@ -117,7 +117,7 @@ export const actions = {
         break;
       case 'site':
         const site = { id, name: 'Random Site', relics: 1, capacity: 2 };
-        commit('createDenizen', site);
+        commit('createSite', site);
         break;
       case 'relic':
         const relic = { id, name: 'Random Relic', defense: 2 };

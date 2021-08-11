@@ -86,8 +86,8 @@
 
           <template v-slot:item.type="{ item }">
             <v-avatar :size="24" tile>
-              <img v-if="item.__type === 'edifice'" :alt="item.front.type" :src="`/img/icons/type-${item.front.type}.png`" />
-              <img v-else :alt="item.type" :src="`/img/icons/type-${item.type}.png`" />
+              <img v-if="item.__type === 'edifice' && item.front.type" :alt="item.front.type" :src="`/img/icons/type-${item.front.type}.png`" />
+              <img v-else :alt="item.type && item.type" :src="`/img/icons/type-${item.type}.png`" />
             </v-avatar>
           </template>
 
