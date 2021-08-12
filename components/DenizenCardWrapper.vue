@@ -4,13 +4,13 @@
     :edifice="card.edifice"
     :name="card.name"
     :image="card.image"
+    :credits="card.credits"
     :suit="card.suit"
     :type="card.type"
     :modifer="card.modifer"
     :restriction="card.restriction"
     :cost="card.cost"
     :text="card.text"
-    :credits="card.credits"
     :back="back"
   ></denizen-card>
 </template>

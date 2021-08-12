@@ -3,6 +3,7 @@
     :class="{ 'fixed': fixedWidth }"
     :name="card.name"
     :image="card.image"
+    :credits="card.credits"
     :resources="card.resources"
     :relics="card.relics"
     :capacity="card.capacity"
