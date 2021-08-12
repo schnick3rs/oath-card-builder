@@ -32,6 +32,17 @@
 
           <v-row>
             <v-col>
+              <v-text-field
+                label="Credit the image artist"
+                v-model="card.front.credits"
+                dense outlined
+                clearable
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
               <v-select
                 row
                 v-model="card.front.suit"
@@ -111,6 +122,17 @@
               <v-text-field
                 label="Image"
                 v-model="card.ruined.image"
+                dense outlined
+                clearable
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Credit the image artist"
+                v-model="card.ruined.credits"
                 dense outlined
                 clearable
               ></v-text-field>
@@ -220,6 +242,7 @@ export default {
           edifice: true,
           name: 'Spraling Rampart',
           image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
+          credits: '',
           suit: 'order',
           restriction: 'site locked',
           type: 'persistent-modifer',
@@ -232,6 +255,7 @@ export default {
           edifice: true,
           name: 'Bandit Rampart',
           image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
+          credits: '',
           suit: 'ruined',
           restriction: 'site locked',
           type: 'battleplan-defender',

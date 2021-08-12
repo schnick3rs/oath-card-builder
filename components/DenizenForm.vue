@@ -20,17 +20,6 @@
           </v-row>
 
           <v-row>
-            <v-col>
-              <v-text-field
-                label="Image"
-                v-model="card.image"
-                dense outlined
-                clearable
-              ></v-text-field>
-            </v-col>
-          </v-row>
-
-          <v-row>
             <v-col cols="6">
 
               <v-select
@@ -60,6 +49,26 @@
                 clearable
                 dense outlined
               ></v-select>
+            </v-col>
+          </v-row>
+
+
+          <v-row>
+            <v-col>
+              <v-text-field
+                label="Image"
+                v-model="card.image"
+                dense outlined
+                clearable
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                label="Credit the image artist"
+                v-model="card.credits"
+                dense outlined
+                clearable
+              ></v-text-field>
             </v-col>
           </v-row>
 
@@ -98,14 +107,20 @@
                 label="Effect"
                 v-model="card.text"
                 dense outlined
-              ></v-textarea>
-              <details>
-                <summary>
-                  Click to show how to format your code.
-                </summary>
-                <markdown-reference></markdown-reference>
-                <oath-symbol-reference></oath-symbol-reference>
-              </details>
+                persistent-hint
+                messages="Show hints"
+              >
+                <template v-slot:message>
+                  <details>
+                    <summary>
+                      Click to show how to format your code.
+                    </summary>
+                    <markdown-reference></markdown-reference>
+                    <oath-symbol-reference></oath-symbol-reference>
+                  </details>
+                </template>
+              </v-textarea>
+
             </v-col>
           </v-row>
 
@@ -156,6 +171,7 @@ export default {
         modifer: 'travel',
         cost: '1',
         text: 'Run by day and night',
+        credits: 'the artwork',
         back: true
       },
       builder: {

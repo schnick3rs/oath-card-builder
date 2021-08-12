@@ -48,6 +48,15 @@
                 clearable
               ></v-text-field>
             </v-col>
+
+            <v-col>
+              <v-text-field
+                label="Credit the image artist"
+                v-model="card.credits"
+                dense outlined
+                clearable
+              ></v-text-field>
+            </v-col>
           </v-row>
 
           <v-row>
@@ -132,6 +141,7 @@ export default {
       card: {
         name: 'Dowsing Sticks',
         image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
+        credits: '',
         defense: 3,
         type: 'power',
         modifer: '',

@@ -10,6 +10,7 @@
     :restriction="card.restriction"
     :cost="card.cost"
     :text="card.text"
+    :credits="card.credits"
     :back="back"
   ></denizen-card>
 </template>

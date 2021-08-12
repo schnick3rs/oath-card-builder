@@ -26,6 +26,10 @@
         ></oath-symbol>
       </div>
 
+      <em v-if="credits" class="credits">
+        &copy; {{credits}}
+      </em>
+
     </div>
     <denizen-card-back v-if="back"></denizen-card-back>
   </div>
@@ -46,6 +50,7 @@ export default {
     modifer: String,
     image: String,
     text: String,
+    credits: String,
     cost: String,
     back: {
       type: Boolean,
@@ -128,6 +133,19 @@ export default {
 
   padding-left: 17mm;
   color: white;
+}
+
+.credits {
+  position: absolute;
+  left: 0;
+  top: 1mm;
+  width: 100%;
+  text-align: center;
+  font-size: 2.5mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
 }
 
 .effect {

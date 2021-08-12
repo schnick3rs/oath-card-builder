@@ -142,7 +142,8 @@ const createDenizen = (
   cost = null,
   modifer = null,
   text = 'some fancy text for {1}',
-  image = ''
+  image = '',
+  credits = '',
 ) => ({
   id,
   __type: 'denizen',
@@ -153,6 +154,7 @@ const createDenizen = (
   modifer,
   cost,
   text,
+  credits,
   image,
 });
 
@@ -164,7 +166,8 @@ const createEdifice = (
   cost = null,
   modifer = null,
   text = 'some fancy text for {1}',
-  image = ''
+  image = '',
+  credits = '',
 ) => ({
   id,
   __type: 'edifice',
@@ -177,6 +180,7 @@ const createEdifice = (
     cost,
     text,
     image,
+    credits,
   },
   ruined: {
     name,
@@ -187,6 +191,7 @@ const createEdifice = (
     cost,
     text,
     image,
+    credits,
   },
 });
 
@@ -198,7 +203,8 @@ const createRelic = (
   modifer = '',
   cost = '',
   text = 'some fancy text for {1}',
-  image = ''
+  image = '',
+  credits = '',
 ) => ({
   id,
   __type: 'relic',
@@ -209,6 +215,7 @@ const createRelic = (
   cost,
   text,
   image,
+  credits,
 });
 
 const createSite = (
@@ -220,6 +227,7 @@ const createSite = (
   relicRecoverCost = '',
   image = '',
   text = '',
+  credits = '',
   special = '',
 ) => ({
   id,
@@ -231,5 +239,6 @@ const createSite = (
   relicRecoverCost,
   image,
   text,
+  credits,
   special,
 });
