@@ -26,9 +26,7 @@
         ></oath-symbol>
       </div>
 
-      <em v-if="credits" class="credits">
-        &copy; {{credits}}
-      </em>
+      <em v-if="credits" class="credits">&copy; {{credits}}</em>
 
     </div>
     <denizen-card-back v-if="back"></denizen-card-back>

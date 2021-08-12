@@ -101,16 +101,10 @@
         </v-col>
 
         <v-col cols="5" v-if="preview">
-          <relic-card
-            :name="card.name"
-            :image="card.image"
-            :defense="card.defense"
-            :type="card.type"
-            :modifer="card.modifer"
-            :cost="card.cost"
-            :text="card.text"
+          <relic-card-wrapper
+            :card="card"
             back
-          ></relic-card>
+          ></relic-card-wrapper>
         </v-col>
 
       </v-row>

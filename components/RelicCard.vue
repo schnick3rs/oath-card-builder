@@ -6,6 +6,8 @@
       <div v-show="true" class="layer layer--image" :style="cardImage"></div>
       <img v-show="false" class="layer" :src="image">
 
+      <em v-if="credits" class="credits">&copy; {{credits}}</em>
+
       <img class="layer layer--defense" :src="defenseImage">
 
       <div class="name" v-if="name">
@@ -125,6 +127,16 @@ export default {
   right: 0;
   width: 100%;
   height: 100%;
+}
+
+.credits {
+  position: absolute;
+  right: -25mm;
+  top: 8mm;
+  width: 100%;
+  transform: rotate(-90deg);
+  font-size: 2.5mm;
+  color: white;
 }
 
 .layer {
