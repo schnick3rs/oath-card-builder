@@ -13,7 +13,7 @@
       </div>
 
       <div class="layer effect" :class="`effect--${type}`">
-        <img v-if="modifer" class="layer" :src="modiferImage">
+        <img v-if="modifer" class="layer layer--modifer" :src="modiferImage">
         <div class="content">
           <symbol-text class="text" :html="formatedText"></symbol-text>
         </div>
@@ -144,6 +144,11 @@ export default {
     /*height: 41mm;*/
     height: 44mm;
   }
+
+  &--modifer {
+
+  }
+
 }
 
 .effect {

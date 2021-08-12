@@ -11,7 +11,7 @@
       </div>
 
       <div class="layer effect" :class="`effect--${type}`">
-        <img v-if="showModifer" class="layer" :src="modiferImage">
+        <img v-if="showModifer" class="layer layer--modifer" :src="modiferImage">
         <div class="content" :class="`content--${type}`">
           <symbol-text class="text" :html="formatedText"></symbol-text>
         </div>
@@ -111,6 +111,10 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   clip-path: inset(1.5mm 1.5mm 1.5mm 1.5mm round 3mm);
+
+  &--modifer {
+    left: -1mm;
+  }
 }
 
 .illustration {
