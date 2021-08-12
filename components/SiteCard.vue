@@ -5,6 +5,8 @@
 
       <div v-if="image" class="layer layer-image" :style="cardImage"></div>
 
+      <em v-if="credits" class="credits">&copy; {{credits}}</em>
+
       <img class="layer" :src="relicFrame"/>
 
       <div v-if="text" class="special-text">
@@ -177,6 +179,15 @@ export default {
     margin-right: 0;
   }
 }
+
+.credits {
+  position: absolute;
+  left: 26mm;
+  bottom: 15mm;
+  font-size: 2.5mm;
+  color: white;
+}
+
 
 .capacity {
   position: absolute;

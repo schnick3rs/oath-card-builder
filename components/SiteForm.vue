@@ -98,15 +98,7 @@
         </v-col>
 
         <v-col cols="5" v-if="preview">
-          <site-card
-            :name="card.name"
-            :image="card.image"
-            :resources="card.resources"
-            :relics="card.relics"
-            :capacity="card.capacity"
-            :text="card.text"
-            :relicRecoverCost="card.relicRecoverCost"
-            back></site-card>
+          <site-card-wrapper :card="card" back></site-card-wrapper>
         </v-col>
 
       </v-row>
