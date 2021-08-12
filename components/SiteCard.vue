@@ -183,8 +183,8 @@ export default {
 .credits {
   position: absolute;
   left: 26mm;
-  bottom: 15mm;
-  font-size: 2.5mm;
+  bottom: 16mm;
+  font-size: 3.5mm;
   color: white;
 }
 
