@@ -44,6 +44,7 @@ export default {
   props: {
     name: String,
     image: String,
+    credits: String,
     defense: Number,
     type: String,
     modifer: String,

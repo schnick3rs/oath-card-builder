@@ -66,6 +66,7 @@ export default {
   props: {
     name: String,
     image: String,
+    credits: String,
     defense: {
       type: Number,
       default: 1,
