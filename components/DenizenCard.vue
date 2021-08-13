@@ -116,7 +116,7 @@ export default {
   clip-path: inset(1.5mm 1.5mm 1.5mm 1.5mm round 3mm);
 
   &--modifer {
-    left: -1mm;
+    left: -0.7mm;
   }
 }
 
