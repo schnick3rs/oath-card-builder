@@ -22,7 +22,7 @@
           v-for="(c, i) in costs"
           :key="i"
           :symbol="c"
-          :size="18"
+          :size="20"
         ></oath-symbol>
       </div>
 
@@ -207,10 +207,9 @@ export default {
 
 .cost {
   position: absolute;
-  bottom: 19mm;
+  bottom: 18mm;
   width: 100%;
   text-align: center;
-  font-size: 5mm;
   text-shadow: 0 0 white;
 }
 </style>
