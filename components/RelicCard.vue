@@ -27,6 +27,7 @@
           :key="i"
           :symbol="c"
           :size="18"
+          border
         ></oath-symbol>
       </div>
 
@@ -199,11 +200,9 @@ export default {
 
 .cost {
   position: absolute;
-  bottom: 13mm;
+  bottom: 11.8mm;
   width: 100%;
   text-align: center;
-  font-size: 5mm;
-  text-shadow: 0 0 white;
 }
 
 .symbol {
