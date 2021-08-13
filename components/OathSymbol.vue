@@ -1,5 +1,5 @@
 <template>
-  <img :src="src" :style="styleSize" class="oath-symbol">
+  <img :src="src" :style="styleSize" class="oath-symbol" :class="{ 'white-border': border }">
 </template>
 
 <script>
@@ -11,6 +11,10 @@ export default {
       type: Number,
       default: 12,
     },
+    border: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {
@@ -58,5 +62,9 @@ export default {
 
 <style scoped lang="scss">
 .oath-symbol {
+}
+
+.white-border {
+  filter: drop-shadow(1px 1px 0px white) drop-shadow(-1px 0px 0px white);
 }
 </style>

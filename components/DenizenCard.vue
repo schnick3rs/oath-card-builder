@@ -23,6 +23,7 @@
           :key="i"
           :symbol="c"
           :size="20"
+          border
         ></oath-symbol>
       </div>
 
