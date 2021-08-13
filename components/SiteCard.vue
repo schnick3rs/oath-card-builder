@@ -185,7 +185,7 @@ export default {
   left: 26mm;
   bottom: 16mm;
   font-size: 3.5mm;
-  color: white;
+  color: black;
 }
 
 
