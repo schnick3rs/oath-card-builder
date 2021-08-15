@@ -47,11 +47,12 @@ export default {
   }
 
   & .uppercase {
-    text-transform: uppercase;
-    font-size: 2.2mm;
+    /* text-transform: uppercase; */
+    //font-size: 3.0mm;
+    font-variant: small-caps;
 
     & .capital {
-      font-size: 3.4mm;
+      //font-size: 3.4mm;
     }
 
   }

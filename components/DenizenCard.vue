@@ -173,7 +173,8 @@ export default {
   height: 23mm;
   text-align: center;
   font-size: 3.8mm;
-  line-height: 3.5mm;
+  /*line-height: 3.5mm;*/
+  line-height: 3.3mm;
   letter-spacing: -0.5px;
   padding: 2mm 2.5mm;
   /* vertical-align: middle; */
@@ -190,13 +191,13 @@ export default {
   &--instant-medium {
     height: 32.5mm;
     text-align: center;
-    padding: 9mm 8.5mm;
+    padding: 8.5mm 8mm;
   }
 
   &--instant-large {
     height: 39mm;
     text-align: center;
-    padding: 9mm 8.5mm;
+    padding: 8.2mm 8mm;
   }
 
 }
