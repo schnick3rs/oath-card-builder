@@ -277,7 +277,15 @@ async function drawDenizen(card, F = 7) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     const bounds = card.type.startsWith('instant-') ? width-14*F : width-15.5*F;
-    const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*5;
+    let boxY = height - fontSize*5;
+    if (card.type.startsWith('instant-')) {
+      switch (card.type) {
+        case 'instant-small': boxY = height - fontSize*4; break;
+        case 'instant-medium': boxY = height - fontSize*5; break;
+        case 'instant-large': boxY = height - fontSize*6; break;
+        default: boxY = height - fontSize*6;
+      }
+    }
     let symbols = fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
     if (symbols) {
       console.info(symbols)
