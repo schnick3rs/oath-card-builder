@@ -74,7 +74,7 @@ function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
   if (offsetX > 1) offsetX = 1;
   if (offsetY > 1) offsetY = 1;
 
-  var iw = img.width,
+  let iw = img.width,
     ih = img.height,
     r = Math.min(w / iw, h / ih),
     nw = iw * r,   // new prop. width
@@ -126,6 +126,9 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   let cleanedText = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ');
   cleanedText = cleanedText.replace(/([\[\]>])/gm, '');
   cleanedText = cleanedText.replace(/(}{)/gm, '} {');
+  cleanedText = cleanedText.replace(/\*\*When played,\*\*/gm, 'WHEN PLAYED,');
+  cleanedText = cleanedText.replace(/\*\*Action:\*\*/gm, 'ACTION:');
+  cleanedText = cleanedText.replace(/\*\*Rest:\*\*/gm, 'REST:');
 
   const words = cleanedText.split(' ');
   let line = [];
@@ -136,7 +139,7 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   words.forEach((word, i) => {
     const { width } = ctx.measureText(word);
 
-    console.debug(`line[${currentLineIndex}] word(${word}:${width}) line(${line})`);
+    console.info(`line[${currentLineIndex}] word(${word}:${width}) line(${line})`);
 
     // apply BOLD to word
     if (word.startsWith('**') && word.endsWith('**')) {
@@ -276,7 +279,7 @@ async function drawDenizen(card, F = 7) {
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const bounds = card.type.startsWith('instant-') ? width-14*F : width-15.5*F;
+    const bounds = card.type.startsWith('instant-') ? width-13*F : width-15.5*F;
     let boxY = height - fontSize*5;
     if (card.type.startsWith('instant-')) {
       switch (card.type) {
