@@ -285,7 +285,7 @@ async function drawDenizen(card, F = 7) {
       switch (card.type) {
         case 'instant-small': boxY = height - fontSize*4; break;
         case 'instant-medium': boxY = height - fontSize*5; break;
-        case 'instant-large': boxY = height - fontSize*6; break;
+        case 'instant-large': boxY = height - fontSize*7; break;
         default: boxY = height - fontSize*6;
       }
     }

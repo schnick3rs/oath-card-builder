@@ -67,15 +67,17 @@ export default {
     finalDeck() {
       let deck = [];
       this.library
-        .filter(card => card.__type === 'denizen')
+        .filter(card => ['denizen', 'edifice'].includes(card.__type))
         .forEach(card => {
-        deck.push(card);
-        if (card.__type === 'denizen' && this.printBack) {
-          deck.push({
-            __type: 'denizen-back',
-          });
-        }
-      });
+          switch (card.__type) {
+            case 'edifice':
+              deck.push(card.front);
+              deck.push(card.ruined);
+              break;
+            default:
+              deck.push(card);
+          }
+        });
       return deck;
     },
   },
