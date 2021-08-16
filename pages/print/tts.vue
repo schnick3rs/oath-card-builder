@@ -16,6 +16,8 @@
                 <v-checkbox label="Print with back" v-model="printBack"></v-checkbox>
               </v-card-text>
               <v-btn @click="drawCards()">draw</v-btn>
+              <p style="font-family: OathCapital">OathCapital</p>
+              <p style="font-family: OathText">OathText</p>
             </v-card>
           </v-col>
         </v-row>
@@ -114,10 +116,9 @@ export default {
         const currentRow = Math.floor(index / 7);
         const currentCol = index % 7;
         console.info(`position -> ${currentCol}:${currentRow}`);
-        const x = 0 + 57 * factor * currentCol;
-        const y = 0 + 89 * factor * currentRow;
+        const x = 57 * factor * currentCol;
+        const y = 89 * factor * currentRow;
         this.drawCard(card, x, y, factor);
-
       });
     },
     drawCard(card, x, y, F = 4) {
@@ -145,8 +146,62 @@ export default {
             };
             imgToDraw.onerror = reject;
           });
+        },
+        async drawImagePropotional(ctx, src, imageX, imageY, w, h, offsetX, offsetY) {
+          // return a Promise synchronously
+          return new Promise((resolve, reject) => {
+            const image = new Image();
+            image.src = src;
+            image.onload = () => {
+              // default offset is center
+              offsetX = typeof offsetX === "number" ? offsetX : 0.5;
+              offsetY = typeof offsetY === "number" ? offsetY : 0.5;
+
+              // keep bounds [0.0, 1.0]
+              if (offsetX < 0) offsetX = 0;
+              if (offsetY < 0) offsetY = 0;
+              if (offsetX > 1) offsetX = 1;
+              if (offsetY > 1) offsetY = 1;
+
+              let iw = image.width,
+                ih = image.height,
+                r = Math.min(w / iw, h / ih),
+                nw = iw * r,   // new prop. width
+                nh = ih * r,   // new prop. height
+                cx, cy, cw, ch, ar = 1;
+
+              // decide which gap to fill
+              if (nw < w) ar = w / nw;
+              if (Math.abs(ar - 1) < 1e-14 && nh < h) ar = h / nh;  // updated
+              nw *= ar;
+              nh *= ar;
+
+              // calc source rectangle
+              cw = iw / (nw / w);
+              ch = ih / (nh / h);
+
+              cx = (iw - cw) * offsetX;
+              cy = (ih - ch) * offsetY;
+
+              // make sure source rectangle is valid
+              if (cx < 0) cx = 0;
+              if (cy < 0) cy = 0;
+              if (cw > iw) cw = iw;
+              if (ch > ih) ch = ih;
+
+              // fill image in dest. rectangle
+              console.info(`draw background image ${src} ` + cx + ' ' + cy + ' ' + cw + ' ' + ch + ' ' + imageX + ' ' + imageY + ' ' + w + ' ' + h);
+              ctx.drawImage(image, cx, cy, cw, ch, imageX, imageY, w, h);
+            };
+            image.onerror = reject;
+          });
         }
       };
+
+      // draw card image
+      if (card.image && card.image.length > 0) {
+        (async () => { await obj.drawImagePropotional(this.ctx, card.image, x, y, width, height); })();
+      }
 
       // restriction
       if (card.restriction && card.restriction !== 'None') {
@@ -174,6 +229,25 @@ export default {
         };
         const images = [image];
         await obj.drawImages(this.ctx, images);
+
+        this.ctx.fillStyle ='white';
+        this.ctx.strokeStyle ='white';
+        const str = card.name.trim();
+        const fontSize = 5*F;
+        let nameX = x + 17*F;
+        let nameY = y + 12.5*F;
+        let previousChar = '';
+//        console.info(`[${card.name}] write name at ${nameX}:${nameY}`);
+        //this.ctx.fillText(str, nameX, nameY);
+        for (let i = 0; i < str.length; ++i){
+          const ch = str.charAt(i);
+          this.ctx.font = i === 0 || previousChar === ' '
+            ? `${fontSize}px OathCapital`
+            : `${fontSize}px OathText`;
+          this.ctx.fillText(ch, nameX, nameY);
+          nameX += this.ctx.measureText(ch).width;
+          previousChar = ch;
+        }
       })();
 
       // draw type box
@@ -187,6 +261,16 @@ export default {
         };
         const images = [image];
         await obj.drawImages(this.ctx, images);
+
+        // write text
+        const fontSize = 3.5*F;
+        this.ctx.font = `${fontSize}px OathText`;
+        this.ctx.fillStyle = 'black';
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
+        const bounds = card.type.startsWith('instant-') ? width-14*F : width-15.5*F;
+        const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*5;
+        this.ctx.fillText(card.text, x, y + boxY);
       })();
 
       // draw card modifer
@@ -203,6 +287,13 @@ export default {
           await obj.drawImages(this.ctx, images);
         })();
       }
+
+      // write costs
+      if (card.cost) {
+
+      }
+
+
 
     },
     dynamicCard(cardType) {
