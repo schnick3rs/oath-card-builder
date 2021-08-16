@@ -15,7 +15,13 @@
               </v-card-text>
               <v-card-actions>
                 <v-btn @click="drawCards">generate </v-btn>
-                <v-btn :disabled="!ttsPng" download :href="ttsPng">download</v-btn>
+                <v-btn
+                  :disabled="!ttsPng"
+                  download="oath-fab-deck.png"
+                  :href="ttsPng"
+                >
+                  download
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
