@@ -130,12 +130,16 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   cleanedText = cleanedText.replace(/\*\*When played,\*\*/gm, 'WHEN PLAYED,');
   cleanedText = cleanedText.replace(/\*\*Action:\*\*/gm, 'ACTION:');
   cleanedText = cleanedText.replace(/\*\*Rest:\*\*/gm, 'REST:');
+  console.info(`Cleaned Text -> ${cleanedText}`);
 
   const words = cleanedText.split(' ');
   let line = [];
   let currentLineIndex = 0;
   let lineWidth = 0;
   let symbols = [[],[],[],[],[],[],[],[],[]];//{ 0: [], 1: [], 2: [], 3: [], 4: []};
+
+  let isItalic = false;
+  let isBold = false;
 
   words.forEach((word, i) => {
     const { width } = ctx.measureText(word);
@@ -165,6 +169,11 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
     }
 
     if (word === '<p>') {
+      console.info(`write ${line.join(' ')} at ${x}:${y} `);
+      ctx.fillText(line.join(' '), x, y);
+      // we update all symbols in this line to know their lines width.
+      symbols[currentLineIndex].forEach(s => { s.lineWidth = lineWidth; s.y = y; });
+
       y += fontSize;
       line = [];
       lineWidth = 0;
@@ -282,7 +291,7 @@ async function drawDenizen(card, F = 7) {
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const bounds = card.type.startsWith('instant-') ? width-18*F : width-11*F;
+    const bounds = card.type.startsWith('instant-') ? width-19*F : width-11*F;
     let boxY = height - 18*F;
     if (card.type.startsWith('instant-')) {
       switch (card.type) {
