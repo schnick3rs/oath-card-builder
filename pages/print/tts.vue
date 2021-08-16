@@ -102,11 +102,10 @@ export default {
       this.finalDeck.forEach((card, index) => {
         const currentRow = Math.floor(index / 7);
         const currentCol = index % 7;
-        console.info(`position -> ${currentCol}:${currentRow}`);
         const x = 57 * factor * currentCol;
         const y = 89 * factor * currentRow;
         const slug = this.getExportString(card);
-        const src = `https://oath-card-builder.herokuapp.com/api/canvas/${slug}/preview.png`;
+        const src = `/api/canvas/${slug}/preview.png`;
         try {
           const image = new Image();
           image.src = src;

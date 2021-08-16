@@ -126,6 +126,7 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   let cleanedText = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ');
   cleanedText = cleanedText.replace(/([\[\]])/gm, '');
   cleanedText = cleanedText.replace(/(}{)/gm, '} {');
+  cleanedText = cleanedText.replace(/(}\/{)/gm, '} / {');
   cleanedText = cleanedText.replace(/\*\*When played,\*\*/gm, 'WHEN PLAYED,');
   cleanedText = cleanedText.replace(/\*\*Action:\*\*/gm, 'ACTION:');
   cleanedText = cleanedText.replace(/\*\*Rest:\*\*/gm, 'REST:');
@@ -274,19 +275,21 @@ async function drawDenizen(card, F = 7) {
 
   if (card.text.trim()) {
 
-    const fontSize = 3.5*F;
+    const cardTextWidth = ctx.measureText(card.text).width;
+    console.info(`Card text width = ${cardTextWidth}.`);
+    const fontSize = cardTextWidth > 1800 ? 3*F : 3.5*F;
     ctx.font = `${fontSize}px OathText`;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const bounds = card.type.startsWith('instant-') ? width-17*F : width-11*F;
-    let boxY = height - fontSize*5;
+    const bounds = card.type.startsWith('instant-') ? width-18*F : width-11*F;
+    let boxY = height - 18*F;
     if (card.type.startsWith('instant-')) {
       switch (card.type) {
-        case 'instant-small': boxY = height - fontSize*4; break;
-        case 'instant-medium': boxY = height - fontSize*6; break;
-        case 'instant-large': boxY = height - fontSize*8; break;
-        default: boxY = height - fontSize*6;
+        case 'instant-small': boxY = height - 15*F; break;
+        case 'instant-medium': boxY = height - 21*F; break;
+        case 'instant-large': boxY = height - 29*F; break;
+        default: boxY = height - 18*F;
       }
     }
     let symbols = fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);

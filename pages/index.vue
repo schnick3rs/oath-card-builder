@@ -35,6 +35,10 @@
             <v-icon left>mdi-printer</v-icon>
             Print Cards
           </v-btn>
+          <v-btn to="/print/tts">
+            <v-icon left>mdi-printer</v-icon>
+            TTS Export
+          </v-btn>
 
           <v-btn to="/print/csv">
             <v-icon left>mdi-file-upload</v-icon>
