@@ -289,7 +289,7 @@ async function drawDenizen(card, F = 7) {
 
     const cardTextWidth = ctx.measureText(card.text).width;
     console.info(`Card text width = ${cardTextWidth}.`);
-    const fontSize = cardTextWidth > 1800 ? 3*F : 3.5*F;
+    const fontSize = cardTextWidth > 2500 ? 3*F : 3.5*F;
     ctx.font = `${fontSize}px OathText`;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
@@ -421,7 +421,7 @@ async function drawSite(card, F = 7) {
   return canvas;
 }
 
-async function draw(card, F = 4) {
+async function draw(card, F) {
   registerFont('goudy_old_style_regular-webfont.ttf', { family: 'OathText' });
   registerFont('goudy_text_mt_lombardic_capitals-webfont.ttf', { family: 'OathCapital' });
 
