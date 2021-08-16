@@ -27,25 +27,6 @@
 <script>
 import SeoHead from "@/mixins/SeoHead";
 
-const DenizenCardWrapper = () => import( /* webpackChunkName: "DenizenCardWrapper" */ '~/components/DenizenCardWrapper.vue' );
-const DenizenCardBack = () => import( /* webpackChunkName: "DenizenCardBack" */ '~/components/DenizenCardBack.vue' );
-const RelicCardWrapper = () => import( /* webpackChunkName: "RelicCardWrapper" */ '~/components/RelicCardWrapper.vue' );
-const SiteCardWrapper = () => import( /* webpackChunkName: "SiteCardWrapper" */ '~/components/SiteCardWrapper.vue' );
-const EdificeCardWrapper = () => import( /* webpackChunkName: "EdificeCardWrapper" */ '~/components/EdificeCardWrapper.vue' );
-
-const typeMap = {
-  'power': '/img/box minor action.png',
-  'power-modifer': '/img/box action modifier.png',
-  'persistent': '/img/box persistent.png',
-  'persistent-modifer': '/img/box persistent action modifer.png',
-  'battleplan-attacker': '/img/box battle plan attacker.png',
-  'battleplan-defender': '/img/box battle plan defender.png',
-  'battleplan-both': '/img/box battle plan both.png',
-  'instant-large': '/img/box when played large.png',
-  'instant-medium': '/img/box when played medium.png',
-  'instant-small': '/img/box when played small.png',
-};
-
 export default {
   name: "deck",
   layout: 'print',
@@ -129,6 +110,13 @@ export default {
           image.src = src;
           image.onload = () => {
             this.ctx.drawImage(image, x, y, 57 * factor, 89 * factor);
+          }
+          image.onerror = (e) => {
+            const placeholder = new Image();
+            placeholder.src = `https://via.placeholder.com/${57*factor}${89*factor}`;
+            placeholder.onload = () => {
+              this.ctx.drawImage(placeholder, x, y, 57 * factor, 89 * factor);
+            }
           }
         } catch (e) {
           console.warn(e);

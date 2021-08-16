@@ -124,17 +124,19 @@ function capitalText(ctx, str, fontSize, x, y){
 
 function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   let cleanedText = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ');
-  cleanedText = text.replace(/([\[\]>])/gm, '')
+  cleanedText = cleanedText.replace(/([\[\]>])/gm, '');
+  cleanedText = cleanedText.replace(/(}{)/gm, '} {');
+
   const words = cleanedText.split(' ');
   let line = [];
   let currentLineIndex = 0;
   let lineWidth = 0;
-  let symbols = [[],[],[],[],[]];//{ 0: [], 1: [], 2: [], 3: [], 4: []};
+  let symbols = [[],[],[],[],[],[]];//{ 0: [], 1: [], 2: [], 3: [], 4: []};
 
   words.forEach((word, i) => {
     const { width } = ctx.measureText(word);
 
-    //console.debug(`line[${currentLineIndex}] word(${word}:${width}) line(${line})`);
+    console.debug(`line[${currentLineIndex}] word(${word}:${width}) line(${line})`);
 
     // apply BOLD to word
     if (word.startsWith('**') && word.endsWith('**')) {
@@ -237,6 +239,7 @@ async function drawDenizen(card, F = 7) {
     ctx.drawImage(await loadImage( `${baseUrl}/img/action modifer ${card.modifer}.png`), 0, 0, width, height);
   }
 
+  console.info(`Write text for costs -> ${card.cost}.`);
   if (card.cost) {
     const iconSize = 5*F;
     let costIconCount = card.cost.length;
@@ -266,27 +269,33 @@ async function drawDenizen(card, F = 7) {
     });
   }
 
-  const fontSize = 3.5*F;
-  ctx.font = `${fontSize}px OathText`;
-  ctx.fillStyle = 'black';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  const bounds = card.type.startsWith('instant-') ? width-14*F : width-15.5*F;
-  const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*5;
-  let symbols = fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
-  if (symbols) {
-    for (let i = 0; i < symbols.length; i++) {
-      const line = symbols[i];
-      for (let j = 0; j < line.length; j++) {
-        const symbol = line[j];
-        const symbolXOffset = -1 * (symbol.lineWidth/2 - symbol.x);
-        const symbolX = width/2 + symbolXOffset;
-        const symbolY = symbol.y - fontSize / 2;
-        await drawSymbol(ctx, symbol.word, symbolX, symbolY, fontSize, fontSize);
+  if (card.text.trim()) {
+
+    const fontSize = 3.5*F;
+    ctx.font = `${fontSize}px OathText`;
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const bounds = card.type.startsWith('instant-') ? width-14*F : width-15.5*F;
+    const boxY = card.type.startsWith('instant-') ? height - fontSize*6 : height - fontSize*5;
+    let symbols = fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
+    if (symbols) {
+      console.info(symbols)
+      console.info(`Write ${symbols.length} symbols into text placeholders...`);
+      for (let i = 0; i < symbols.length; i++) {
+        const line = symbols[i];
+        for (let j = 0; j < line.length; j++) {
+          const symbol = line[j];
+          const symbolXOffset = -1 * (symbol.lineWidth/2 - symbol.x);
+          const symbolX = width/2 + symbolXOffset;
+          const symbolY = symbol.y - fontSize / 2;
+          await drawSymbol(ctx, symbol.word, symbolX, symbolY, fontSize, fontSize);
+        }
       }
     }
   }
 
+  console.info(`Return denizen canvas.`);
   return canvas;
 }
 
@@ -404,6 +413,7 @@ router.get('/:slug/preview.png', async (request, response) => {
   const slug = request.params.slug;
 
   const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
+  console.info(card);
 
   response.setHeader('Content-Type', 'image/png');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
