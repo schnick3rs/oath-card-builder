@@ -279,19 +279,18 @@ async function drawDenizen(card, F = 7) {
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const bounds = card.type.startsWith('instant-') ? width-13*F : width-15.5*F;
+    const bounds = card.type.startsWith('instant-') ? width-17*F : width-15.5*F;
     let boxY = height - fontSize*5;
     if (card.type.startsWith('instant-')) {
       switch (card.type) {
         case 'instant-small': boxY = height - fontSize*4; break;
-        case 'instant-medium': boxY = height - fontSize*5; break;
-        case 'instant-large': boxY = height - fontSize*7; break;
+        case 'instant-medium': boxY = height - fontSize*6; break;
+        case 'instant-large': boxY = height - fontSize*8; break;
         default: boxY = height - fontSize*6;
       }
     }
     let symbols = fillContainedText(ctx, card.text, fontSize, width/2, boxY, bounds);
     if (symbols) {
-      console.info(symbols)
       console.info(`Write ${symbols.length} symbols into text placeholders...`);
       for (let i = 0; i < symbols.length; i++) {
         const line = symbols[i];
@@ -424,7 +423,6 @@ router.get('/:slug/preview.png', async (request, response) => {
   const slug = request.params.slug;
 
   const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
-  console.info(card);
 
   response.setHeader('Content-Type', 'image/png');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
