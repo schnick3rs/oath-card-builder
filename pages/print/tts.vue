@@ -113,6 +113,7 @@ export default {
             this.ctx.drawImage(image, x, y, 57 * factor, 89 * factor);
           }
           image.onerror = (e) => {
+            console.warn(e);
             const placeholder = new Image();
             placeholder.src = `https://via.placeholder.com/${57*factor}${89*factor}`;
             placeholder.onload = () => {

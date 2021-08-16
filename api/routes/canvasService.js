@@ -294,7 +294,7 @@ async function drawDenizen(card, F = 7) {
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const bounds = card.type.startsWith('instant-') ? width-19*F : width-11*F;
+    const bounds = card.type.startsWith('instant-') ? width-20*F : width-11*F;
     let boxY = height - 18*F;
     if (card.type.startsWith('instant-')) {
       switch (card.type) {
