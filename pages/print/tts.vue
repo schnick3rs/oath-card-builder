@@ -11,8 +11,12 @@
               <v-divider></v-divider>
               <v-card-text>
                 Create a large PNG usable for TTS.
+                <p>{{percentage}} % of cards loaded</p>
               </v-card-text>
-              <v-btn @click="drawCards()">generate TTS export png</v-btn>
+              <v-card-actions>
+                <v-btn @click="drawCards">generate </v-btn>
+                <v-btn :disabled="!ttsPng" download :href="ttsPng">download</v-btn>
+              </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
@@ -28,18 +32,20 @@
 import SeoHead from "@/mixins/SeoHead";
 
 export default {
-  name: "deck",
+  name: "tts-export",
   layout: 'print',
   mixins: [SeoHead],
   data() {
     return {
       printBack: false,
       canvas: undefined,
+      ttsPng: undefined,
+      loadedCards: 0,
     };
   },
   head() {
-    const title = `Print your cards`;
-    let description = `Print your library on DIN A4 and cut them ready to use.`;
+    const title = `Export PNG for TTS`;
+    let description = `Create and download a large PNG file containing all your denizen.`;
     const image = `https://oath-card-builder.herokuapp.com/img/seo/index.png`;
     return {
       ...this.seo(title, description, image),
@@ -47,22 +53,14 @@ export default {
   },
   mounted() {
     let canvas = document.getElementById('canvas');
-    let ctx = canvas.getContext('2d');
-    this.ctx = ctx;
+    this.ctx = canvas.getContext('2d');
   },
   computed: {
+    percentage() {
+      return ((this.loadedCards / this.finalDeck.length) * 100).toFixed(0);
+    },
     library() {
       return this.$store.getters['library/cardSets'];
-    },
-    groupedDeck() {
-      return this.library.reduce((groups, card) => {
-        const group = card.__type;
-
-        if(!groups[group]) groups[group] = [];
-
-        groups[group].push(card);
-        return groups;
-      }, {});
     },
     finalDeck() {
       let deck = [];
@@ -89,43 +87,80 @@ export default {
     },
     drawCards() {
 
+      this.loadedCards = 0;
+      this.ttsPng = null;
+
+      const F = 5;
+
       const cardCount = this.finalDeck.length;
-      const factor = 4;
       const rows = Math.floor(cardCount / 7)+1;
       const cols = Math.min(cardCount, 7);
-      this.ctx.canvas.width = 57 * 4 * cols;
-      this.ctx.canvas.height = 89 * 4 * rows;
+      this.ctx.canvas.width = 57 * F * cols;
+      this.ctx.canvas.height = 89 * F * rows;
       this.ctx.fillStyle = 'rgba(0, 0, 200, 0.25)';
       this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
       console.info(`Define area for ${cardCount} cards -> ${rows}x${cols}.`);
 
-      this.finalDeck.forEach((card, index) => {
+      const loadImage = (url) => {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => {
+            this.loadedCards++;
+            resolve(image);
+          };
+          image.onerror = () => reject(new Error(`load ${url} fail`));
+          image.src = url;
+        });
+      };
+
+      const drawImage = (image) => {
+        // And this is the key to this solution
+        // Always remember to make a copy of original object, then it just works :)
+        const myImage = Object.assign({}, image);
+        return loadImage(myImage.src).then((img) => {
+
+          this.ctx.drawImage(img, myImage.x, myImage.y, myImage.w, myImage.h);
+        });
+      }
+
+      const cards = this.finalDeck.map((card, index) => {
         const currentRow = Math.floor(index / 7);
         const currentCol = index % 7;
-        const x = 57 * factor * currentCol;
-        const y = 89 * factor * currentRow;
+        const x = 57 * F * currentCol;
+        const y = 89 * F * currentRow;
         const slug = this.getExportString(card);
         const src = `/api/canvas/${slug}/preview.png`;
-        try {
-          const image = new Image();
-          image.src = src;
-          image.onload = () => {
-            this.ctx.drawImage(image, x, y, 57 * factor, 89 * factor);
-          }
-          image.onerror = (e) => {
-            console.warn(e);
-            const placeholder = new Image();
-            placeholder.src = `https://via.placeholder.com/${57*factor}${89*factor}`;
-            placeholder.onload = () => {
-              this.ctx.drawImage(placeholder, x, y, 57 * factor, 89 * factor);
-            }
-          }
-        } catch (e) {
-          console.warn(e);
+        return {
+          src,
+          x,
+          y,
+          w: 57 * F,
+          h: 89 * F,
         }
       });
 
 
+      const imagePromises = this.finalDeck.map((card) => {
+        const slug = this.getExportString(card);
+        const src = `/api/canvas/${slug}/preview.png`;
+        return loadImage(src);
+      });
+
+      Promise.all(imagePromises).then((images) => {
+        images.forEach((image, index) => {
+          const currentRow = Math.floor(index / 7);
+          const currentCol = index % 7;
+          const x = 57 * F * currentCol;
+          const y = 89 * F * currentRow;
+          this.ctx.drawImage(image, x, y, 57*F, 89*F);
+        });
+        this.generatePngString();
+      });
+
+
+    },
+    generatePngString() {
+      this.ttsPng = this.ctx.canvas.toDataURL("image/png");
     },
   },
 }

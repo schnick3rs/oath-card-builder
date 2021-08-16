@@ -147,7 +147,7 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   words.forEach((word, i) => {
     const { width } = ctx.measureText(word);
 
-    console.info(`line[${currentLineIndex}] word(${word}:${width}) line(${line})`);
+    console.debug(`line[${currentLineIndex}] word(${word}:${width}) line(${line})`);
 
     // apply BOLD to word
     if (word.startsWith('**') && word.endsWith('**')) {
@@ -320,7 +320,7 @@ async function drawDenizen(card, F = 7) {
     }
   }
 
-  console.info(`Return denizen canvas.`);
+  console.debug(`Return denizen canvas.`);
   return canvas;
 }
 
@@ -421,13 +421,13 @@ async function drawSite(card, F = 7) {
   return canvas;
 }
 
-async function draw(card) {
+async function draw(card, F = 4) {
   registerFont('goudy_old_style_regular-webfont.ttf', { family: 'OathText' });
   registerFont('goudy_text_mt_lombardic_capitals-webfont.ttf', { family: 'OathCapital' });
 
   switch (card.__type) {
-    case 'site': return await drawSite(card);
-    case 'denizen': return await drawDenizen(card);
+    case 'site': return await drawSite(card, F);
+    case 'denizen': return await drawDenizen(card, F);
     default:
       return;
   }
@@ -436,13 +436,14 @@ async function draw(card) {
 router.get('/:slug/preview.png', async (request, response) => {
 
   const slug = request.params.slug;
+  const factor = request.query.f || 7;
 
   const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
-  console.info(card);
+  console.debug(card);
 
   response.setHeader('Content-Type', 'image/png');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
-  const drawed = await draw(card);
+  const drawed = await draw(card, factor);
   drawed.createPNGStream().pipe(response)
 });
 
