@@ -123,7 +123,10 @@ function capitalText(ctx, str, fontSize, x, y){
 }
 
 function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
-  let cleanedText = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ');
+  let cleanedText = text;
+  cleanedText = cleanedText.replace(/>.\[(.*)({.})\]/gm, '$1 $2');
+  cleanedText = cleanedText.replace(/(\r\n|\n\n|\r)/gm, ' <p> ');
+  cleanedText = cleanedText.replace(/_/gm, '');
   cleanedText = cleanedText.replace(/([\[\]])/gm, '');
   cleanedText = cleanedText.replace(/(}{)/gm, '} {');
   cleanedText = cleanedText.replace(/(}\/{)/gm, '} / {');
