@@ -124,7 +124,7 @@ function capitalText(ctx, str, fontSize, x, y){
 
 function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   let cleanedText = text.replace(/(\r\n|\n\n|\r)/gm, ' <p> ');
-  cleanedText = cleanedText.replace(/([\[\]>])/gm, '');
+  cleanedText = cleanedText.replace(/([\[\]])/gm, '');
   cleanedText = cleanedText.replace(/(}{)/gm, '} {');
   cleanedText = cleanedText.replace(/\*\*When played,\*\*/gm, 'WHEN PLAYED,');
   cleanedText = cleanedText.replace(/\*\*Action:\*\*/gm, 'ACTION:');
@@ -134,7 +134,7 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
   let line = [];
   let currentLineIndex = 0;
   let lineWidth = 0;
-  let symbols = [[],[],[],[],[],[]];//{ 0: [], 1: [], 2: [], 3: [], 4: []};
+  let symbols = [[],[],[],[],[],[],[],[],[]];//{ 0: [], 1: [], 2: [], 3: [], 4: []};
 
   words.forEach((word, i) => {
     const { width } = ctx.measureText(word);
@@ -279,7 +279,7 @@ async function drawDenizen(card, F = 7) {
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const bounds = card.type.startsWith('instant-') ? width-17*F : width-15.5*F;
+    const bounds = card.type.startsWith('instant-') ? width-17*F : width-11*F;
     let boxY = height - fontSize*5;
     if (card.type.startsWith('instant-')) {
       switch (card.type) {
@@ -423,6 +423,7 @@ router.get('/:slug/preview.png', async (request, response) => {
   const slug = request.params.slug;
 
   const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
+  console.info(card);
 
   response.setHeader('Content-Type', 'image/png');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
