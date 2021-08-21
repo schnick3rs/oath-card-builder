@@ -79,6 +79,13 @@
             </v-avatar>
           </template>
 
+          <template v-slot:item.restriction="{ item }">
+            <v-avatar :size="30" tile>
+              <img v-if="item.__type === 'edifice'" :alt="item.front.restriction" :src="`/img/icons/restriction ${item.front.restriction}.png`" />
+              <img v-else :alt="item.suit" :src="`/img/icons/restriction ${item.restriction}.png`" />
+            </v-avatar>
+          </template>
+
           <template v-slot:item.name="{ item }">
             <div v-if="item.__type === 'edifice'">
               <div>{{item.front.name}}</div>
@@ -191,6 +198,7 @@ export default {
           { text: 'Preview', value: 'preview' },
           { text: 'Suit', value: 'suit', align: 'center' },
           { text: 'Name', value: 'name' },
+          { text: 'Restriction', value: 'restriction' },
           { text: 'Type', value: 'type' },
           { text: 'Cost', value: 'cost', align: 'center' },
           { text: 'Text', value: 'text' },
