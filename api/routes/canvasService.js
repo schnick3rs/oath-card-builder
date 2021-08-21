@@ -162,7 +162,7 @@ function fillContainedText(ctx, text, fontSize, x, y, maxWidth) {
     let symbol = null;
     if (word.startsWith('{') && (word.endsWith('}') || word.endsWith('}.') || word.endsWith('},'))) {
       const symbolX = ctx.measureText(line.join(' ')+' ').width;
-      //console.info(`Cache ${word} in line ${currentLineIndex}. Line is ${line.join(' ')}`);
+      console.info(`Remember ${word} in line ${currentLineIndex} at pos X = ${symbolX}. Line is ${line.join(' ')}`);
       symbol = {
         word: word.replace(/{(.*)}.?/gm, '$1'),
         x: symbolX,
@@ -290,7 +290,9 @@ async function drawDenizen(card, F = 7) {
 
     const cardTextWidth = ctx.measureText(card.text).width;
     console.info(`Card text width = ${cardTextWidth}.`);
-    const fontSize = cardTextWidth > 2500 ? 3*F : 3.5*F;
+    let fontSize = 3.5*F;
+    fontSize = cardTextWidth > 2400 ? 3*F : fontSize;
+    fontSize = cardTextWidth > 3000 ? 2.8*F : fontSize;
     ctx.font = `${fontSize}px OathText`;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
@@ -312,9 +314,10 @@ async function drawDenizen(card, F = 7) {
         const line = symbols[i];
         for (let j = 0; j < line.length; j++) {
           const symbol = line[j];
-          const symbolXOffset = -1 * (symbol.lineWidth/2 - symbol.x);
+          const symbolXOffset = -1 * ( (symbol.lineWidth/2 - symbol.x)  );
           const symbolX = width/2 + symbolXOffset;
           const symbolY = symbol.y - fontSize / 2;
+          console.info(`Draw ${symbol.word} at [${symbolX},${symbolY}].`);
           await drawSymbol(ctx, symbol.word, symbolX, symbolY, fontSize, fontSize);
         }
       }

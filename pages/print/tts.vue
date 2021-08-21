@@ -71,6 +71,8 @@ export default {
     finalDeck() {
       let deck = [];
       this.library
+        .sort((a, b) => a.name - b.name )
+        .sort((a, b) => a.suit - b.suit )
         .filter(card => ['denizen', 'edifice'].includes(card.__type))
         .forEach(card => {
           switch (card.__type) {
