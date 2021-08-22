@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-alert type="info">
-      Create a large PNG usable for TTS.
+    <v-alert type="info" text>
+      Create a large PNG usable for the <a href="https://store.steampowered.com/app/286160/Tabletop_Simulator/">TableTopSimulator</a> (Steam link).
     </v-alert>
     <v-container>
       <v-row>
