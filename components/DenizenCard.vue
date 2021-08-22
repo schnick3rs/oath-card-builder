@@ -91,6 +91,12 @@ export default {
     canvasId() {
       return `${this.id}`;
     },
+    imageProxy() {
+      if (this.image) {
+        return `/api/proxy/image?url=${this.image}`;
+      }
+      return null;
+    },
     nameWords() {
       if (this.name) {
         return [...this.name.split(' ')];
@@ -101,7 +107,7 @@ export default {
       return this.type.includes('modifer');
     },
     cardImage() {
-      return { backgroundImage: `url(${this.image})` };
+      return { backgroundImage: `url(${this.imageProxy})` };
     },
     formatedText() {
       const renderer = { del(text) { return `~${text}~`; } };
