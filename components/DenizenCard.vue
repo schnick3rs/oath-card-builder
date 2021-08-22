@@ -93,7 +93,7 @@ export default {
     },
     imageProxy() {
       if (this.image) {
-        return `/api/proxy/image?url=${this.image}`;
+        return `/api/image/?url=${this.image}`;
       }
       return null;
     },

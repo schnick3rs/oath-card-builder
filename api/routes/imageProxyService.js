@@ -6,7 +6,7 @@ const router = new Router();
 
 module.exports = router;
 
-router.get('/image', async (req, res) => {
+router.get('/', async (req, res) => {
 
   const url = req.query.url;
   request.get(url).pipe(res)
