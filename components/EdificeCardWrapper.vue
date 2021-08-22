@@ -1,6 +1,7 @@
 <template>
   <div :class="{ 'fixed': fixedWidth }">
     <denizen-card
+      :id="card.id"
       :edifice="card.__type === 'edifice'"
       :name="card.front.name"
       :image="card.front.image"
@@ -13,6 +14,7 @@
       :text="card.front.text"
     ></denizen-card>
     <denizen-card
+      :id="`${card.id}-ruined`"
       :name="card.ruined.name"
       :image="card.ruined.image"
       :credits="card.ruined.credits"

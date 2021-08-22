@@ -1,6 +1,7 @@
 <template>
   <denizen-card
     :class="{ 'fixed': fixedWidth }"
+    :id="card.id"
     :edifice="card.__type === 'edifice'"
     :name="card.name"
     :image="card.image"

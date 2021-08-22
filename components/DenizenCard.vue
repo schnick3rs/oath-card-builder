@@ -1,6 +1,24 @@
 <template>
   <div>
-    <div class="denizen cutter">
+    <v-menu
+      v-model="showMenu"
+      :position-x="x"
+      :position-y="y"
+      absolute
+      offset-y
+    >
+      <v-list>
+        <v-list-item @click="downloadPng">
+          <v-list-item-title>download png</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <div
+      class="denizen"
+      :class="{ 'cutter': cutter }"
+      :id="canvasId"
+      @contextmenu.prevent="show"
+    >
 
       <div v-if="image" class="layer layer-image" :style="cardImage"></div>
 
@@ -37,10 +55,16 @@
 <script>
 import DOMPurify from 'isomorphic-dompurify';
 import marked from "marked";
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 
 export default {
   name: "DenizenCard",
   props: {
+    id: {
+      type: String,
+      default: 'random',
+    },
     edifice: Boolean,
     name: String,
     suit: String,
@@ -56,7 +80,18 @@ export default {
       default: false,
     }
   },
+  data() {
+    return {
+      cutter: true,
+      showMenu: false,
+      x: 0,
+      y: 0,
+    }
+  },
   computed: {
+    canvasId() {
+      return `${this.id}`;
+    },
     nameWords() {
       if (this.name) {
         return [...this.name.split(' ')];
@@ -86,6 +121,30 @@ export default {
     modiferImage() {
       return `/img/action modifer ${this.modifer}.png`;
     },
+  },
+  methods: {
+    show(e) {
+      this.showMenu = false
+      this.x = e.clientX
+      this.y = e.clientY
+      this.$nextTick(() => {
+        this.showMenu = true
+      })
+    },
+    downloadPng(event) {
+      const node = document.getElementById(this.canvasId);
+      const a = this;
+
+      this.cutter = false;
+      domtoimage.toBlob(node)
+        .then(function (blob) {
+          saveAs(blob, `oath-${a.edifice ? 'edifice' : 'denizen'}-${a.name.toLowerCase()}.png`);
+          a.cutter = true;
+        })
+        .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
+    }
   }
 }
 </script>

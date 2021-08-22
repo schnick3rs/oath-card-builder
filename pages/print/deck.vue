@@ -14,6 +14,8 @@
                 Enable Background graphics (checkbox)
                 This box will not be printed.
                 <v-checkbox label="Print with back" v-model="printBack"></v-checkbox>
+                <v-btn @click="domtopng">png</v-btn>
+                <v-btn download :href="pngUrl">png</v-btn>
               </v-card-text>
             </v-card>
           </v-col>
@@ -24,6 +26,7 @@
       <page v-for="(page, i) in pages" :key="i">
         <template v-for="card in page">
           <component
+            :id="i"
             :key="card.id"
             :is="dynamicCard(card.__type)"
             :card="card"
@@ -36,6 +39,7 @@
 
 <script>
 import SeoHead from "@/mixins/SeoHead";
+import domtoimage from 'dom-to-image';
 
 const DenizenCardWrapper = () => import( /* webpackChunkName: "DenizenCardWrapper" */ '~/components/DenizenCardWrapper.vue' );
 const DenizenCardBack = () => import( /* webpackChunkName: "DenizenCardBack" */ '~/components/DenizenCardBack.vue' );
@@ -50,6 +54,7 @@ export default {
   data() {
     return {
       printBack: false,
+      pngUrl: undefined,
     };
   },
   head() {
@@ -113,6 +118,19 @@ export default {
           return null;
       }
     },
+    domtopng() {
+      const node = document.getElementById('2');
+      const a = this;
+
+      domtoimage.toPng(node)
+        .then(function (dataUrl) {
+          console.info(dataUrl)
+          a.pngUrl = dataUrl;
+        })
+        .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
+    }
   }
 }
 </script>
