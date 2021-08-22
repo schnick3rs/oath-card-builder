@@ -53,7 +53,10 @@ export default {
           {
             const group = 'edifice-intact';
             if(!groups[group]) groups[group] = [];
-            groups[group].push(card.front);
+            groups[group].push({
+              ...card.front,
+              edifice: true,
+            });
           }
 
           {

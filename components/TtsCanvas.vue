@@ -18,7 +18,9 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-    <canvas :id="name"></canvas>
+    <div style="overflow-x: scroll">
+      <canvas :id="name"></canvas>
+    </div>
   </div>
 </template>
 

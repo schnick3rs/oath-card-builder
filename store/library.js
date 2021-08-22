@@ -149,6 +149,7 @@ const createDenizen = (
   __type: 'denizen',
   name,
   suit,
+  edifice: false,
   restriction,
   type,
   modifer,
@@ -174,6 +175,7 @@ const createEdifice = (
   front: {
     name,
     suit,
+    edifice: true,
     restriction: 'site locked',
     type,
     modifer,
@@ -185,6 +187,7 @@ const createEdifice = (
   ruined: {
     name,
     suit: 'ruined',
+    edifice: true,
     restriction: 'site locked',
     type,
     modifer,

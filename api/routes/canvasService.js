@@ -242,7 +242,7 @@ async function drawDenizen(card, F = 7) {
 
   // draw suit band
   console.info(`Load suit image for ${card.suit}`);
-  ctx.drawImage(await loadImage(`${baseUrl}/img/denizen ${card.suit}.png`), 0, 0, width, height);
+  ctx.drawImage(await loadImage(`${baseUrl}/img/${card.edifice ? 'ediface' : 'denizen'} ${card.suit}.png`), 0, 0, width, height);
 
   ctx.fillStyle ='white';
   ctx.strokeStyle ='white';
