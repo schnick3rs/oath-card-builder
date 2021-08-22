@@ -222,7 +222,8 @@ export default {
       const shortCard = { __type: 'denizen', ...this.card };
       const jsonString = JSON.stringify(shortCard);
       const exportString = Buffer.from(jsonString, 'utf8').toString('base64');
-      return `https://oath-card-builder.herokuapp.com/share/${exportString}`;
+      const plus = exportString.replace('/', '-');
+      return `https://oath-card-builder.herokuapp.com/share/${plus}`;
     },
     currentHash() {
       return JSON.stringify(this.card);

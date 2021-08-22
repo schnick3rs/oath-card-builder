@@ -439,7 +439,7 @@ async function draw(card, F) {
 
 router.get('/:slug/preview.png', async (request, response) => {
 
-  const slug = request.params.slug;
+  const slug = request.params.slug.replace('-', '/');;
   const factor = request.query.f || 7;
 
   const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
@@ -454,7 +454,7 @@ router.get('/:slug/preview.png', async (request, response) => {
 
 router.get('/:slug/preview.jpg', async (request, response) => {
 
-  const slug = request.params.slug;
+  const slug = request.params.slug.replace('-', '/');;
 
   const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
 

@@ -60,7 +60,7 @@ export default {
     getExportString(card) {
       const shortCard = { __type: 'denizen', ...card };
       const jsonString = JSON.stringify(shortCard);
-      return Buffer.from(jsonString, 'utf8').toString('base64');
+      return Buffer.from(jsonString, 'utf8').toString('base64').replace('/', '-');
     },
     drawCards() {
 

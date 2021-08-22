@@ -185,8 +185,9 @@ export default {
     sharableLink() {
       const shortCard = { __type: 'site', ...this.card };
       const jsonString = JSON.stringify(shortCard);
-      const exportString = Buffer.from(unescape(encodeURIComponent(jsonString)), 'ascii').toString('base64');
-      return `https://oath-card-builder.herokuapp.com/share/${exportString}`;
+      const exportString = Buffer.from(jsonString, 'utf8').toString('base64');
+      const plus = exportString.replace('/', '-');
+      return `https://oath-card-builder.herokuapp.com/share/${plus}`;
     },
   },
   watch: {
