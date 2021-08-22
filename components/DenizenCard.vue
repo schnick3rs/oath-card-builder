@@ -1,5 +1,24 @@
 <template>
   <div>
+    <v-dialog
+      v-model="loading"
+      persistent
+      width="300"
+    >
+      <v-card
+        color="primary"
+        dark
+      >
+        <v-card-text>
+          Generating image for sharing...
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <v-menu
       v-model="showMenu"
       :position-x="x"
@@ -89,6 +108,7 @@ export default {
       showMenu: false,
       x: 0,
       y: 0,
+      loading: false,
     }
   },
   computed: {
@@ -144,7 +164,9 @@ export default {
       const node = document.getElementById(this.canvasId);
       const a = this;
 
+      this.loading = true;
       this.cutter = false;
+
       domtoimage.toBlob(node)
         .then(function (blob) {
           navigator.clipboard.write([
@@ -153,6 +175,7 @@ export default {
             })
           ]);
           a.cutter = true;
+          a.loading = false;
         })
         .catch(function (error) {
           console.error('oops, something went wrong!', error);
@@ -162,11 +185,14 @@ export default {
       const node = document.getElementById(this.canvasId);
       const a = this;
 
+      this.loading = true;
       this.cutter = false;
+
       domtoimage.toBlob(node)
         .then(function (blob) {
           saveAs(blob, `oath-${a.edifice ? 'edifice' : 'denizen'}-${a.name.toLowerCase()}.png`);
           a.cutter = true;
+          a.loading = false;
         })
         .catch(function (error) {
           console.error('oops, something went wrong!', error);
