@@ -314,7 +314,7 @@ async function drawDenizen(card, F = 7) {
         const line = symbols[i];
         for (let j = 0; j < line.length; j++) {
           const symbol = line[j];
-          const symbolXOffset = -1 * ( (symbol.lineWidth/2 - symbol.x)  );
+          const symbolXOffset = -1 * ( (symbol.lineWidth/2 - symbol.x + 1)  );
           const symbolX = width/2 + symbolXOffset;
           const symbolY = symbol.y - fontSize / 2;
           console.info(`Draw ${symbol.word} at [${symbolX},${symbolY}].`);
