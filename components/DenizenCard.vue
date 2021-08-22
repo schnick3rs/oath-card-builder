@@ -8,9 +8,8 @@
       offset-y
     >
       <v-list>
-        <v-list-item @click="downloadPng">
-          <v-list-item-title>download png</v-list-item-title>
-        </v-list-item>
+        <v-list-item @click="copyToClipboard"><v-list-item-title>copy to clipboard</v-list-item-title></v-list-item>
+        <v-list-item @click="downloadPng"><v-list-item-title>download png</v-list-item-title></v-list-item>
       </v-list>
     </v-menu>
     <div
@@ -130,6 +129,24 @@ export default {
       this.$nextTick(() => {
         this.showMenu = true
       })
+    },
+    copyToClipboard(event) {
+      const node = document.getElementById(this.canvasId);
+      const a = this;
+
+      this.cutter = false;
+      domtoimage.toBlob(node)
+        .then(function (blob) {
+          navigator.clipboard.write([
+            new ClipboardItem({
+              [blob.type]: blob
+            })
+          ]);
+          a.cutter = true;
+        })
+        .catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
     },
     downloadPng(event) {
       const node = document.getElementById(this.canvasId);
