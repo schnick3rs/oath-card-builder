@@ -7,7 +7,7 @@
       absolute
       offset-y
     >
-      <v-list>
+      <v-list dense>
         <v-list-item @click="copyToClipboard"><v-list-item-title>copy to clipboard</v-list-item-title></v-list-item>
         <v-list-item @click="downloadPng"><v-list-item-title>download png</v-list-item-title></v-list-item>
       </v-list>
@@ -60,6 +60,10 @@ import { saveAs } from 'file-saver';
 export default {
   name: "DenizenCard",
   props: {
+    factor: {
+      type: Number,
+      default: 1,
+    },
     id: {
       type: String,
       default: 'random',
