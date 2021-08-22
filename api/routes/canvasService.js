@@ -445,6 +445,7 @@ router.get('/:slug/preview.png', async (request, response) => {
   const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
   console.debug(card);
 
+  response.set('Cache-Control', 'public, max-age=3600'); // one hour
   response.setHeader('Content-Type', 'image/png');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
   const drawed = await draw(card, factor);
@@ -457,6 +458,7 @@ router.get('/:slug/preview.jpg', async (request, response) => {
 
   const card = JSON.parse(Buffer.from(slug, 'base64').toString('utf8'));
 
+  response.set('Cache-Control', 'public, max-age=3600'); // one hour
   response.setHeader('Content-Type', 'image/jpg');
   //response.set('Cache-Control', 'public, max-age=300'); // 5 minutes
   const drawed = await draw(card);
