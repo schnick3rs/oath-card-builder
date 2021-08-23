@@ -14,6 +14,8 @@
     :text="card.text"
     :back="back"
     :factor="factor"
+    :show-cutter="showCutter"
+    :enable-sharing="enableSharing"
   ></denizen-card>
 </template>
 
@@ -24,6 +26,8 @@ export default {
     card: Object,
     back: Boolean,
     factor: Number,
+    enableSharing: Boolean,
+    showCutter: Boolean,
     fixedWidth: {
       type: Boolean,
       default: false,

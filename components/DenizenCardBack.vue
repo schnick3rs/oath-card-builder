@@ -1,12 +1,15 @@
 <template>
-  <div class="denizen cutter">
+  <div class="denizen" :class="{ 'cutter': showCutter }">
     <div class="layer back"></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "DenizenCardBack"
+  name: "DenizenCardBack",
+  props: {
+    showCutter: Boolean,
+  }
 }
 </script>
 

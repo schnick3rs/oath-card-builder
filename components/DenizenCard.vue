@@ -1,39 +1,41 @@
 <template>
   <div>
-    <v-dialog
-      v-model="loading"
-      persistent
-      width="300"
-    >
-      <v-card
-        color="primary"
-        dark
+    <div v-if="enableSharing">
+      <v-dialog
+        v-model="loading"
+        persistent
+        width="300"
       >
-        <v-card-text>
-          Generating image for sharing...
-          <v-progress-linear
-            indeterminate
-            color="white"
-            class="mb-0"
-          ></v-progress-linear>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-    <v-menu
-      v-model="showMenu"
-      :position-x="x"
-      :position-y="y"
-      absolute
-      offset-y
-    >
-      <v-list dense>
-        <v-list-item @click="copyToClipboard"><v-list-item-title>copy to clipboard</v-list-item-title></v-list-item>
-        <v-list-item @click="downloadPng"><v-list-item-title>download png</v-list-item-title></v-list-item>
-      </v-list>
-    </v-menu>
+        <v-card
+          color="primary"
+          dark
+        >
+          <v-card-text>
+            Generating image for sharing...
+            <v-progress-linear
+              indeterminate
+              color="white"
+              class="mb-0"
+            ></v-progress-linear>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+      <v-menu
+        v-model="showMenu"
+        :position-x="x"
+        :position-y="y"
+        absolute
+        offset-y
+      >
+        <v-list dense>
+          <v-list-item @click="copyToClipboard"><v-list-item-title>copy to clipboard</v-list-item-title></v-list-item>
+          <v-list-item @click="downloadPng"><v-list-item-title>download png</v-list-item-title></v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
     <div
       class="denizen"
-      :class="{ 'cutter': cutter }"
+      :class="{ 'cutter': showCutter }"
       :style="denizenDimension"
       :id="canvasId"
       @contextmenu.prevent="show"
@@ -101,11 +103,18 @@ export default {
     back: {
       type: Boolean,
       default: false,
+    },
+    showCutter: {
+      type: Boolean,
+      default: false,
+    },
+    enableSharing: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
     return {
-      cutter: true,
       showMenu: false,
       x: 0,
       y: 0,
@@ -213,12 +222,14 @@ export default {
   },
   methods: {
     show(e) {
-      this.showMenu = false
-      this.x = e.clientX
-      this.y = e.clientY
-      this.$nextTick(() => {
-        this.showMenu = true
-      })
+      if (this.enableSharing) {
+        this.showMenu = false
+        this.x = e.clientX
+        this.y = e.clientY
+        this.$nextTick(() => {
+          this.showMenu = true
+        })
+      }
     },
     copyToClipboard(event) {
       const node = document.getElementById(this.canvasId);

@@ -1,5 +1,24 @@
 <template>
   <div>
+    <v-dialog
+      v-model="loading"
+      persistent
+      width="300"
+    >
+      <v-card
+        color="primary"
+        dark
+      >
+        <v-card-text>
+          Generating image for sharing...
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          ></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
     <div class="help">
       <v-container>
         <v-row>
@@ -14,29 +33,38 @@
                 Enable Background graphics (checkbox)
                 This box will not be printed.
               </v-card-text>
-              <v-divider></v-divider>
+              <v-card-text>
+                <v-slider
+                  v-model="factor"
+                  min="1"
+                  max="4"
+                  step="1"
+                  thumb-label="always"
+                  label="Card Zoom"
+                ></v-slider>
+              </v-card-text>
               <v-card-actions>
-                <v-checkbox label="Print with back" v-model="printBack"></v-checkbox>
-                <v-checkbox label="Show cutter lines" v-model="showCutter"></v-checkbox>
+                <v-btn @click="downloadPng('tts-export-area')">Download PNG</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
       </v-container>
     </div>
-    <div class="print-area">
-    <page v-for="(page, i) in pages" :key="i">
-      <template v-for="card in page">
-        <component
-          :id="i"
-          :key="card.id"
-          :is="dynamicCard(card.__type)"
-          :card="card"
-          :showCutter="showCutter"
-        ></component>
-      </template>
-    </page>
-  </div>
+
+    <div class="print-area" id="tts-export-area">
+      <div v-for="(deck, name) in groupedDeck">
+        <div v-for="(card, index) in deck">
+          <component
+            :key="card.id"
+            :is="dynamicCard(card.__type)"
+            :card="card"
+            :factor="factor"
+          ></component>
+          <div v-if="index % 7 === 6" class="break"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,13 +80,13 @@ const EdificeCardWrapper = () => import( /* webpackChunkName: "EdificeCardWrappe
 
 export default {
   name: "deck",
-  layout: 'print',
   mixins: [SeoHead],
   data() {
     return {
       printBack: false,
       pngUrl: undefined,
-      showCutter: true,
+      factor: 2,
+      loading: false,
     };
   },
   head() {
@@ -75,11 +103,28 @@ export default {
     },
     groupedDeck() {
       return this.library.reduce((groups, card) => {
-        const group = card.__type;
+        if (card.__type === 'edifice') {
 
-        if(!groups[group]) groups[group] = [];
+          {
+            const group = 'edifice-intact';
+            if(!groups[group]) groups[group] = [];
+            groups[group].push({
+              ...card.front,
+              edifice: true,
+            });
+          }
 
-        groups[group].push(card);
+          {
+            const group = 'edifice-ruined';
+            if(!groups[group]) groups[group] = [];
+            groups[group].push(card.ruined);
+          }
+
+        } else {
+          const group = card.__type;
+          if(!groups[group]) groups[group] = [];
+          groups[group].push(card);
+        }
         return groups;
       }, {});
     },
@@ -95,20 +140,6 @@ export default {
       });
       return deck;
     },
-    pages() {
-      let pages = this.finalDeck.reduce((resultArray, item, index) => {
-        const chunkIndex = Math.floor(index/9)
-
-        if(!resultArray[chunkIndex]) {
-          resultArray[chunkIndex] = [] // start a new chunk
-        }
-
-        resultArray[chunkIndex].push(item)
-
-        return resultArray
-      }, []);
-      return pages;
-    },
   },
   methods: {
     dynamicCard(cardType) {
@@ -122,14 +153,18 @@ export default {
           return null;
       }
     },
-    domtopng() {
-      const node = document.getElementById('2');
+    downloadPng(id) {
+      this.loading = true;
+      const node = document.getElementById(id);
       const a = this;
 
-      domtoimage.toPng(node)
-        .then(function (dataUrl) {
-          console.info(dataUrl)
-          a.pngUrl = dataUrl;
+      this.cutter = false;
+
+      domtoimage.toBlob(node)
+        .then(function (blob) {
+          saveAs(blob, `oath-denizen-for-tts.png`);
+          a.cutter = true;
+          a.loading = false;
         })
         .catch(function (error) {
           console.error('oops, something went wrong!', error);
@@ -139,15 +174,14 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-@media screen {
-  .help {
-  }
+<style lang="scss">
+
+.print-area {
+  width: 800mm;
 }
 
-@media print {
-  .help {
-    display: none;
-  }
+.break {
+  flex-basis: 100%;
+  height: 0;
 }
 </style>

@@ -134,11 +134,11 @@
               max="4"
               step="1"
               thumb-label="always"
-              label="Card Zoom"
+              label="Card Resolution Factor"
             ></v-slider>
           </v-row>
           <v-row>
-            <denizen-card-wrapper :factor="factor" :card="card" back />
+            <denizen-card-wrapper :factor="factor" :card="card" back enable-sharing />
           </v-row>
         </v-col>
 

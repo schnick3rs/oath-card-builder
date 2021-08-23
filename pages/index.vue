@@ -160,6 +160,8 @@
             :card="previewCard"
             :back="['denizen', 'relic'].includes(previewCard.__type)"
             fixed-width
+            enable-sharing
+            show-cutter
           ></component>
         </v-card-text>
       </v-card>
