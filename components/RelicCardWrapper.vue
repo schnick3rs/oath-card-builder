@@ -10,6 +10,11 @@
     :cost="card.cost"
     :text="card.text"
     :back="back"
+    :factor="factor"
+    :show-cutter="showCutter"
+    :show-blend="showBlend"
+    :enable-sharing="enableSharing"
+    :enable-flipping="enableFlipping"
   ></relic-card>
 </template>
 
@@ -23,6 +28,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    factor: {
+      type: Number,
+      default: 1,
+    },
+    enableSharing: Boolean,
+    enableFlipping: Boolean,
+    showCutter: Boolean,
+    showBlend: Boolean,
   }
 }
 </script>

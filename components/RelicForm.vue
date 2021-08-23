@@ -101,10 +101,23 @@
         </v-col>
 
         <v-col cols="5" v-if="preview">
-          <relic-card-wrapper
-            :card="card"
-            back
-          ></relic-card-wrapper>
+          <v-row>
+            <v-slider
+              v-model="factor"
+              min="1"
+              max="4"
+              step="1"
+              thumb-label="always"
+              label="Card Resolution Factor"
+            ></v-slider>
+          </v-row>
+          <v-row>
+            <relic-card-wrapper
+              :card="card"
+              :factor="factor"
+              back
+            ></relic-card-wrapper>
+          </v-row>
         </v-col>
 
       </v-row>
@@ -132,6 +145,7 @@ export default {
   },
   data() {
     return {
+      factor: 1,
       card: {
         name: 'Dowsing Sticks',
         image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',

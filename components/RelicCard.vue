@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="relic cutter">
+    <div class="relic cutter" :style="dimensionStyle">
       <div class="layer illustration"></div>
 
       <div v-show="true" class="layer layer--image" :style="cardImage"></div>
@@ -10,23 +10,23 @@
 
       <img class="layer layer--defense" :src="defenseImage">
 
-      <div class="name" v-if="name">
-        <div class="name__word" v-for="(word, i) in name.split(' ')" :key="i">{{word}}&nbsp;</div>
+      <div v-if="name" class="name" :style="nameStyle">
+        <capital-text :text="name"></capital-text>
       </div>
 
       <div class="layer effect" :class="`effect--${type}`">
         <img v-if="modifer" class="layer layer--modifer" :src="modiferImage">
-        <div class="content">
-          <symbol-text class="text" :html="formatedText"></symbol-text>
+        <div class="content" :style="contentStyle">
+          <symbol-text class="text" :html="formatedText" :factor="factor"></symbol-text>
         </div>
       </div>
 
-      <div v-if="cost" class="cost symbol">
+      <div v-if="cost" class="cost symbol" :style="costStyle">
         <oath-symbol
           v-for="(c, i) in costs"
           :key="i"
           :symbol="c"
-          :size="18"
+          :size="costSymbolSize"
           border
         ></oath-symbol>
       </div>
@@ -41,10 +41,19 @@
 <script>
 import DOMPurify from 'isomorphic-dompurify';
 import marked from 'marked';
+import { nanoid } from 'nanoid';
 
 export default {
   name: "RelicCard",
   props: {
+    factor: {
+      type: Number,
+      default: 1,
+    },
+    id: {
+      type: String,
+      default: () => nanoid(12),
+    },
     name: String,
     image: String,
     credits: String,
@@ -54,6 +63,9 @@ export default {
     text: String,
     cost: String,
     back: Boolean,
+    showCutter: Boolean,
+    showBlend: Boolean,
+    enableSharing: Boolean,
   },
   computed: {
     cardImage() {
@@ -71,6 +83,44 @@ export default {
     },
     costs() {
       return this.cost?.split('') || [];
+    },
+    costSymbolSize() {
+      return 18*this.factor;
+    },
+    dimensionStyle() {
+      return {
+        height: `${57*this.factor}mm`,
+        width: `${57*this.factor}mm`,
+      };
+    },
+    nameStyle(){
+      return {
+        'top': `${4*this.factor}mm`,
+        'left': `${4*this.factor}mm`,
+        'font-size': `${4.5*this.factor}mm`,
+        'letter-spacing': `-${0.2*this.factor}mm`,
+      };
+    },
+    costStyle() {
+      return {
+        bottom: `${12*this.factor}mm`,
+      };
+    },
+    contentStyle() {
+
+      let fontFactor = 1;
+      fontFactor = this.text.length > 100 ? 0.9 : fontFactor;
+      fontFactor = this.text.length > 200 ? 0.8 : fontFactor;
+      fontFactor = this.text.length > 250 ? 0.7 : fontFactor;
+      fontFactor = this.text.length > 300 ? 0.6 : fontFactor;
+
+      return {
+        'height': `${14*this.factor}mm`,
+        'font-size': `${3.0*this.factor*fontFactor}mm`,
+        'line-height': `${3.5*this.factor*fontFactor}mm`,
+        'letter-spacing': '-0.5px',
+        'padding': `${1*this.factor}mm ${2*this.factor}mm`,
+      };
     },
     modiferImage() {
       return `/img/relic action modifer ${this.modifer}.png`;
@@ -105,19 +155,7 @@ export default {
   top: 4mm;
   left: 4mm;
   width: 100%;
-
-  &__word {
-    color: white;
-    font-family: OathText, sans-serif;
-
-    display: inline-block;
-
-    &:first-letter {
-      font-family: OathCapital, serif;
-      font-size: 4.5mm;
-    }
-  }
-
+  color: white;
 }
 
 .defense {

@@ -128,12 +128,6 @@ export default {
       }
       return null;
     },
-    nameWords() {
-      if (this.name) {
-        return [...this.name.split(' ')];
-      }
-      return '';
-    },
     costSymbolSize() {
       return 20*this.factor;
     },
