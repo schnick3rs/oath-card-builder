@@ -183,10 +183,16 @@ export default {
           break;
       }
 
+      let fontFactor = 1;
+      fontFactor = this.text.length > 100 ? 0.9 : fontFactor;
+      fontFactor = this.text.length > 200 ? 0.8 : fontFactor;
+      fontFactor = this.text.length > 250 ? 0.7 : fontFactor;
+      fontFactor = this.text.length > 300 ? 0.6 : fontFactor;
+
       return {
         'height': `${23*this.factor}mm`,
-        'font-size': `${3.8*this.factor}mm`,
-        'line-height': `${3.3*this.factor}mm`,
+        'font-size': `${3.8*this.factor*fontFactor}mm`,
+        'line-height': `${3.3*this.factor*fontFactor}mm`,
         'letter-spacing': '-0.5px',
         'padding': `${2*this.factor}mm ${2.5*this.factor}mm`,
         ...tweak,
