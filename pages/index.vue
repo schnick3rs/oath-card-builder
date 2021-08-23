@@ -140,7 +140,8 @@
 
     <v-dialog
       v-model="showPreviewDialog"
-      max-width="500"
+      max-width="1000"
+      style="height: 378mm;"
     >
       <v-card v-if="previewCard">
         <v-card-title style="color: white; background: #131212;">
@@ -159,9 +160,11 @@
             :is="dynamicCard(previewCard.__type)"
             :card="previewCard"
             :back="['denizen', 'relic'].includes(previewCard.__type)"
+            :factor="2"
             fixed-width
-            enable-sharing
             show-cutter
+            enable-sharing
+            enable-flipping
           ></component>
         </v-card-text>
       </v-card>

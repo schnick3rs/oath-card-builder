@@ -30,10 +30,13 @@
         <v-list dense>
           <v-list-item @click="copyToClipboard"><v-list-item-title>copy to clipboard</v-list-item-title></v-list-item>
           <v-list-item @click="downloadPng"><v-list-item-title>download png</v-list-item-title></v-list-item>
+          <v-list-item v-show="false" :disabled="!enableFlipping" @click="flipped = !flipped"><v-list-item-title>flip card</v-list-item-title></v-list-item>
         </v-list>
       </v-menu>
     </div>
+    <denizen-card-back v-if="flipped"></denizen-card-back>
     <div
+      v-else
       class="denizen"
       :class="{ 'cutter': showCutter }"
       :style="denizenDimension"
@@ -100,18 +103,10 @@ export default {
     text: String,
     credits: String,
     cost: String,
-    back: {
-      type: Boolean,
-      default: false,
-    },
-    showCutter: {
-      type: Boolean,
-      default: false,
-    },
-    enableSharing: {
-      type: Boolean,
-      default: false,
-    }
+    back: Boolean,
+    showCutter: Boolean,
+    enableSharing: Boolean,
+    enableFlipping: Boolean,
   },
   data() {
     return {
@@ -119,6 +114,7 @@ export default {
       x: 0,
       y: 0,
       loading: false,
+      flipped: false,
     }
   },
   computed: {

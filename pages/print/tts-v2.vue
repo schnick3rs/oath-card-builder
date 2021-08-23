@@ -40,11 +40,17 @@
                   max="4"
                   step="1"
                   thumb-label="always"
-                  label="Card Zoom"
+                  label="Card Resolution"
                 ></v-slider>
               </v-card-text>
               <v-card-actions>
-                <v-btn @click="downloadPng('tts-export-area')">Download PNG</v-btn>
+                <v-btn
+                  v-for="(deck, name) in groupedDeck"
+                  :disabled="deck.length <= 0"
+                  @click="downloadPng(`tts-export-area-${name}`, name)"
+                >
+                  Download {{ name }} ({{deck.length}})
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -52,16 +58,19 @@
       </v-container>
     </div>
 
-    <div class="print-area" id="tts-export-area">
-      <div v-for="(deck, name) in groupedDeck">
-        <div v-for="(card, index) in deck">
-          <component
-            :key="card.id"
-            :is="dynamicCard(card.__type)"
-            :card="card"
-            :factor="factor"
-          ></component>
-          <div v-if="index % 7 === 6" class="break"></div>
+    <div class="print-area" >
+      <div  v-for="(deck, name) in groupedDeck">
+        {{ name }} cards
+        <div :id="`tts-export-area-${name}`" class="type-group">
+          <div v-for="(card, index) in deck">
+            <component
+              :key="card.id"
+              :is="dynamicCard(card.__type)"
+              :card="card"
+              :factor="factor"
+            ></component>
+            <div v-if="index % 7 === 6" class="break"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -79,7 +88,7 @@ const SiteCardWrapper = () => import( /* webpackChunkName: "SiteCardWrapper" */ 
 const EdificeCardWrapper = () => import( /* webpackChunkName: "EdificeCardWrapper" */ '~/components/EdificeCardWrapper.vue' );
 
 export default {
-  name: "deck",
+  name: "tts-via-css",
   mixins: [SeoHead],
   data() {
     return {
@@ -109,6 +118,7 @@ export default {
             const group = 'edifice-intact';
             if(!groups[group]) groups[group] = [];
             groups[group].push({
+              __type: 'denizen',
               ...card.front,
               edifice: true,
             });
@@ -117,7 +127,10 @@ export default {
           {
             const group = 'edifice-ruined';
             if(!groups[group]) groups[group] = [];
-            groups[group].push(card.ruined);
+            groups[group].push({
+              ...card.ruined,
+              __type: 'denizen',
+            });
           }
 
         } else {
@@ -153,7 +166,7 @@ export default {
           return null;
       }
     },
-    downloadPng(id) {
+    downloadPng(id, name) {
       this.loading = true;
       const node = document.getElementById(id);
       const a = this;
@@ -162,12 +175,13 @@ export default {
 
       domtoimage.toBlob(node)
         .then(function (blob) {
-          saveAs(blob, `oath-denizen-for-tts.png`);
+          saveAs(blob, `oath-${name}-for-tts.png`);
           a.cutter = true;
           a.loading = false;
         })
         .catch(function (error) {
           console.error('oops, something went wrong!', error);
+          a.loading = false;
         });
     }
   }
@@ -178,6 +192,11 @@ export default {
 
 .print-area {
   width: 800mm;
+}
+
+.type-group {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .break {

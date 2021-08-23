@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'fixed': fixedWidth }">
+  <div :style="fixedCardHeight">
     <denizen-card
       :id="card.id"
       :edifice="card.__type === 'edifice'"
@@ -12,6 +12,10 @@
       :restriction="card.front.restriction"
       :cost="card.front.cost"
       :text="card.front.text"
+      :factor="factor"
+      :show-cutter="showCutter"
+      :enable-sharing="enableSharing"
+      :enable-flipping="enableFlipping"
     ></denizen-card>
     <denizen-card
       :id="`${card.id}-ruined`"
@@ -24,6 +28,10 @@
       :restriction="card.ruined.restriction"
       :cost="card.ruined.cost"
       :text="card.ruined.text"
+      :factor="factor"
+      :show-cutter="showCutter"
+      :enable-sharing="enableSharing"
+      :enable-flipping="enableFlipping"
     ></denizen-card>
   </div>
 </template>
@@ -34,16 +42,30 @@ export default {
   props: {
     card: Object,
     back: Boolean,
+    factor: {
+      type: Number,
+      default: 1,
+    },
+    enableSharing: Boolean,
+    enableFlipping: Boolean,
+    showCutter: Boolean,
     fixedWidth: {
       type: Boolean,
       default: false,
     },
-  }
+  },
+  computed: {
+    fixedCardHeight() {
+      if (this.fixedWidth) {
+        return {
+          'height': `${89*this.factor}mm`,
+        };
+      }
+      return {};
+    },
+  },
 }
 </script>
 
 <style scoped lang="scss">
-.fixed {
-  height: 89mm;
-}
 </style>

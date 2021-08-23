@@ -1,6 +1,6 @@
 <template>
   <denizen-card
-    :class="{ 'fixed': fixedWidth }"
+    :style="fixedCardHeight"
     :id="card.id"
     :edifice="card.__type === 'edifice'"
     :name="card.name"
@@ -16,6 +16,7 @@
     :factor="factor"
     :show-cutter="showCutter"
     :enable-sharing="enableSharing"
+    :enable-flipping="enableFlipping"
   ></denizen-card>
 </template>
 
@@ -25,19 +26,30 @@ export default {
   props: {
     card: Object,
     back: Boolean,
-    factor: Number,
+    factor: {
+      type: Number,
+      default: 1,
+    },
     enableSharing: Boolean,
+    enableFlipping: Boolean,
     showCutter: Boolean,
     fixedWidth: {
       type: Boolean,
       default: false,
     },
-  }
+  },
+  computed: {
+    fixedCardHeight() {
+      if (this.fixedWidth) {
+        return {
+          'height': `${89*this.factor}mm`,
+        };
+      }
+      return {};
+    },
+  },
 }
 </script>
 
-<style scoped lang="scss">
-.fixed {
-  height: 89mm;
-}
+<style lang="scss">
 </style>
