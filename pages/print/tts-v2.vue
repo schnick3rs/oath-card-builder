@@ -110,8 +110,16 @@ export default {
     library() {
       return this.$store.getters['library/cardSets'];
     },
+    sortedLib() {
+      if (this.library) {
+        return this.library
+          .sort((a, b) => { return (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0; })
+          .sort((a, b) => { return (a.suit < b.suit) ? -1 : (a.suit > b.suit) ? 1 : 0; });
+      }
+      return [];
+    },
     groupedDeck() {
-      return this.library.reduce((groups, card) => {
+      return this.sortedLib.reduce((groups, card) => {
         if (card.__type === 'edifice') {
 
           {
@@ -140,18 +148,6 @@ export default {
         }
         return groups;
       }, {});
-    },
-    finalDeck() {
-      let deck = [];
-      this.library.forEach(card => {
-        deck.push(card);
-        if (card.__type === 'denizen' && this.printBack) {
-          deck.push({
-            __type: 'denizen-back',
-          });
-        }
-      });
-      return deck;
     },
   },
   methods: {
