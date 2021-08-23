@@ -15,6 +15,7 @@
     :back="back"
     :factor="factor"
     :show-cutter="showCutter"
+    :show-blend="showBlend"
     :enable-sharing="enableSharing"
     :enable-flipping="enableFlipping"
   ></denizen-card>
@@ -33,6 +34,7 @@ export default {
     enableSharing: Boolean,
     enableFlipping: Boolean,
     showCutter: Boolean,
+    showBlend: Boolean,
     fixedWidth: {
       type: Boolean,
       default: false,

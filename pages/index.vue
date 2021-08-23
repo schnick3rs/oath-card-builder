@@ -163,6 +163,7 @@
             :factor="2"
             fixed-width
             show-cutter
+            show-blend
             enable-sharing
             enable-flipping
           ></component>

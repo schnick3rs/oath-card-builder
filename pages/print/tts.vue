@@ -42,6 +42,7 @@
                   thumb-label="always"
                   label="Card Resolution"
                 ></v-slider>
+                <v-checkbox label="Show border blend" v-model="showBlend"></v-checkbox>
               </v-card-text>
               <v-card-actions>
                 <v-btn
@@ -68,6 +69,7 @@
               :is="dynamicCard(card.__type)"
               :card="card"
               :factor="factor"
+              :show-blend="showBlend"
             ></component>
             <div v-if="index % 7 === 6" class="break"></div>
           </div>
@@ -93,6 +95,7 @@ export default {
   data() {
     return {
       printBack: false,
+      showBlend: false,
       pngUrl: undefined,
       factor: 2,
       loading: false,

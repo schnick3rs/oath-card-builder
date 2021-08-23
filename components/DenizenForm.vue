@@ -138,7 +138,13 @@
             ></v-slider>
           </v-row>
           <v-row>
-            <denizen-card-wrapper :factor="factor" :card="card" back enable-sharing />
+            <denizen-card-wrapper
+              :factor="factor"
+              :card="card"
+              back
+              enable-sharing
+              show-blend
+            />
           </v-row>
         </v-col>
 

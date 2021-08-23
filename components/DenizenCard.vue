@@ -44,15 +44,15 @@
       @contextmenu.prevent="show"
     >
 
-      <div v-if="image" class="layer layer-image" :style="cardImage"></div>
+      <div v-if="image" class="layer layer-image" :class="{ 'layer--blend': showBlend }" :style="cardImage"></div>
 
-      <img v-if="restriction" class="layer" :src="restrictionBand">
-      <img v-if="suit" class="layer" :src="suitBand">
+      <img v-if="restriction" class="layer" :class="{ 'layer--blend': showBlend }" :src="restrictionBand">
+      <img v-if="suit" class="layer" :class="{ 'layer--blend': showBlend }" :src="suitBand">
       <div v-if="name" class="name" :style="nameStyle">
         <capital-text :text="name"></capital-text>
       </div>
 
-      <div class="layer effect" :class="`effect--${type}`">
+      <div class="layer effect" :class="[{ 'layer--blend': showBlend }, `effect--${type}`]">
         <img v-if="showModifer" class="layer layer--modifer" :src="modiferImage">
         <div class="content" :class="`content--${type}`" :style="contentStyle">
           <symbol-text class="text" :html="formatedText" :factor="factor"></symbol-text>
@@ -105,6 +105,7 @@ export default {
     cost: String,
     back: Boolean,
     showCutter: Boolean,
+    showBlend: Boolean,
     enableSharing: Boolean,
     enableFlipping: Boolean,
   },
@@ -299,7 +300,10 @@ export default {
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
-  clip-path: inset(1.5mm 1.5mm 1.5mm 1.5mm round 3mm);
+
+  &--blend {
+    clip-path: inset(1.5mm 1.5mm 1.5mm 1.5mm round 3mm);
+  }
 
   &--modifer {
     left: -0.7mm;
