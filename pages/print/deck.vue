@@ -26,10 +26,10 @@
       </v-container>
     </div>
     <div class="print-area">
-    <page v-for="(page, i) in pages" :key="i">
+    <page v-for="(page, index) in pages" :key="index">
       <template v-for="card in page">
         <component
-          :id="i"
+          :id="card.id"
           :key="card.id"
           :is="dynamicCard(card.__type)"
           :card="card"
@@ -49,7 +49,9 @@ import domtoimage from 'dom-to-image';
 const DenizenCardWrapper = () => import( /* webpackChunkName: "DenizenCardWrapper" */ '~/components/DenizenCardWrapper.vue' );
 const DenizenCardBack = () => import( /* webpackChunkName: "DenizenCardBack" */ '~/components/DenizenCardBack.vue' );
 const RelicCardWrapper = () => import( /* webpackChunkName: "RelicCardWrapper" */ '~/components/RelicCardWrapper.vue' );
+const RelicCardBack = () => import( /* webpackChunkName: "RelicCardBack" */ '~/components/RelicCardBack.vue' );
 const SiteCardWrapper = () => import( /* webpackChunkName: "SiteCardWrapper" */ '~/components/SiteCardWrapper.vue' );
+const SiteCardBack = () => import( /* webpackChunkName: "SiteCardBack" */ '~/components/SiteCardBack.vue' );
 const EdificeCardWrapper = () => import( /* webpackChunkName: "EdificeCardWrapper" */ '~/components/EdificeCardWrapper.vue' );
 
 export default {
@@ -79,6 +81,7 @@ export default {
     sortedLib() {
       if (this.library) {
         return this.library
+          .sort((a, b) => { return (a.__type < b.__type) ? -1 : (a.__type > b.__type) ? 1 : 0; })
           .sort((a, b) => { return (a.name < b.name) ? -1 : (a.name > b.name) ? 1 : 0; })
           .sort((a, b) => { return (a.suit < b.suit) ? -1 : (a.suit > b.suit) ? 1 : 0; });
       }
@@ -97,12 +100,32 @@ export default {
     finalDeck() {
       let deck = [];
       this.sortedLib.forEach(card => {
-        deck.push(card);
-        if (card.__type === 'denizen' && this.printBack) {
+
+        if (card.__type === 'edifice') {
+
           deck.push({
-            __type: 'denizen-back',
+            __type: 'denizen',
+            ...card.front,
+            edifice: true,
           });
+
+          deck.push({
+            ...card.ruined,
+            __type: 'denizen',
+          });
+
+        } else {
+          deck.push(card);
         }
+
+        if (this.printBack) {
+          switch (card.__type) {
+            case 'denizen': deck.push({__type: 'denizen-back'}); break;
+            case 'relic': deck.push({__type: 'relic-back'}); break;
+            case 'site': deck.push({__type: 'site-back'}); break;
+          }
+        }
+
       });
       return deck;
     },
@@ -128,7 +151,9 @@ export default {
         case 'denizen-back': return DenizenCardBack;
         case 'edifice': return EdificeCardWrapper;
         case 'relic': return RelicCardWrapper;
+        case 'relic-back': return RelicCardBack;
         case 'site': return SiteCardWrapper;
+        case 'site-back': return SiteCardBack;
         default:
           return null;
       }
