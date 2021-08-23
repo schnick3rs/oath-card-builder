@@ -18,6 +18,7 @@
               <v-card-actions>
                 <v-checkbox label="Print with back" v-model="printBack"></v-checkbox>
                 <v-checkbox label="Show cutter lines" v-model="showCutter"></v-checkbox>
+                <v-checkbox label="Show border blend" v-model="showBlend"></v-checkbox>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -32,7 +33,8 @@
           :key="card.id"
           :is="dynamicCard(card.__type)"
           :card="card"
-          :showCutter="showCutter"
+          :show-cutter="showCutter"
+          :show-blend="showBlend"
         ></component>
       </template>
     </page>
@@ -59,6 +61,7 @@ export default {
       printBack: false,
       pngUrl: undefined,
       showCutter: true,
+      showBlend: true,
     };
   },
   head() {

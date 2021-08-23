@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="relic cutter" :style="dimensionStyle">
+    <div class="relic" :class="{ 'cutter': showCutter }" :style="dimensionStyle">
       <div class="layer illustration"></div>
 
       <div v-show="true" class="layer layer--image" :style="cardImage"></div>
