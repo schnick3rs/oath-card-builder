@@ -3,6 +3,17 @@ export default {
   name: "SymbolText",
   props: {
     html: String,
+    factor: {
+      type: Number,
+      default: 1,
+    },
+  },
+  computed: {
+    bigDieFontSize() {
+      return {
+        'font-size': `${7.5*this.factor}mm`,
+      }
+    },
   },
   methods: {
     parseHtml(html) {
@@ -11,9 +22,12 @@ export default {
     },
     parseForShortcodes(html) {
       let finalHtml = html;
+      const symbolSize = 12*this.factor;
+      const bigDieFontSize = `font-size: ${7.5*this.factor}mm`;
+      const bigDieFactorClass = `big-die-${this.factor}`;
 
       finalHtml = finalHtml.replace(/{(.)}/mg,
-        `<oath-symbol style="position: relative; top: 0.5mm;" symbol="$1"></oath-symbol>`);
+        `<oath-symbol style="position: relative; top: 0.5mm;" symbol="$1" :size="${symbolSize}"></oath-symbol>`);
 
       finalHtml = finalHtml.replace(/<strong>When played,<\/strong>/mg,
         `<strong class="uppercase"><span class="capital">W</span>hen&nbsp;played,</strong>`);
@@ -22,7 +36,7 @@ export default {
         `<strong class="uppercase"><span class="capital">$1</span>$2</strong>`);
 
       finalHtml = finalHtml.replace(/\[(.*)\](.*)<\/p>/mg,
-        `<span class="big-die">$1</span><span class="normal-text">$2</span></p>`);
+        `<span class="big-die ${bigDieFactorClass}" style="${bigDieFontSize}">$1</span><span class="normal-text">$2</span></p>`);
 
       return finalHtml;
     },
@@ -47,18 +61,11 @@ export default {
   }
 
   & .uppercase {
-    /* text-transform: uppercase; */
-    //font-size: 3.0mm;
     font-variant: small-caps;
-
-    & .capital {
-      //font-size: 3.4mm;
-    }
-
   }
 
   & > blockquote {
-    font-size: 7.5mm;
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -66,22 +73,23 @@ export default {
 
     & > p {
 
-      font-size: 6.6mm;
       display: flex;
       flex-direction: row;
       align-items: center;
       margin-bottom: 0;
 
       & > .big-die {
+        font-size: 7.5mm;
         display: contents;
         /* vertical-align: middle; */
-        & > img {
-          height: 6mm !important;
-        }
+        &.big-die-1 > img { height:  6mm !important; }
+        &.big-die-2 > img { height: 12mm !important; }
+        &.big-die-3 > img { height: 18mm !important; }
+        &.big-die-4 > img { height: 24mm !important; }
+        &.big-die-5 > img { height: 30mm !important; }
       }
 
       & > .normal-text {
-        font-size: 3.8mm;
         text-align: left;
         padding-left: 2mm;
       }

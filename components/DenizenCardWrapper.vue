@@ -13,6 +13,7 @@
     :cost="card.cost"
     :text="card.text"
     :back="back"
+    :factor="factor"
   ></denizen-card>
 </template>
 
@@ -22,6 +23,7 @@ export default {
   props: {
     card: Object,
     back: Boolean,
+    factor: Number,
     fixedWidth: {
       type: Boolean,
       default: false,

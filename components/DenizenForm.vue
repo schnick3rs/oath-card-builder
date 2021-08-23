@@ -127,7 +127,19 @@
         </v-col>
 
         <v-col cols="5" v-if="preview">
-            <denizen-card-wrapper :card="card" back />
+          <v-row>
+            <v-slider
+              v-model="factor"
+              min="1"
+              max="4"
+              step="1"
+              thumb-label="always"
+              label="Card Zoom"
+            ></v-slider>
+          </v-row>
+          <v-row>
+            <denizen-card-wrapper :factor="factor" :card="card" back />
+          </v-row>
         </v-col>
 
       </v-row>
@@ -162,6 +174,7 @@ export default {
   },
   data() {
     return {
+      factor: 1,
       card: {
         name: 'Good Boiis!',
         image: 'https://www.malerei-walkowiak.de/wp-content/uploads/2016/10/demo.png',
@@ -172,7 +185,7 @@ export default {
         cost: '1',
         text: 'Run by day and night',
         credits: 'the artwork',
-        back: true
+        back: true,
       },
       builder: {
         denizen: {

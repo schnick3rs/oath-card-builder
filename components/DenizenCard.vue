@@ -34,6 +34,7 @@
     <div
       class="denizen"
       :class="{ 'cutter': cutter }"
+      :style="denizenDimension"
       :id="canvasId"
       @contextmenu.prevent="show"
     >
@@ -42,23 +43,23 @@
 
       <img v-if="restriction" class="layer" :src="restrictionBand">
       <img v-if="suit" class="layer" :src="suitBand">
-      <div v-if="name" class="name">
-        <capital-text :text="name" :font-size="'4mm'"></capital-text>
+      <div v-if="name" class="name" :style="nameStyle">
+        <capital-text :text="name"></capital-text>
       </div>
 
       <div class="layer effect" :class="`effect--${type}`">
         <img v-if="showModifer" class="layer layer--modifer" :src="modiferImage">
-        <div class="content" :class="`content--${type}`">
-          <symbol-text class="text" :html="formatedText"></symbol-text>
+        <div class="content" :class="`content--${type}`" :style="contentStyle">
+          <symbol-text class="text" :html="formatedText" :factor="factor"></symbol-text>
         </div>
       </div>
 
-      <div v-if="cost" class="cost symbol">
+      <div v-if="cost" class="cost symbol" :style="costStyle">
         <oath-symbol
           v-for="(c, i) in costs"
           :key="i"
           :symbol="c"
-          :size="20"
+          :size="costSymbolSize"
           border
         ></oath-symbol>
       </div>
@@ -66,7 +67,7 @@
       <em v-if="credits" class="credits">&copy; {{credits}}</em>
 
     </div>
-    <denizen-card-back v-if="back"></denizen-card-back>
+    <denizen-card-back v-if="back" ></denizen-card-back>
   </div>
 </template>
 
@@ -126,6 +127,65 @@ export default {
         return [...this.name.split(' ')];
       }
       return '';
+    },
+    costSymbolSize() {
+      return 20*this.factor;
+    },
+    denizenDimension() {
+      return {
+        height: `${89*this.factor}mm`,
+        width: `${57*this.factor}mm`,
+      };
+    },
+    nameStyle(){
+      return {
+        'top': `${7.5*this.factor}mm`,
+        'height': `${7*this.factor}mm`,
+        'padding-left': `${16*this.factor}mm`,
+        'font-size': `${4.5*this.factor}mm`,
+        'letter-spacing': `-${0.2*this.factor}mm`,
+      };
+    },
+    costStyle() {
+      return {
+        bottom: `${19*this.factor}mm`,
+      };
+    },
+    contentStyle() {
+
+      let tweak = {};
+      switch (this.type) {
+
+        case 'instant-small':
+          tweak = {
+            'height': `${26*this.factor}mm`,
+            'padding': `${9*this.factor}mm ${8.5*this.factor}mm`,
+          };
+          break;
+
+        case 'instant-medium':
+          tweak = {
+            'height': `${32.5*this.factor}mm`,
+            'padding': `${8.5*this.factor}mm ${8*this.factor}mm`,
+          };
+          break;
+
+        case 'instant-large':
+          tweak = {
+            'height': `${39*this.factor}mm`,
+            'padding': `${8.2*this.factor}mm ${8*this.factor}mm`,
+          };
+          break;
+      }
+
+      return {
+        'height': `${23*this.factor}mm`,
+        'font-size': `${3.8*this.factor}mm`,
+        'line-height': `${3.3*this.factor}mm`,
+        'letter-spacing': '-0.5px',
+        'padding': `${2*this.factor}mm ${2.5*this.factor}mm`,
+        ...tweak,
+      };
     },
     showModifer() {
       return this.type.includes('modifer');
@@ -211,8 +271,8 @@ export default {
   display: block;
   page-break-inside: avoid;
 
-  height: 89mm;
-  width: 57mm;
+  height: 89mm; // dynamic
+  width: 57mm; // dynamic
 }
 
 .layer {
@@ -239,10 +299,14 @@ export default {
 
 .name {
   position: absolute;
-  top: 8.5mm;
+  top: 8.5mm; // dynamic
   left: 0;
+  padding-left: 17mm; // dynamic
 
-  padding-left: 17mm;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
   color: white;
 }
 
@@ -296,19 +360,16 @@ export default {
 
   &--instant-small {
     height: 26mm;
-    text-align: center;
     padding: 9mm 8.5mm;
   }
 
   &--instant-medium {
     height: 32.5mm;
-    text-align: center;
     padding: 8.5mm 8mm;
   }
 
   &--instant-large {
     height: 39mm;
-    text-align: center;
     padding: 8.2mm 8mm;
   }
 
@@ -321,7 +382,7 @@ export default {
 
 .cost {
   position: absolute;
-  bottom: 18mm;
+  bottom: 18mm; // dynamic
   width: 100%;
   text-align: center;
   text-shadow: 0 0 white;
