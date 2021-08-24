@@ -59,7 +59,7 @@
       </v-container>
     </div>
 
-    <div class="print-area" >
+    <div class="print-area" :style="areaStyle">
       <div  v-for="(deck, name) in groupedDeck">
         {{ name }} cards
         <div :id="`tts-export-area-${name}`" class="type-group">
@@ -110,6 +110,11 @@ export default {
     }
   },
   computed: {
+    areaStyle() {
+      return {
+        'width': `${this.factor*57*10}mm`,
+      };
+    },
     library() {
       return this.$store.getters['library/cardSets'];
     },
@@ -188,10 +193,6 @@ export default {
 </script>
 
 <style lang="scss">
-
-.print-area {
-  width: 800mm;
-}
 
 .type-group {
   display: flex;
