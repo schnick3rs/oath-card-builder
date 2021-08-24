@@ -68,9 +68,15 @@ export default {
     enableSharing: Boolean,
   },
   computed: {
+    imageProxy() {
+      if (this.image) {
+        return `/api/image/?url=${this.image}`;
+      }
+      return null;
+    },
     cardImage() {
       return {
-        backgroundImage: `url(${this.image})`,
+        backgroundImage: `url(${this.imageProxy})`,
       };
     },
     defenseImage() {

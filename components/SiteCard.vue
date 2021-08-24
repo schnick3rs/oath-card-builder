@@ -94,8 +94,14 @@ export default {
     }
   },
   computed: {
+    imageProxy() {
+      if (this.image) {
+        return `/api/image/?url=${this.image}`;
+      }
+      return null;
+    },
     cardImage() {
-      return { backgroundImage: `url(${this.image})` };
+      return { backgroundImage: `url(${this.imageProxy})` };
     },
     relicFrame() {
       //return `/img/site ${this.relics} relics.png`;
