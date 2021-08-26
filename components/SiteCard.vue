@@ -9,7 +9,7 @@
 
       <img class="layer" :src="relicFrame"/>
 
-      <div v-if="text" class="special-text">
+      <div v-if="text" class="special-text" :style="specialTextStyle">
         <symbol-text class="text" :html="formatedText"></symbol-text>
       </div>
 
@@ -44,7 +44,8 @@
         <img src="/img/icons/relic-recover.png" style="height: 24px;">
         <div class="costs">
           <template v-for="(n, i) in relicRecoverCosts.costs" >
-            <oath-symbol :key="i" :symbol="n" :size="17" class="resource" />
+            <oath-symbol v-if="n != ' '" :key="i" :symbol="n" :size="17" class="resource" />
+            <span v-else>&nbsp;&nbsp;</span>
           </template>
         </div>
         <template v-if="relicRecoverCosts.suit">
@@ -107,6 +108,17 @@ export default {
       //return `/img/site ${this.relics} relics.png`;
       return `/img/site 0 relics.png`;
     },
+    specialTextStyle() {
+      console.info(`Text length = ${this.text.length}`);
+      let fontFactor = 1;
+      fontFactor = this.text.length >  200 ? 0.9 : fontFactor;
+      fontFactor = this.text.length >  400 ? 0.8 : fontFactor;
+      fontFactor = this.text.length >  600 ? 0.7 : fontFactor;
+      fontFactor = this.text.length >  800 ? 0.6 : fontFactor;
+      return {
+        'font-size': `${16*fontFactor}px`,
+      };
+    },
     relicRecoverCosts() {
       let split = this.relicRecoverCost.split('>');
       if (split.length === 2) {
@@ -160,6 +172,7 @@ export default {
   position: absolute;
   top: 20mm;
   left: 5%;
+  line-height: 1.2;
   max-width: 80%;
   background: white;
   padding: 2mm;
