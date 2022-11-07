@@ -79,7 +79,7 @@ export default {
     customVariables: ['~/assets/variables.scss'],
     theme: {
       //dark: true,
-      themes: {
+      themes: {}
     }
   },
 
@@ -97,4 +97,5 @@ export default {
   serverMiddleware: [
     '~/api/express', // handles /api/** calls
   ],
+
 }
